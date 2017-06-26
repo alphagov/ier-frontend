@@ -25,7 +25,6 @@ trait AddressManualMustache extends StepTemplate[InprogressOrdinary] {
       ManualModel(
         question = Question(
           postUrl = post.url,
-          number = Messages("step_a_of_b", 6, 11),
           title = Messages("ordinary_address_manual_title"),
           errorMessages = Messages.translatedGlobalErrors(form)
         ),

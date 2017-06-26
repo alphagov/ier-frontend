@@ -5,9 +5,9 @@ import uk.gov.gds.ier.config.Config
 import uk.gov.gds.ier.model.{MovedHouseOption}
 import uk.gov.gds.ier.security.EncryptionService
 import uk.gov.gds.ier.serialiser.JsonSerialiser
-import uk.gov.gds.ier.service.AddressService
+import uk.gov.gds.ier.service.{ScotlandService, AddressService}
 import uk.gov.gds.ier.step.{OrdinaryStep, Routes}
-import uk.gov.gds.ier.validation.ErrorTransformForm
+import uk.gov.gds.ier.validation.{DateValidator, CountryValidator, ErrorTransformForm}
 import uk.gov.gds.ier.transaction.ordinary.{OrdinaryControllers, InprogressOrdinary}
 import uk.gov.gds.ier.assets.RemoteAssets
 
@@ -16,6 +16,7 @@ class PreviousAddressPostcodeStep @Inject() (
     val config: Config,
     val encryptionService: EncryptionService,
     val addressService: AddressService,
+    val scotlandService: ScotlandService,
     val remoteAssets: RemoteAssets,
     val ordinary: OrdinaryControllers
 ) extends OrdinaryStep
@@ -36,7 +37,18 @@ class PreviousAddressPostcodeStep @Inject() (
       _.previousAddress.exists(prevAddr => addressService.isNothernIreland(prevAddr.postcode)))
 
     if (isPreviousAddressNI) {
-      ordinary.OpenRegisterStep
+      //IF YOUNG SCOTTISH CITIZEN, SKIP THE OPEN REGISTER STEP...
+      if(currentState.dob.exists(_.dob.isDefined)) {
+        if (scotlandService.isYoungScot(currentState)) {
+          ordinary.PostalVoteStep
+        }
+        else {
+          ordinary.OpenRegisterStep
+        }
+      }
+      else {
+        ordinary.OpenRegisterStep
+      }
     } else {
       ordinary.PreviousAddressSelectStep
     }

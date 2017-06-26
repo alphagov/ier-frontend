@@ -29,7 +29,7 @@ class DateLeftArmyStepTests extends ControllerTestSuite {
           .withIerSession()
           .withFormUrlEncodedBody(
           "dateLeftSpecial.month" -> "10",
-          "dateLeftSpecial.year" -> "2000"
+          "dateLeftSpecial.year" -> "2005"
         )
       )
 
@@ -92,7 +92,7 @@ class DateLeftArmyStepTests extends ControllerTestSuite {
           .withIerSession()
           .withFormUrlEncodedBody(
               "dateLeftSpecial.month" -> "10",
-              "dateLeftSpecial.year" -> "2000")
+              "dateLeftSpecial.year" -> "2005")
       )
 
       status(result) should be(SEE_OTHER)
@@ -140,7 +140,7 @@ class DateLeftArmyStepTests extends ControllerTestSuite {
           .withApplication(completeOverseasApplication.copy(lastRegisteredToVote = Some(LastRegisteredToVote(LastRegisteredType.Forces))))
           .withFormUrlEncodedBody(
             "dateLeftSpecial.month" -> "10",
-            "dateLeftSpecial.year" -> "2000")
+            "dateLeftSpecial.year" -> "2005")
       )
 
       status(result) should be(SEE_OTHER)
@@ -158,7 +158,7 @@ class DateLeftArmyStepTests extends ControllerTestSuite {
           .withApplication(completeOverseasApplication.copy(lastRegisteredToVote = Some(LastRegisteredToVote(LastRegisteredType.Forces))))
           .withFormUrlEncodedBody(
             "dateLeftSpecial.month" -> "10",
-            "dateLeftSpecial.year" -> "2000")
+            "dateLeftSpecial.year" -> "2005")
       )
 
       status(result) should be(SEE_OTHER)

@@ -4,7 +4,7 @@ import uk.gov.gds.ier.controller.routes.ErrorController
 import uk.gov.gds.ier.transaction.complete.routes.CompleteStep
 import com.google.inject.{Inject, Singleton}
 import uk.gov.gds.ier.serialiser.JsonSerialiser
-import uk.gov.gds.ier.service.{WithAddressService, AddressService}
+import uk.gov.gds.ier.service.{ScotlandService, WithAddressService, AddressService}
 import uk.gov.gds.ier.config.Config
 import uk.gov.gds.ier.security.EncryptionService
 import uk.gov.gds.ier.step.ConfirmationStepController
@@ -16,14 +16,16 @@ import uk.gov.gds.ier.session.ResultHandling
 import uk.gov.gds.ier.langs.Language
 import uk.gov.gds.ier.step.Routes
 import uk.gov.gds.ier.transaction.ordinary.InprogressOrdinary
-import uk.gov.gds.ier.model.PostalVoteOption
+import uk.gov.gds.ier.model.{Nino, PostalVoteOption}
 import uk.gov.gds.ier.transaction.ordinary.{WithOrdinaryControllers, OrdinaryControllers}
+import uk.gov.gds.ier.validation.{DateValidator, CountryValidator}
 
 @Singleton
 class ConfirmationStep @Inject ()(
     val serialiser: JsonSerialiser,
     ierApi: IerApiService,
     val addressService: AddressService,
+    val scotlandService: ScotlandService,
     val config: Config,
     val encryptionService : EncryptionService,
     val remoteAssets: RemoteAssets,
@@ -78,13 +80,55 @@ class ConfirmationStep @Inject ()(
         hasErrors => {
           Ok(mustache(hasErrors, routing.post, application).html).refreshToken
         },
-        validApplication => {
+        success = validApplication => {
+          val isYoungScot = scotlandService.isYoungScot(validApplication)
+
+          val isTemplateCurrent = validApplication.postalVote.exists { postalVote =>
+            val isPostalOptionNoInPerson = postalVote.postalVoteOption.exists(_ == PostalVoteOption.NoAndVoteInPerson)
+            val isPostalOptionNoAlreadyHave = postalVote.postalVoteOption.exists(_ == PostalVoteOption.NoAndAlreadyHave)
+            isPostalOptionNoInPerson || isPostalOptionNoAlreadyHave
+          }
+
+          val isTemplate1 = validApplication.postalVote.exists { postalVote =>
+            val isPostalOptionSelected = postalVote.postalVoteOption.exists(_ == PostalVoteOption.Yes)
+
+            val isEmailOrPost = postalVote.deliveryMethod.exists {
+              deliveryMethod => deliveryMethod.isEmail && deliveryMethod.emailAddress.exists(_.nonEmpty)
+            }
+
+            isPostalOptionSelected && isEmailOrPost
+          }
+
+          val isTemplate3 = validApplication.postalVote.exists { postalVote =>
+            val isPostalOptionSelected = postalVote.postalVoteOption.exists(_ == PostalVoteOption.Yes)
+
+            val isEmailOrPost = postalVote.deliveryMethod.exists {
+              deliveryMethod => deliveryMethod.isPost
+            }
+
+            isPostalOptionSelected && isEmailOrPost
+          }
+
           val refNum = ierApi.generateOrdinaryReferenceNumber(validApplication)
           val remoteClientIP = request.headers.get("X-Real-IP")
+          val len:Int = refNum.length();
+          val splitRef1:String = refNum.substring(0, len/2);
+          val splitRef2:String = refNum.substring(len/2,len );
 
           val response = ierApi.submitOrdinaryApplication(
             ipAddress = remoteClientIP,
-            applicant = validApplication,
+            applicant = if (isYoungScot) {
+              validApplication.copy(
+                nino = Some(
+                  new Nino(
+                    nino = None,
+                    noNinoReason = Some("young-person")
+                  )
+                )
+              )
+            } else {
+              validApplication
+            },
             referenceNumber = Some(refNum),
             timeTaken = request.getToken.map(_.timeTaken),
             language = Language.getLang(request).language
@@ -95,7 +139,7 @@ class ConfirmationStep @Inject ()(
           val isPostalVoteEmailPresent = validApplication.postalVote.exists { postalVote =>
             val isPostalOptionSelected = postalVote.postalVoteOption.exists(_ == PostalVoteOption.Yes)
 
-            val isEmailDeliveryOptionValid = postalVote.deliveryMethod.exists{
+            val isEmailDeliveryOptionValid = postalVote.deliveryMethod.exists {
               deliveryMethod => deliveryMethod.isEmail && deliveryMethod.emailAddress.exists(_.nonEmpty)
             }
 
@@ -103,12 +147,24 @@ class ConfirmationStep @Inject ()(
           }
 
           val isContactEmailPresent = validApplication.contact.exists {
-            _.email.exists { emailContact => emailContact.contactMe && emailContact.detail.exists(_.nonEmpty) }
+            _.email.exists { emailContact => emailContact.contactMe && emailContact.detail.exists(_.nonEmpty)}
           }
 
           val hasOtherAddress = validApplication.otherAddress.exists(_.otherAddressOption.hasOtherAddress)
 
           val isBirthdayToday = validApplication.dob.exists(_.dob.exists(_.isToday))
+
+          val isEnglish = Language.emailLang.equals("en")
+
+          val isWelsh = Language.emailLang.equals("cy")
+
+          //Get GSSCode of application if it has used addr lookup
+          var gssCode = (validApplication.address.get.gssCode)
+
+          if (gssCode == None) {
+            //if it has been a manual addr entry, pull back postcode and lookup appropriate gsscode
+            gssCode = (addressService.lookupGssCode(validApplication.address.get.postcode))
+          }
 
           val completeStepData = CompleteCookie(
             refNum = refNum,
@@ -116,7 +172,17 @@ class ConfirmationStep @Inject ()(
             hasOtherAddress = hasOtherAddress,
             backToStartUrl = config.ordinaryStartUrl,
             showEmailConfirmation = (isPostalVoteEmailPresent || isContactEmailPresent),
-            showBirthdayBunting =  isBirthdayToday
+            showBirthdayBunting = isBirthdayToday,
+            showDeadlineText = true,
+            gssCode = gssCode,
+            showYoungScot = isYoungScot,
+            showTemplate1 = isTemplate1,
+            showTemplate3 = isTemplate3,
+            showTemplateCurrent = isTemplateCurrent,
+            showEnglish = isEnglish,
+            showWelsh = isWelsh,
+            splitRef1 = splitRef1,
+            splitRef2 = splitRef2
           )
 
           Redirect(CompleteStep.complete())

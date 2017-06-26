@@ -57,7 +57,8 @@ class ForcesApplicationTests extends UnitTestSuite {
       "pgssCode" -> "E09000339",
       "timeTaken" -> "1234",
       "webHash" -> "860da84c-74df-45b0-8ff8-d2d16ef8367a",
-      "ukAddr" -> "resident"
+      "ukAddr" -> "resident",
+      "corraddrtype" -> "Registration"
     )
 
     apiMap should matchMap(expected)
@@ -123,7 +124,8 @@ class ForcesApplicationTests extends UnitTestSuite {
       "pgssCode" -> "E09000339",
       "timeTaken" -> "1234",
       "webHash" -> "860da84c-74df-45b0-8ff8-d2d16ef8367a",
-      "ukAddr" -> "resident"
+      "ukAddr" -> "resident",
+      "corraddrtype" -> "Registration"
     )
 
     application.toApiMap should matchMap(expected)

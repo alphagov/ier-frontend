@@ -1,5 +1,25 @@
-<form action="{{question.postUrl}}" method="POST" data-validation-name="nino" data-validation-type="association"
+<form onsubmit= "TrackEvent()"
+      action="{{question.postUrl}}" method="POST" data-validation-name="nino" data-validation-type="association"
       data-validation-rules="fieldsetOrExcuse" class="validate" data-validation-members="ninoCode ninoExcuse">
+
+    <script>
+    var onLoadValue;
+
+    window.onload = function CurrentEmail(){
+    onLoadValue = document.getElementById("{{emailField.id}}").value;
+    }
+
+    function TrackEvent(){
+    var onSubmitValue = document.getElementById("{{emailField.id}}").value;
+    if (onSubmitValue !== onLoadValue)
+        {ga('send', {
+          hitType: 'event',
+          eventCategory: 'Email Address Collection',
+          eventAction: 'NINO Email',
+          eventLabel: 'NINO - Email Address Provided'
+        });}
+    }
+    </script>
 
     {{> shared/questionHeader }}
 
@@ -14,23 +34,29 @@
     </div>
     <p class="example">Example: QQ 12 34 56 C</p>
     <button type="submit" id="alt-continue" class="button next validation-submit" data-validation-sources="nino">Continue</button>
-    <div class="help-content" data-toggle-text="I don't know my National Insurance number">
+    <div class="help-content" data-journey-click="Hyperlinks:NINO:I dont know my National Insurance Number" data-toggle-text="I don't know my National Insurance number">
         <h2>I don't know my National Insurance number</h2>
-        <p>You can:</p>
-        <ul>
-            <li>look for it on pay slips or official letters about tax, pensions and benefits</li>
-            <li><a href="https://www.gov.uk/lost-national-insurance-number">ask for a reminder through the post</a></li>
-        </ul>
-        <p>If you can't provide a National Insurance number, you will need to explain why. And after you've applied,
-            you'll be asked to prove your identity by sending documents in the post (or providing them in person).</p>
-        <div class="optional-section" data-toggle-text="I can't provide a National Insurance number">
+              <p>You can:</p>
+              <ul>
+                  <li>look for it on pay slips or official letters about tax, pensions and benefits</li>
+                  <li><a href="https://www.gov.uk/lost-national-insurance-number" data-journey-click="Hyperlinks:NINO:Ask for a reminder" rel="external">I need help finding my National Insurance number</a></li>
+              </ul>
+              <p>If you can't provide a National Insurance number, you will need to explain why. And after you've applied,
+                  you'll be asked to prove your identity by sending documents in the post (or providing them in person).
+                  This could delay your name getting on the electoral register.</p>
+        <div class="optional-section" data-journey-click="Hyperlinks:NINO:I cant provide a National Insurance Number" data-toggle-text="I can't provide a National Insurance number">
             <h3>I can't provide a National Insurance number</h3>
 
             <label for="{{noNinoReason.id}}" class=""  >
                 Why can't you provide a National Insurance number?
             </label>
             <textarea name="{{noNinoReason.name}}" id="{{noNinoReason.id}}" class="small validate" data-validation-name="ninoExcuse"  data-validation-type="field"  data-validation-rules="nonEmpty" maxlength="500"  autocomplete="off">{{noNinoReason.value}}</textarea>
+            <p>It will be easier to contact you if you provide your email address (optional)</p>
+            <input type="email" id="{{emailField.id}}" name="{{emailField.name}}"
+                   value="{{emailField.value}}" autocomplete="off"
+                   class="text  long validate {{emailField.classes}}" data-validation-name="emailAddress"
+                   data-validation-type="field" data-validation-rules="emailCanBeEmpty">
         </div>
     </div>
-    <button type="submit" id="continue" class="button next validation-submit" data-validation-sources="nino">Continue</button>
+    <button type="submit" id="continue" class="button next validation-submit" data-validation-sources="nino emailAddress">Continue</button>
 </form>

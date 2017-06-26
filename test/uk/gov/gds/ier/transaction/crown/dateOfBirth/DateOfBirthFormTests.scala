@@ -208,7 +208,7 @@ class DateOfBirthFormTests
     val js = Json.toJson(
       Map(
         "dob.noDob.reason" -> "Uh, yeah, I dunno",
-        "dob.noDob.range" -> "18to70"
+        "dob.noDob.range" -> "18to75"
       )
     )
     dateOfBirthForm.bind(js).fold(
@@ -220,7 +220,7 @@ class DateOfBirthFormTests
         dob.noDob.isDefined should be(true)
         val Some(noDob) = dob.noDob
         noDob.reason should be(Some("Uh, yeah, I dunno"))
-        noDob.range should be(Some("18to70"))
+        noDob.range should be(Some("18to75"))
       }
     )
   }
@@ -229,7 +229,7 @@ class DateOfBirthFormTests
      val js = Json.toJson(
       Map(
         "dob.noDob.reason" -> "",
-        "dob.noDob.range" -> "18to70"
+        "dob.noDob.range" -> "18to75"
       )
     )
     dateOfBirthForm.bind(js).fold(

@@ -755,6 +755,21 @@
             }
           },
           /**
+           * Function to check if the Prev Address Postcode field has an empty value
+           * @function
+           * @public
+           * @memberof root.validation.rules.field
+           * @returns {Array} Array containing one invalidField if invalid or none if not
+           */
+          'nonEmptyPrev' : function () {
+            if (this.$source.is(':hidden')) { return []; }
+            if (_getFieldValue(this.$source) === '') {
+              return _getInvalidDataFromFields([this], 'nonEmptyPrev');
+            } else {
+              return [];
+            }
+          },
+          /**
            * Function to check if a field has a valid telephone number for its value
            * @function
            * @public
@@ -765,7 +780,7 @@
             var entry = _getFieldValue(this.$source);
 
             if (this.$source.is(':hidden')) { return []; }
-            if (entry.replace(/[\s|\-]/g, "").match(/^\+?\d+$/) === null) {
+            if (entry.replace(/[\s\-\+\(\)\_\A-Z\a-z]/g, "").match(/^[0-9]{5,30}$/) === null) {
               return _getInvalidDataFromFields([this], 'telephone');
             } else {
               return [];
@@ -782,6 +797,24 @@
             var entry = _getFieldValue(this.$source);
 
             if (this.$source.is(':hidden')) { return []; }
+            if (entry.match(/^.+@[^@.]+(\.[^@.]+)+$/) === null) {
+              return _getInvalidDataFromFields([this], 'email');
+            } else {
+              return [];
+            }
+          },
+          /**
+           * Function to check if a field has a valid email address for its value
+           * @function
+           * @public
+           * @memberof root.validation.rules.field
+           * @returns {Array} Array containing one invalidField if invalid or none if not
+           */
+          'emailCanBeEmpty' : function () {
+            var entry = _getFieldValue(this.$source);
+
+            if (this.$source.is(':hidden')) { return []; }
+            if (entry.length == 0) { return []; }
             if (entry.match(/^.+@[^@.]+(\.[^@.]+)+$/) === null) {
               return _getInvalidDataFromFields([this], 'email');
             } else {
@@ -1646,18 +1679,16 @@
       'previousQuestion' : {
         'atLeastOneNonEmpty' : message('ordinary_previousName_error_answerThis')
       },
-      'previousName' : {
-        'allNonEmpty' : message('ordinary_previousName_error_enterFullName')
+      'changedNameBeforeLeavingUK' : {
+        'atLeastOneNonEmpty' : message('ordinary_previousName_error_answerThis')
       },
       'previousFirstName' : {
-        'nonEmpty' : message('ordinary_previousName_error_enterFirstName'),
         'prevFirstNameText' : message('ordinary_previousName_error_firstNameTooLong')
       },
       'previousMiddleName' : {
         'prevMiddleNameText' : message('ordinary_previousName_error_middleNamesTooLong')
       },
       'previousLastName' : {
-        'nonEmpty' : message('ordinary_previousName_error_enterLastName'),
         'prevLastNameText' : message('ordinary_previousName_error_lastNameTooLong')
       },
       'nameChangeReason' : {
@@ -1709,11 +1740,13 @@
         'atLeastOneNonEmpty' : message('ordinary_contact_error_pleaseAnswer')
       },
       'phoneNumber' : {
-        'nonEmpty' : message('ordinary_contact_error_enterYourPhoneNo')
+        'nonEmpty' : message('ordinary_contact_error_enterYourPhoneNo'),
+        'telephone' : message('ordinary_contact_error_enterValidPhoneNo')
       },
       'emailAddress' : {
         'nonEmpty' : message('ordinary_contact_error_enterYourEmail'),
-        'email' : message('ordinary_contact_error_pleaseEnterValidEmail')
+        'email' : message('ordinary_contact_error_pleaseEnterValidEmail'),
+        'emailCanBeEmpty' : message('ordinary_contact_error_pleaseEnterValidEmail')
       },
       'nationality' : {
         'atLeastOneNonEmpty' : message('ordinary_nationality_error_pleaseAnswer')
@@ -1750,6 +1783,7 @@
       },
       'postcode' : {
         'nonEmpty' : message('ordinary_address_error_pleaseEnterYourPostcode'),
+        'nonEmptyPrev' : message('ordinary_prev_address_error_pleaseEnterYourPostcode'),
         'postcode' : message('ordinary_address_error_postcodeIsNotValid')
       },
       'addressSelect' : {
@@ -1765,7 +1799,8 @@
         'nonEmpty' : message('ordinary_address_error_cityIsRequired')
       },
       'previousAddress' : {
-        'atLeastOneNonEmpty' : message('ordinary_address_error_pleaseAnswer')
+        'atLeastOneNonEmpty' : message('ordinary_address_error_pleaseAnswer'),
+        'nonEqual' : message('ordinary_previousAddress_must_differ_error')
       },
       'statement' : {
         'atLeastOneNonEmpty' : 'Please answer this question'

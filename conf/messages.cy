@@ -15,6 +15,7 @@ step_a_of_b={0} o {1}
 step_continue=Parhau
 step_question=Cwestiwn
 
+
 # ordinary: country of residence
 ordinary_country_heading=Ble rydych chi’n byw?
 ordinary_country_or=neu
@@ -50,7 +51,8 @@ ordinary_nationality_help_content_1=Os nad ydych yn siŵr beth yw eich cenedligr
 swyddogol megis pasbort neu gerdyn adnabod cenedlaethol i ddod o hyd i’r wybodaeth.
 ordinary_nationality_help_content_2=Mae angen i ni wybod eich cenedligrwydd er mwyn i ni benderfynu pa \
 etholiadau mae gennych hawl i bleidleisio ynddynt. Os nad ydych yn gallu nodi eich cenedligrwydd, bydd rhaid \
-i chi anfon copïau o ddogfennau adnabod drwy’r post.
+i chi anfon copïau o ddogfennau adnabod drwy’r post. \
+Gallai hyn achosi oedi cyn i’ch enw fynd ar y gofrestr etholwyr.
 ordinary_nationality_help_heading_2=Nid wyf yn gallu nodi fy nghenedligrwydd
 ordinary_nationality_help_content_3=Pam nad oes modd i chi nodi eich cenedligrwydd?
 ordinary_nationality_error_pleaseAnswer=Atebwch y cwestiwn hwn
@@ -69,16 +71,20 @@ ordinary_dob_formatExample=Er enghraifft: <span class="date">31 3 1970</span>
 ordinary_dob_help_link=Help gyda dyddiad geni
 ordinary_dob_help_content_1=Os nad ydych yn gwybod eich union ddyddiad geni, defnyddiwch yr un rydych yn ei roi ar \
 ddogfennau swyddogol (er enghraifft, eich pasbort neu’ch trwydded yrru).
-ordinary_dob_help_content_2=Os nad ydych yn gallu rhoi’ch dyddiad geni, bydd rhaid i chi anfon copïau o ddogfennau \
-adnabod drwy’r post.
+ordinary_dob_help_content_2=Os na allwch roi ei dyddiad geni, efallai y bydd rhaid ichi anfon copïau o ddogfennau \
+adnabod drwy'r post. Gallai hyn achosi oedi cyn i’ch enw fynd ar y gofrestr etholwyr.
 
 ordinary_dob_help_cannotProvideDOB_link=Nid wyf yn gallu rhoi fy nyddiad geni
 ordinary_dob_help_cannotProvideDOB_reasonQuestion=Pam nad oes modd i chi roi eich dyddiad geni?
 ordinary_dob_help_cannotProvideDOB_ageGroupQuestion=Beth yw eich grŵp oedran?
 ordinary_dob_help_cannotProvideDOB_ageGroup_under18_option=<span class="visuallyhidden">Rwy’n</span>Iau na 18 oed
-ordinary_dob_help_cannotProvideDOB_ageGroup_between18and70_option=<span class="visuallyhidden">Rwy’n</span>Rhwng 18 a 70 oed
-ordinary_dob_help_cannotProvideDOB_ageGroup_over70_option=<span class="visuallyhidden">Rwy’n</span>Hŷn na 70 oed
+ordinary_dob_help_cannotProvideDOB_ageGroup_between18and75_option=<span class="visuallyhidden">Rwy’n</span>Rhwng 18 a 75 oed
+ordinary_dob_help_cannotProvideDOB_ageGroup_Over75_option=<span class="visuallyhidden">Rwy’n</span>76 oed neu hŷn
+ordinary_dob_help_cannotProvideDOB_ageGroup_14to15_option=<span class="visuallyhidden">Rwy’n</span>Rhwng 14 a 15 oed
+ordinary_dob_help_cannotProvideDOB_ageGroup_16to17_option=<span class="visuallyhidden">Rwy’n</span>Rhwng 16 a 17 oed
+ordinary_dob_help_cannotProvideDOB_ageGroup_over18_option=<span class="visuallyhidden">Rwy’n</span>18 oed neu'n hŷn
 ordinary_dob_help_cannotProvideDOB_ageGroup_dontKnow_option=Nid wyf yn gwybod<span class="visuallyhidden"> beth yw fy ngrŵp oedran</span>
+ordinary_dob_help_cannotProvideDOB_emailQuestion=Bydd yn haws i ni gysylltu â chi os ydych yn rhoi eich cyfeiriad e-bost (dewisol)
 
 ordinary_dob_error_answerThis=Atebwch y cwestiwn hwn
 ordinary_dob_error_enterDateOfBirth=Nodwch eich dyddiad geni
@@ -113,11 +119,12 @@ ordinary_name_error_firstNameTooLong=Gall enw cyntaf fod yn fwy na 35 nod
 ordinary_name_error_middleNamesTooLong=Gall enwau canol fod yn fwy na 100 nod
 ordinary_name_error_lastNameTooLong=Gall enw olaf fod yn fwy na 35 nod
 
-ordinary_previousName_hasPreviousName_label=Ydych chi erioed wedi newid eich enw?
-ordinary_previousName_hasPreviousName_no_label=Nac ydw, Nid wyf wedi newid<span class="visuallyhidden"> fy enw yn y 12 mis diwethaf</span>
-ordinary_previousName_hasPreviousName_yes_label=Do, yn y 12 mis diwethaf
-ordinary_previousName_hasPreviousName_yes_other_label=Do, ond mwy na blwyddyn yn ôl
-ordinary_previousName_header=Enw blaenorol
+ordinary_previousName_hasPreviousName_label=Ydych chi erioed wedi newid eich enw? Er enghraifft drwy briodas, gweithred newid enw
+ordinary_previousName_hasPreviousName_no_label=Na, nid wyf wedi newid fy enw
+ordinary_previousName_hasPreviousName_yes_label=Do, rwyf wedi newid fy enw
+ordinary_previousName_hasPreviousName_other_label=Mae’n well gen i beidio dweud
+ordinary_previousName_header=Beth oedd eich enw blaenorol?
+ordinary_previousName_disclaimer=Does dim rhaid i chi ddweud wrthym beth oedd eich enw blaenorol, ond efallai y bydd yn rhaid i chi anfon dogfennau sy’n nodi pwy ydych chi atom os na fyddwch yn gwneud hyn. Os ydych wedi newid eich enw mwy nag unwaith, rhowch eich enw blaenorol diweddaraf.
 ordinary_previousNameOther_disclaimer=Gan eich bod wedi newid eich enw fwy na blwyddyn yn ôl nid oes rhaid ichi ddweud wrthym beth oedd eich enw blaenorol, ond os nad ydych, efallai y bydd angen ichi anfon copïau o ddogfennau adnabod atom
 ordinary_previousName_firstName_label=Enw Cyntaf<span class="visuallyhidden"> blaenorol</span>
 ordinary_previousName_middleNames_label=Enwau Canol<span class="visuallyhidden"> blaenorol</span>
@@ -139,8 +146,8 @@ ordinary_nino_example=Enghraifft: QQ 12 34 56 C
 ordinary_nino_help=Nid wyf yn gwybod fy rhif Yswiriant Gwladol
 ordinary_nino_section_1=Gallwch:
 ordinary_nino_list_1=chwilio am eich rhif Yswiriant Gwladol ar slipiau cyflog neu lythyrau swyddogol am drethi, pensiynau neu fudd-daliadau
-ordinary_nino_list_2=ofyn am gael eich atgoffa drwy’r post
-ordinary_nino_section_2=Os nad ydych yn gallu darparu rhif Yswiriant Gwladol, bydd angen i chi esbonio pam. Ac ar ôl i chi gyflwyno’ch cais, gofynnir i chi brofi pwy ydych chi drwy anfon dogfennau drwy’r post.
+ordinary_nino_list_2=Mae angen cymorth arnaf i ddod o hyd i fy Rhif Yswiriant Gwladol
+ordinary_nino_section_2=Os na allwch roi rhif Yswiriant Gwladol, bydd angen ichi esbonio pam. Bydd angen ichi anfon copïau o ddogfennau adnabod drwy'r post hefyd. Gallai hyn achosi oedi cyn i’ch enw fynd ar y gofrestr etholwyr.
 ordinary_nino_excuse=Nid wyf yn gallu darparu rhif Yswiriant Gwladol
 ordinary_nino_excuse_content=Pam nad oes modd i chi ddarparu rhif Yswiriant Gwladol?
 ordinary_nino_error_noneEntered=Nodwch eich rhif Yswiriant Gwladol
@@ -155,6 +162,7 @@ ordinary_address_nAddressFound=Daethpwyd o hyd i {0} o gyfeiriadau
 
 ordinary_address_error_pleaseAnswer=Atebwch y cwestiwn hwn
 ordinary_address_error_pleaseEnterYourPostcode=Nodwch eich cod post
+ordinary_prev_address_error_pleaseEnterYourPostcode=Rhowch god post eich cyfeiriad blaenorol
 ordinary_address_error_pleaseSelectYourAddress=Dewiswch eich cyfeiriad
 ordinary_address_error_postcodeIsNotValid=Nid yw hwnnw’n gôd post dilys
 
@@ -166,7 +174,7 @@ ordinary_address_error_cityIsRequired=Mae angen enw tref neu ddinas
 #
 ordinary_address_postcode_title=Beth yw eich cyfeiriad?
 
-ordinary_address_postcode_enterPostcodeWhenRegistering_p=Nodwch god post y cyfeiriad ble rydych chi’n cofrestru i bleidleisio.
+ordinary_address_postcode_enterPostcodeWhenRegistering_p=Rhowch god post lle’r ydych yn byw ac ym mhle’r hoffech chi gofrestru i bleidleisio.
 ordinary_address_postcode_postcode_label=Cod post
 
 ordinary_address_postcode_dontKnowMyPostcode_h2=Dydw i ddim yn gwybod pa god post i’w ddefnyddio
@@ -202,7 +210,10 @@ ordinary_address_select_title=Beth yw eich cyfeiriad?
 
 ordinary_address_select_postcode_label=Cod post
 ordinary_address_select_changeYourPostcode_a=Newid<span class="visuallyhidden"> eich cod post</span>
-ordinary_address_select_couldNotFindAnyAddresses_p=Mae’n ddrwg gennym - ni allem ddod o hyd i unrhyw gyfeiriadau ar gyfer y cod post
+ordinary_address_select_couldNotFindAnyAddresses_p=Mae’n ddrwg gennym - ni allem ddod o hyd i unrhyw gyfeiriadau ar gyfer y cod post.
+ordinary_address_select_couldNotFindAnyAddresses_c=Os yw’r cod post yn gywir,
+ordinary_address_select_couldNotFindAnyAddresses_c2=cysylltwch â’ch Swyddfa Cofrestru Etholiadol
+ordinary_address_select_couldNotFindAnyAddresses_c3=leol i gael cyngor.
 ordinary_address_select_enterManually=Rhowch eich cyfeiriad llaw
 ordinary_address_select_selectYourAddress_p=<span class="visuallyhidden">Dewiswch eich </span>Cyfeiriad
 ordinary_address_select_cannotFindMyAddressInTheList_a=Nid wyf yn gallu gweld fy nghyfeiriad yn y rhestr
@@ -225,6 +236,8 @@ ordinary_address_manual_townOrCity_label=Tref neu ddinas
 # ordinary: other address
 
 ordinary_otheraddr_title=Ydych chi’n byw mewn ail gyfeiriad hefyd?
+ordinary_otheraddr_content=Byddwn yn tynnu manylion eich cyfeiriad blaenorol oddi ar y gofrestr. \
+Felly, peidiwch â rhoi cyfeiriad oni bai eich bod wedi symud allan yn barhaol.
 
 ordinary_otheraddr_noTwoHomes=Nac ydw
 ordinary_otheraddr_yesTwoHomes=Ydw, rwy’n byw mewn dau gartref
@@ -248,12 +261,13 @@ arall, gallwch wneud hynny drwy gyflwyno ail gais.
 ordinary_otheraddr_error_pleaseAnswer=Atebwch y cwestiwn hwn
 
 # ordinary: previous address
-ordinary_previousAddress_title=Ydych chi wedi symud o gyfeiriad arall yn y DU yn y 12 mis diwethaf?
+ordinary_previousAddress_title=Ydych chi wedi symud yn barhaol o gyfeiriad arall yn y 12 mis diwethaf?
 ordinary_previousAddress_yesFromUk_title=Beth oedd eich cyfeiriad blaenorol?
 ordinary_previousAddress_yesFromAbroadWasRegistered_title=Beth oedd eich cyfeiriad olaf yn y DU cyn i chi symud dramor?
 
 ordinary_previousAddress_no_option=Nac ydw
 ordinary_previousAddress_yesFromUk_option=Ydw, o gyfeiriad yn y DU
+ordinary_previousAddress_yesFromUk_option_selected_label=Dewiswch yr opsiwn hwn dim ond os ydych wedi symud yn barhaol o gyfeiriad yn y 12 mis diwethaf
 ordinary_previousAddress_yesFromAbroad_option=Ydw, o dramor
 ordinary_previousAddress_yesFromAbroad_wasRegisteredQuestion=A oeddech chi wedi’ch cofrestru fel pleidleisiwr yn etholiadau’r DU pan oeddech dramor?
 ordinary_previousAddress_yesFromAbroad_wasRegistered_yes_option=Ydw
@@ -265,7 +279,7 @@ ordinary_previousAddress_error_invalidOption=Nid yw hynny’n opsiwn dilys
 # ordinary: previous address postcode
 ordinary_previousAddress_postcode_postcode_label=Cod post
 ordinary_previousAddress_postcode_findAddress=Chwilio am gyfeiriad
-ordinary_previousAddress_postcode_error_enterPostcode=Nodwch eich cod post blaenorol
+ordinary_previousAddress_postcode_error_enterPostcode=Rhowch god post eich cyfeiriad blaenorol
 ordinary_previousAddress_postcode_error_invalidPostcode=Nid yw hwnnw’n gôd post dilys: gwiriwch yr hyn rydych wedi’i nodi
 
 # ordinary: previous address select
@@ -276,6 +290,7 @@ ordinary_previousAddress_select_addressesFound=cyfeiriadau a geir
 ordinary_previousAddress_select_cannotFindAddress=Nid wyf yn gallu gweld fy nghyfeiriad yn y rhestr
 
 ordinary_previousAddress_select_error_answerThis=Dewiswch eich cyfeiriad
+ordinary_previousAddress_must_differ_error=Ni all eich cyfeiriad blaenorol fod yr un fath â’ch cyfeiriad presennol
 ordinary_previousAddress_select_error_noAddressesFound=Mae’n ddrwg gennym - ni allem ddod o hyd i unrhyw gyfeiriadau ar gyfer y cod post
 
 # ordinary: previous address manual
@@ -346,12 +361,16 @@ ordinary_postalVote_voteAlreadyHave_option=Nac ydw, mae gennyf bleidlais bost ei
 ordinary_postalVote_voteAlreadyHave_help=Os ydych chi wedi newid cyfeiriad, bydd angen i chi wneud cais am bleidlais bost newydd
 ordinary_postalVote_postalVote_option=Ydw, anfonwch ffurflen gais pleidlais bost ataf
 
+
+
+
 ordinary_postalVote_postalVote_heading=Os ydych am gael ffurflen gais am bleidlais bost
 ordinary_postalVote_postalVote_deliveryOptionsQuestion=Bydd angen i chi lofnodi a dychwelyd y ffurflen gais pleidlais bost. Sut ddylen ni \
 anfon y ffurflen atoch?
 ordinary_postalVote_postalVote_deliveryEmail_option=Drwy e-bost
 ordinary_postalVote_postalVote_emailAddress_label=Cyfeiriad e-bost
 ordinary_postalVote_postalVote_deliveryPost_option=Drwy’r post
+
 
 ordinary_postalVote_help_link=Beth yw pleidlais drwy’r post?
 ordinary_postalVote_help_content_1=Byddwn yn anfon eich papur pleidleisio i’r cyfeiriad rydych wedi’i ddewis. Yna, bydd angen i \
@@ -366,6 +385,18 @@ ordinary_postalVote_error_enterValidEmail=Nid yw hwnnw’n gyfeiriad e-bost dily
 
 ordinary_postalVote_error_answerThis=Atebwch y cwestiwn hwn
 
+# ordinary: Sole Occupancy
+ordinary_soleOccupancy_title=Ai chi yw’r unig un 16 oed neu hŷn sy’n byw yn eich cyfeiriad presennol? (dewisol)
+ordinary_soleOccupancy_title_scotland=Ai chi yw’r unig un 14 oed neu hŷn sy’n byw yn eich cyfeiriad presennol? (dewisol)
+ordinary_soleOccupancy_yes_option=Ie
+ordinary_soleOccupancy_no_option=Nage
+ordinary_soleOccupancy_notSure_option=Ddim yn siŵr
+ordinary_soleOccupancy_skipThisQuestion_option=Mae’n well gen i beidio dweud
+ordinary_soleOccupancy_help_link=Pam rydych chi’n gofyn y cwestiwn hwn?
+ordinary_soleOccupancy_help_content_1=Yn ystod y flwyddyn, mae awdurdodau lleol yn anfon llythyrau i bob aelwyd yn gwahodd y rhai sy’n gymwys i gofrestru i bleidleisio. Mae’n bosib na fydd yn rhaid i’ch awdurdod lleol anfon y llythyrau hyn atoch yn y dyfodol agos, os byddwch chi’n rhoi gwybod iddynt mai chi yw’r unig un 16 oed neu hŷn sy’n byw yn eich cyfeiriad.
+ordinary_soleOccupancy_help_content_1_scotland=Yn ystod y flwyddyn, mae awdurdodau lleol yn anfon llythyrau i bob aelwyd yn gwahodd y rhai sy’n gymwys i gofrestru i bleidleisio. Mae’n bosib na fydd yn rhaid i’ch awdurdod lleol anfon y llythyrau hyn atoch yn y dyfodol agos, os byddwch chi’n rhoi gwybod iddynt mai chi yw’r unig un 14 oed neu hŷn sy’n byw yn eich cyfeiriad.
+ordinary_soleOccupancy_error_answerThis=Atebwch y cwestiwn hwn
+
 # ordinary: contact
 ordinary_contact_title=Os bydd gennym gwestiynau am eich cais, beth yw’r ffordd orau o gysylltu â chi?
 ordinary_contact_email_option=E-bost
@@ -377,6 +408,7 @@ ordinary_contact_emailConfirmationMessage=Nodwch gyfeiriad e-bost os hoffech dde
 ordinary_contact_error_pleaseAnswer=Atebwch y cwestiwn hwn
 ordinary_contact_error_enterYourEmail=Rhowch eich cyfeiriad e-bost
 ordinary_contact_error_enterYourPhoneNo=Nodwch eich rhif ffôn
+ordinary_contact_error_enterValidPhoneNo=Rhowch rif ffôn dilys, os gwelwch yn dda
 ordinary_contact_error_pleaseEnterValidEmail=Nid yw hwnnw’n gyfeiriad e-bost dilys: gwiriwch yr hyn rydych wedi’i nodi
 
 # ordinary: confirmation
@@ -390,14 +422,19 @@ ordinary_confirmation_name_changeName=enw llawn
 
 ordinary_confirmation_previousName_title=Enw blaenorol
 ordinary_confirmation_previousName_changeName=enw blaenorol
-ordinary_confirmation_previousName_nameNotChanged=Nid wyf wedi newid fy enw yn y 12 mis diwethaf
+ordinary_confirmation_previousName_nameNotChanged=Nid wyf wedi newid fy enw
+ordinary_confirmation_previousName_other=Mae'n well gen i beidio dweud
+ordinary_confirmation_previousName_notProvided=Ni ddarparwyd enw
 
 ordinary_confirmation_dob_title=Dyddiad geni
 ordinary_confirmation_dob_changeName=dyddiad geni
 ordinary_confirmation_dob_noDOBReason=Yr ydych yn gallu darparu eich dyddiad geni oherwydd: {0}
+ordinary_confirmation_dob_noDOB14to15=I am between 14 and 15 years old
+ordinary_confirmation_dob_noDOB16to17=I am between 16 and 17 years old
 ordinary_confirmation_dob_noDOBUnder18=Rwy’n iau na 18 oed
-ordinary_confirmation_dob_noDOB18to70=Rwyf rhwng 18 a 70 oed
-ordinary_confirmation_dob_noDOBOver70=Rwy’n hŷn na 70 oed
+ordinary_confirmation_dob_noDOBOver18=I am roughly over 18
+ordinary_confirmation_dob_noDOB18to75=Rwyf rhwng 18 a 75 oed
+ordinary_confirmation_dob_noDOBOver75=Rwy’n 76 oed neu hŷn
 ordinary_confirmation_dob_noDOBDontKnow=Nid wyf yn gwybod fy oed
 
 ordinary_confirmation_nationality_title=Cenedligrwydd
@@ -408,10 +445,12 @@ ordinary_confirmation_nationality_iAm=Rwy’n
 ordinary_confirmation_nationality_and=a
 ordinary_confirmation_nationality_citizenOf=yn ddinesydd
 ordinary_confirmation_nationality_noNationalityReason=Ni allaf roi fy cenedligrwydd oherwydd:
+ordinary_confirmation_nationality_email=Bydd yn haws i ni gysylltu â chi os ydych yn rhoi eich cyfeiriad e-bost (dewisol)
 
 ordinary_confirmation_nino_title=Rhif Yswiriant Gwladol
 ordinary_confirmation_nino_changeName=rhif yswiriant gwladol
 ordinary_confirmation_nino_noNinoReason=Ni allaf roi fy rhif yswiriant gwladol oherwydd:
+ordinary_confirmation_nino_email=Bydd yn haws i ni gysylltu â chi os ydych yn rhoi eich cyfeiriad e-bost (dewisol)
 
 ordinary_confirmation_address_title=Cyfeiriad
 ordinary_confirmation_address_changeName=eich cyfeiriad
@@ -419,6 +458,7 @@ ordinary_confirmation_address_changeName=eich cyfeiriad
 ordinary_confirmation_secondAddress_title=Ail gyfeiriad
 ordinary_confirmation_secondAddress_changeName=ail gyfeiriad
 ordinary_confirmation_secondAddress_haveAddress=Mae gen i ail gyfeiriad
+ordinary_confirmation_secondAddress_student=Rwy’n fyfyriwr gyda chyfeiriad cartref a chyfeiriad yn ystod y tymor
 ordinary_confirmation_secondAddress_dontHaveAddress=Does dim ail gyfeiriad gennyf
 
 ordinary_confirmation_previousAddress_title_lastAddress=Cyfeiriad diwethaf a DU
@@ -440,6 +480,13 @@ ordinary_confirmation_postalVote_mailDelivery=Rwyf am i chi i bostio ffurflen ga
 ordinary_confirmation_postalVote_dontWant=Dydw i ddim eisiau gwneud cais am bleidlais drwy’r post
 ordinary_confirmation_postalVote_alreadyHave=Mae gen i bleidlais bost yn barod
 
+ordinary_confirmation_soleOccupancy_title=Ai chi yw’r unig un 16 oed neu hŷn sy’n byw yn eich cyfeiriad presennol?
+ordinary_confirmation_soleOccupancy_title_scotland=Ai chi yw’r unig un 14 oed neu hŷn sy’n byw yn eich cyfeiriad presennol?
+ordinary_confirmation_soleOccupancy_yes_option=Ie
+ordinary_confirmation_soleOccupancy_no_option=Nage
+ordinary_confirmation_soleOccupancy_notSure_option=Ddim yn siŵr
+ordinary_confirmation_soleOccupancy_skipThisQuestion_option=Mae’n well gen i beidio dweud
+
 ordinary_confirmation_contact_title=Sut dylem gysylltu â chi
 ordinary_confirmation_contact_changeName=sut dylem gysylltu â chi
 ordinary_confirmation_contact_byPost=Drwy’r post
@@ -449,7 +496,9 @@ ordinary_confirmation_contact_byEmail=Drwy e-bost: {0}
 ordinary_confirmation_help_h2=Anfon eich cais
 ordinary_confirmation_help_p1=Drwy anfon eich cais rydych yn cadarnhau fod y wybodaeth a ddarperir gennych yn wir.
 ordinary_confirmation_help_p2=Efallai caiff eich gwybodaeth ei rhannu gydag adrannau eraill y Llywodraeth I wirio eich hunaniaeth a bod gennych hawl i bleidleisio.
-ordinary_confirmation_help_p3=Gallech gael dirwy o hyd at £5,000 neu ddedfryd o garchar o hyd at 6 mis os rhowch gamwybodaeth gan wybod hynny yn eich cais.
+ordinary_confirmation_help_p3=Os byddwch yn rhoi gwybodaeth anwir yn eich cais gan wybod hynny, efallai y cewch ddedfryd o garchar am hyd at 6 mis, neu ddirwy.
+ordinary_confirmation_help_youngScot=Swyddogion Cofrestru Etholiadol a’u staff yn unig all weld eich manylion ar gofrestr etholiadol fel arfer.  Ni fydd eich manylion yn dangos ar unrhyw gofrestr gyhoeddedig.  Ond mae angen enwau a chyfeiriadau pawb sy'n gallu pleidleisio mewn etholiad ar rai pobl.  Fel arfer, mae arnynt angen y manylion hyn oddeutu 6 wythnos cyn yr etholiad.  Mae’r rhain yn cynnwys pobl sy’n rhedeg etholiadau, ac ymgeiswyr, sy’n gallu anfon gwybodaeth at y pleidleiswyr.  Felly, os byddwch yn 16 mlwydd oed ar ddyddiad yr etholiad dan sylw, efallai y rhoddir eich enw a’ch cyfeiriad iddyn nhw.
+ordinary_confirmation_young_scot=Rydych yn {0} mlwydd oed. Os bydd eich cais yn llwyddiannus, pan fyddwch yn cael eich pen-blwydd yn 16 mlwydd oed, byddwch yn gymwys i bleidleisio mewn etholiadau Senedd yr Alban ac etholiadau llywodraeth leol, ac unrhyw etholiadau sy’n defnyddio etholfraint llywodraeth leol yr Alban.
 
 ordinary_confirmation_error_completeThis=Cwblhewch y cam hwn
 
@@ -459,30 +508,57 @@ ordinary_confirmation_error_completeThis=Cwblhewch y cam hwn
 #
 complete_step_title=Application Complete
 
-complete_applicationComplete=Mae eich cais wedi dod i law ac mae’n cael ei brosesu.
+#complete_applicationComplete=Mae eich cais wedi cael ei dderbyn, ac mae’n cael ei brosesu.
+complete_applicationComplete_1=Mae eich cais wedi
+complete_applicationComplete_2=cael ei dderbyn, ac mae’n cael
+complete_applicationComplete_3=ei brosesu.
+
 complete_yourRefNumberIs=Eich cyfeirnod yw
-complete_registerGuidance=Cewch wybod pan fydd eich cofrestriad wedi’i gadarnhau. Hyd nes i chi gael cadarnhad, ni fydd eich enw’n ymddangos ar y gofrestr etholiadol.
 complete_emailConfirmation=Rydym wedi anfon e-bost atoch i gydnabod eich cais.
 complete_whatHappensNext_h2=Beth fydd yn digwydd nesaf
-complete_sentApplicationTo_p=Rydym wedi anfon eich cais i
-complete_contactYouTo_p1=Bydd y swyddfa honno’n cysylltu â chi’n fuan i roi gwybod i chi pa bryd y bydd eich enw’n cael ei ychwanegu at y gofrestr, neu i ofyn am ragor o wybodaeth.
-complete_contactYouTo_p2=Hyd nes i chi gael cadarnhad, ni fydd eich enw’n ymddangos ar y gofrestr etholiadol.
-complete_questionsContact_p1=Os oes gennych unrhyw gwestiwn ynghylch eich cais, cysylltwch â
-complete_questionsContact_p2=
+complete_deadline=Mae'r dyddiad cau ar gyfer cofrestru i bleidleisio yn yr etholiadau ar 5 Mai wedi bod. Fodd bynnag, gallwn brosesu eich cais o hyd ar gyfer refferendwm yr Undeb Ewropeaidd ar 23 Mehefin.
+complete_whatToDoNext_h2=Beth i'w wneud nesaf
+complete_sentApplicationTo_p1=Rydyn ni wedi anfon neges e-bost atoch chi sy'n cynnwys
+complete_sentApplicationTo_p1_2=ffurflen gais am bleidlais bost
+complete_sentApplicationTo_p1_3=Bydd angen i chi
+complete_sentApplicationTo_p1_4=ei llofnodi a'i dychwelyd
+complete_sentApplicationTo_p1_5=at Swyddfa Cofrestru Etholiadol
+complete_sentApplicationTo_p1_6=ffurflen gais am pleidlais drwy ddirprwy
+
+complete_contact3=Byddan nhw'n cysylltu â chi cyn gynted ag sy'n bosibl i gadarnhau eich bod wedi cael eich cofrestru i bleidleisio, neu i ofyn am ragor o wybodaeth.
+complete_contact4=Cysylltwch â nhw gyda'r cyfeirnod
+complete_contact5=os oes gennych chi unrhyw gwestiynau am eich cais.
+complete_contact6=Byddan nhw hefyd yn anfon
+complete_contact7=atoch chi y bydd angen i chi ei
+complete_contact8=llofnodi a’i dychwelyd
+complete_contact9=atyn nhw. Gallwch hefyd lawrlwytho’r ffurflen
+complete_contact10=yma
+
+complete_sentApplicationTo_p=Rydym wedi anfon eich cais I
+complete_sentApplicationTo_p_1=Rydyn ni wedi anfon eich cais at Swyddfa Cofrestru Etholiadol
+complete_questionsContact_p1=Cysylltwch â nhw os oes gennych chi unrhyw gwestiynau am eich cais.
 complete_ifYouAreNotAlreadyRegistered1_p=Os nad ydych wedi cofrestru yn barod yn eich ail gyfeiriad, gallwch
 complete_ifYouAreNotAlreadyRegistered2_p=wneud cais arall
 complete_moreAboutVoting_a=Mwy o wybodaeth am y  newid i gofrestru pleidleiswyr
 complete_moreAboutVoting_url=https://www.gov.uk/gwybodaethamgofrestru
 complete_takeOurSurvey_a=Beth oedd eich barn am y gwasanaeth hwn?
 complete_takeOurSurvey_p= (yn cymryd 30 eiliad)
+complete_ackEmail=Rydym wedi anfon e-bost cydnabod atoch.c
+complete_youngScot=Os bydd eich cais yn llwyddiannus, byddant yn anfon llythyr cadarnhau atoch, a phan fyddwch yn cael eich pen-blwydd yn 16 mlwydd oed, byddwch yn gymwys i bleidleisio mewn etholiadau Senedd yr Alban ac etholiadau llywodraeth leol, ac unrhyw etholiadau sy’n defnyddio etholfraint llywodraeth leol yr Alban.
 
 complete_electoralRegistrationOffice=Swyddfa Gofrestru Etholiadol
 complete_unspecificElectoralRegistrationOffice=eich Swyddfa Gofrestru Etholiadol leol
+complete_ero=Swyddfa Cofrestru Etholiadol
+complete_contact=Cysylltwch â nhw
+complete_contact2=gyda'ch cyfeirnod os oes gennych unrhyw gwestiynau ynghylch eich cais.
 
 complete_social_heading=Dweud wrth eraill am y gwasanaeth hwn
 complete_social_twitter_link_text=Rhannu ar Twitter
 complete_social_twitter_url_text=I%20just%20registered%20online%20to%20vote.%20If%20you%20haven't%20already%2C%20you%20should%20too!%20%23YourVoteMatters
 complete_social_facebook_link_text=Rhannu ar Facebook
+
+
+
 
 # JavaScript: general
 
@@ -516,7 +592,10 @@ ordinary_address_continue=Parhau
 # Too Young
 
 exit_tooYoung_title=Mae'n ddrwg gennym, ni allwch gofrestru i bleidleisio eto
-exit_tooYoung_explanation=Ni allwch gofrestru i bleidleisio nes eich bod yn 16 oed. Yn y cyfamser, efallai y bydd <a href="http://www.ukyouthparliament.org.uk/">Senedd Ieuenctid y DU</a> o ddiddordeb i chi.
+exit_tooYoung_explanation=Ni allwch gofrestru i bleidleisio nes eich bod yn 16 oed. Yn y cyfamser, efallai y bydd <a href="http://www.ukyouthparliament.org.uk" data-journey-click="Hyperlinks:Youth Parliament:UK Youth Parliament" rel="external">Senedd Ieuenctid y DU</a> o ddiddordeb i chi.
+exit_tooYoungScotland_explanation=Ni chewch gofrestru hyd nes eich bod yn 14 oed yn yr Alban. Yn y cyfamser, efallai y byddai gennych ddiddordeb yn <a href="http://www.syp.org.uk" data-journey-click="Hyperlinks:Youth Parliament:Scottish Youth Parliament" rel="external">Senedd Ieuenctid yr Alban </a>.
+exit_tooYoungNotScotland_explanation14=Fel unigolyn 14 mlwydd oed, dim ond o gyfeiriad yn yr Alban y gallwch gofrestru. Yn y cyfamser, efallai y bydd <a href="http://www.ukyouthparliament.org.uk" data-journey-click="Hyperlinks:Youth Parliament:UK Youth Parliament" rel="external">Senedd Ieuenctid y DU</a> o ddiddordeb i chi.
+exit_tooYoungNotScotland_explanation15=Fel unigolyn 15 mlwydd oed, dim ond o gyfeiriad yn yr Alban y gallwch gofrestru. Yn y cyfamser, efallai y bydd <a href="http://www.ukyouthparliament.org.uk" data-journey-click="Hyperlinks:Youth Parliament:UK Youth Parliament" rel="external">Senedd Ieuenctid y DU</a> o ddiddordeb i chi.
 exit_tooYoung_moreAboutVoting=Mwy o wybodaeth am bleidleisio yn y DU.
 
 # British Islands
@@ -528,11 +607,17 @@ exit_britishIslands_paperRegistration=Ond mae'n bosib y gallwch gofrestru i blei
 # Dont Know
 exit_dontKnow_title=Mae angen i chi wybod a ydych yn 18 oed neu'n hŷn
 exit_dontKnow_explanation=Ni allwch gofrestru i bleidleisio oni bai y gallwch gadarnhau eich bod yn 18 oed neu'n hŷn. Os oes anhawster gennych, <a href="https://www.gov.uk/get-on-electoral-register">cysylltwch â'ch Swyddfa Cofrestru Etholiadol</a> leol i gael cyngor.
+exit_dontKnow_title_Scotland=Mae arnoch angen canfod a ydych yn 16 oed neu’n hŷn ai peidio
+exit_dontKnow_explanation_Scotland=Dim ond os gallwch gadarnhau eich bod yn 16 oed neu’n hŷn y gallwch gofrestru. Os cewch unrhyw anhawster, <a href="https://www.gov.uk/get-on-electoral-register">cysylltwch â'ch Swyddfa Cofrestru Etholiadol</a> leol i gael cyngor.
 
 # No Franchise
 
+exit_nationality_noFranchise_content=I gofrestru i bleidleisio, Rhaid i chi fod yn ddinesydd
+exit_nationality_noFranchise_hyperlink_text=cymwys
+exit_nationality_noFranchise_content2=Prydeinig, EU, y Gymanwlad neu Weriniaeth Iwerddon. Os yw eich Swyddfa Cofrestru Etholiadol wedi ysgrifennu atoch yn gofyn ichi gofrestru i bleidleisio,
 exit_nationality_noFranchise_title=Mae'n ddrwg gennym, ni allwch gofrestru i bleidleisio
-exit_nationality_noFranchise_content=I gofrestru i bleidleisio, mae'n rhaid eich bod yn ddinesydd Prydeinig, neu'n ddinesydd yr UE neu'r Gymanwlad sy'n byw yn y DU.
+exit_nationality_noFranchise_content3=cysylltwch â nhw
+exit_nationality_noFranchise_content4=i ddweud wrthynt nad ydych yn gymwys.
 exit_nationality_noFranchise_moreAboutVoting=Mwy o wybodaeth am bleidleisio yn y DU
 
 # Northern Ireland
@@ -543,6 +628,11 @@ exit_northernIreland_instead=Yn lle hynny, gallwch lawrlwytho a llenwi
 exit_northernIreland_paperRegistration=ffurflen gofrestru
 exit_northernIreland_postItTo=ac yna a'i hanfon drwy'r post i'ch
 exit_northernIreland_yourElectoralOffice=swyddfa etholiadau leol
+exit_northernIrelandOverseas_title=Cofrestri fel pleidleisiwr tramor
+exit_northernIrelandOverseas_instead=I gofrestri fel pleidleisiwr tramor yng Ngogledd Iwerddon, byddech angen cwblhau
+exit_northernIrelandOverseas_paperRegistration=ffurflen gais ar bapur
+exit_northernIrelandOverseas_postItTo=a’i bostio i’r
+exit_northernIrelandOverseas_yourElectoralOffice=Swyddfa Etholiadol ar gyfer Gogledd Iwerddon (EONI).
 
 # Scotland
 exit_scotland_title=Ffurflenni cofrestru pleidleisiwr yn yr Alban
@@ -550,6 +640,11 @@ exit_scotland_explanation=Ni allwch gofrestru ar-lein eto os ydych yn byw yn yr 
 exit_scotland_instead=Yn lle hynny, gallwch lawrlwytho
 exit_scotland_registrationForm=ffurflen gofrestru
 exit_scotland_from=o'r wefan Fy Mhleidlais I.
+
+# Under 16
+exit_under16_title=Angen i chi gael gwybod eich dyddiad geni
+exit_under16_explanation=Ni allwch gofrestru i bleidleisio oni bai y gallwch gadarnhau eich bod yn 16 oed neu'n hŷn.
+exit_under16_tryToFindDOBOut=Ceisiwch ddarganfod eich dyddiad geni. Os ydych yn cael trafferth, <a href="https://www.gov.uk/get-on-electoral-register">cysylltwch â'ch Swyddfa Cofrestru Etholiadol</a> lleol am gyngor.
 
 # Under 18
 exit_under18_title=Angen i chi gael gwybod eich dyddiad geni

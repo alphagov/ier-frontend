@@ -119,7 +119,6 @@ class ContactAddressTemplateTest
       val data = new ContactAddressModel(
         question = Question(
           postUrl = "http://some.server/post_url",
-          number = "123",
           title = "Page title ABC"
         ),
         contactAddressFieldSet = FieldSet(),
@@ -271,7 +270,6 @@ class ContactAddressTemplateTest
 
         val h = doc.select("header").first() // there should be only one header in the template
         h should not be(null)
-        h.text should include ("123")
         h.text should include ("Page title ABC")
       }
     }

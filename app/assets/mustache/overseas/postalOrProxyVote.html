@@ -42,14 +42,15 @@
               data-validation-children="deliveryMethodEmail deliveryMethodPost">
 
         <legend>How should we send you the form?</legend>
+
         <label for="{{voteDeliveryMethodEmail.id}}" class="selectable"  >
             <input type="radio" id="{{voteDeliveryMethodEmail.id}}"
                    name="{{voteDeliveryMethodEmail.name}}"
                    value="email" {{{voteDeliveryMethodEmail.attributes}}}
-                   class="radio  validate"
-                   data-validation-name="deliveryMethodEmail"
-                   data-validation-type="field"
-                   data-validation-rules="nonEmpty" />Email it to me
+            class="radio  validate"
+            data-validation-name="deliveryMethodEmail"
+            data-validation-type="field"
+            data-validation-rules="nonEmpty" />Email it to me
         </label>
 
         <div class="optional-section"
@@ -72,10 +73,10 @@
             <input type="radio" id="{{voteDeliveryMethodPost.id}}"
                    name="{{voteDeliveryMethodPost.name}}"
                    value="post" {{{voteDeliveryMethodPost.attributes}}}
-                   class="radio  validate"
-                   data-validation-name="deliveryMethodPost"
-                   data-validation-type="field"
-                   data-validation-rules="nonEmpty" />Post it to me
+            class="radio  validate"
+            data-validation-name="deliveryMethodPost"
+            data-validation-type="field"
+            data-validation-rules="nonEmpty" />Post it to me
         </label>
     </fieldset>
 

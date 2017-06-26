@@ -85,5 +85,53 @@ class DateValidatorTest extends UnitTestSuite {
     DateValidator.isCitizenshipTooOld(moreThan115yearsAgo) should be(true)
   }
 
+  behavior of "DateValidator.isTooYoungToRegisterScottish"
+
+  it should "return true for age 13yrs 364days via DOB object" in {
+    val age13and364days = DateTime.now.toDateMidnight.minusYears(13).minusDays(364)
+    DateValidator.isTooYoungToRegisterScottish(getDateOfBirth(age13and364days)) should be(true)
+  }
+
+  it should "return false for age 14yrs 0day via DOB object" in {
+    val age14and0days = DateTime.now.toDateMidnight.minusYears(14)
+    DateValidator.isTooYoungToRegisterScottish(getDateOfBirth(age14and0days)) should be(false)
+  }
+
+  it should "return true for age 13yrs 364days via DD MM YYYY" in {
+    val age13and364days_Y = DateTime.now.toDateMidnight.minusYears(13).minusDays(364).getYear
+    val age13and364days_M = DateTime.now.toDateMidnight.minusYears(13).minusDays(364).getMonthOfYear
+    val age13and364days_D = DateTime.now.toDateMidnight.minusYears(13).minusDays(364).getDayOfMonth
+    DateValidator.isTooYoungToRegisterScottishByInt(age13and364days_Y, age13and364days_M, age13and364days_D) should be(true)
+  }
+
+  it should "return false for age 14yrs 0day via DD MM YYYY" in {
+    val age14and0days_Y = DateTime.now.toDateMidnight.minusYears(14).getYear
+    val age14and0days_M = DateTime.now.toDateMidnight.minusYears(14).getMonthOfYear
+    val age14and0days_D = DateTime.now.toDateMidnight.minusYears(14).getDayOfMonth
+    DateValidator.isTooYoungToRegisterScottishByInt(age14and0days_Y, age14and0days_M, age14and0days_D) should be(false)
+  }
+
+  behavior of "DateValidator.isValidYoungScottishVoter"
+
+  it should "return false for age 13yrs 364days via DOB object" in {
+    val age13and364days = DateTime.now.toDateMidnight.minusYears(13).minusDays(364)
+    DateValidator.isValidYoungScottishVoter(getDateOfBirth(age13and364days)) should be(false)
+  }
+
+  it should "return true for age 14yrs 0days via DOB object" in {
+    val age14and0days = DateTime.now.toDateMidnight.minusYears(14)
+    DateValidator.isValidYoungScottishVoter(getDateOfBirth(age14and0days)) should be(true)
+  }
+
+  it should "return true for age 15yrs 364days via DOB object" in {
+    val age15and364days = DateTime.now.toDateMidnight.minusYears(15).minusDays(364)
+    DateValidator.isValidYoungScottishVoter(getDateOfBirth(age15and364days)) should be(true)
+  }
+
+  it should "return false for age 16yrs 0days via DOB object" in {
+    val age16and0days = DateTime.now.toDateMidnight.minusYears(16)
+    DateValidator.isValidYoungScottishVoter(getDateOfBirth(age16and0days)) should be(false)
+  }
+
   private def getDateOfBirth(date: DateMidnight) = DOB(date.getYear, date.getMonthOfYear, date.getDayOfMonth)
 }

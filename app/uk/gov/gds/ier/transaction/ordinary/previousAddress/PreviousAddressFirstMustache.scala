@@ -1,6 +1,7 @@
 package uk.gov.gds.ier.transaction.ordinary.previousAddress
 
 import uk.gov.gds.ier.validation.ErrorTransformForm
+import uk.gov.gds.ier.model.{OtherAddress}
 import uk.gov.gds.ier.model.{MovedHouseOption}
 import uk.gov.gds.ier.step.StepTemplate
 import uk.gov.gds.ier.transaction.ordinary.InprogressOrdinary
@@ -15,7 +16,8 @@ trait PreviousAddressFirstMustache extends StepTemplate[InprogressOrdinary] {
     previousYesAbroad: Field,
     previousNo: Field,
     registeredAbroadYes: Field,
-    registeredAbroadNo: Field
+    registeredAbroadNo: Field,
+    isStudent: Boolean
   ) extends MustacheData
 
   val mustache = MultilingualTemplate("ordinary/previousAddressFirst") { implicit lang =>
@@ -23,10 +25,19 @@ trait PreviousAddressFirstMustache extends StepTemplate[InprogressOrdinary] {
 
     implicit val progressForm = form
 
+      var isStudentBoolean = false
+
+
+      if (form(keys.otherAddress.hasOtherAddress).value.isDefined) {
+        if (form(keys.otherAddress.hasOtherAddress).value.toString() == "Some(student)") {
+          isStudentBoolean = true
+        }
+      }
+
+
     PreviousAddressFirstModel(
       question = Question(
         postUrl = post.url,
-        number = s"8 ${Messages("step_of")} 11",
         title = Messages("ordinary_previousAddress_title"),
         errorMessages = Messages.translatedGlobalErrors(form)
       ),
@@ -52,7 +63,9 @@ trait PreviousAddressFirstMustache extends StepTemplate[InprogressOrdinary] {
       registeredAbroadNo = RadioField(
         key = keys.previousAddress.movedRecently.wasRegisteredWhenAbroad,
         value = "false"
-      )
+      ),
+      isStudent = isStudentBoolean
+
     )
   }
 }

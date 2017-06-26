@@ -33,7 +33,7 @@ class DateLeftUkStepTests extends ControllerTestSuite {
           .withIerSession()
           .withFormUrlEncodedBody(
           "dateLeftUk.month" -> "10",
-          "dateLeftUk.year" -> "2000"
+          "dateLeftUk.year" -> "2005"
         )
       )
 
@@ -94,7 +94,7 @@ class DateLeftUkStepTests extends ControllerTestSuite {
             lastRegisteredToVote = Some(LastRegisteredToVote(LastRegisteredType.NotRegistered))))
           .withFormUrlEncodedBody(
           "dateLeftUk.month" -> "10",
-          "dateLeftUk.year" -> "2001"
+          "dateLeftUk.year" -> "2002"
         )
       )
 
@@ -161,7 +161,7 @@ class DateLeftUkStepTests extends ControllerTestSuite {
           .withIerSession()
           .withFormUrlEncodedBody(
               "dateLeftUk.month" -> "10",
-              "dateLeftUk.year" -> "2000")
+              "dateLeftUk.year" -> "2005")
       )
 
       status(result) should be(SEE_OTHER)
@@ -180,7 +180,7 @@ class DateLeftUkStepTests extends ControllerTestSuite {
             lastRegisteredToVote = Some(LastRegisteredToVote(LastRegisteredType.NotRegistered))))
           .withFormUrlEncodedBody(
           "dateLeftUk.month" -> "10",
-          "dateLeftUk.year" -> "2001"
+          "dateLeftUk.year" -> "2002"
         )
       )
 
@@ -254,7 +254,7 @@ class DateLeftUkStepTests extends ControllerTestSuite {
           .withApplication(completeOverseasApplication)
           .withFormUrlEncodedBody(
             "dateLeftUk.month" -> "10",
-            "dateLeftUk.year" -> "2000")
+            "dateLeftUk.year" -> "2005")
       )
 
       status(result) should be(SEE_OTHER)
@@ -272,7 +272,7 @@ class DateLeftUkStepTests extends ControllerTestSuite {
           .withApplication(completeOverseasApplication)
           .withFormUrlEncodedBody(
             "dateLeftUk.month" -> "10",
-            "dateLeftUk.year" -> "2000")
+            "dateLeftUk.year" -> "2005")
       )
 
       status(result) should be(SEE_OTHER)

@@ -5,11 +5,12 @@ import uk.gov.gds.ier.model.{MovedHouseOption}
 import uk.gov.gds.ier.serialiser.JsonSerialiser
 import uk.gov.gds.ier.config.Config
 import uk.gov.gds.ier.security.EncryptionService
-import uk.gov.gds.ier.service.AddressService
+import uk.gov.gds.ier.service.{ScotlandService, AddressService}
 
 import uk.gov.gds.ier.step.{Routes, OrdinaryStep}
 import uk.gov.gds.ier.transaction.ordinary.{OrdinaryControllers, InprogressOrdinary}
 import uk.gov.gds.ier.assets.RemoteAssets
+import uk.gov.gds.ier.validation.{DateValidator, CountryValidator}
 
 @Singleton
 class PreviousAddressFirstStep @Inject ()(
@@ -17,6 +18,7 @@ class PreviousAddressFirstStep @Inject ()(
     val config: Config,
     val encryptionService : EncryptionService,
     val addressService: AddressService,
+    val scotlandService: ScotlandService,
     val remoteAssets: RemoteAssets,
     val ordinary: OrdinaryControllers
 ) extends OrdinaryStep
@@ -44,9 +46,33 @@ class PreviousAddressFirstStep @Inject ()(
 
     currentState.previousAddress.flatMap(_.movedRecently) match {
       case Some(MovedHouseOption.MovedFromAbroadRegistered) => nextAddressStep
-      case Some(MovedHouseOption.MovedFromAbroadNotRegistered) => ordinary.OpenRegisterStep
+      case Some(MovedHouseOption.MovedFromAbroadNotRegistered) =>
+        //IF YOUNG SCOTTISH CITIZEN, SKIP THE OPEN REGISTER STEP...
+        if(currentState.dob.exists(_.dob.isDefined)) {
+          if (scotlandService.isYoungScot(currentState)) {
+            ordinary.PostalVoteStep
+          }
+          else {
+            ordinary.OpenRegisterStep
+          }
+        }
+        else {
+          ordinary.OpenRegisterStep
+        }
       case Some(MovedHouseOption.MovedFromUk) => nextAddressStep
-      case Some(MovedHouseOption.NotMoved) => ordinary.OpenRegisterStep
+      case Some(MovedHouseOption.NotMoved) =>
+        //IF YOUNG SCOTTISH CITIZEN, SKIP THE OPEN REGISTER STEP...
+        if(currentState.dob.exists(_.dob.isDefined)) {
+          if (scotlandService.isYoungScot(currentState)) {
+            ordinary.PostalVoteStep
+          }
+          else {
+            ordinary.OpenRegisterStep
+          }
+        }
+        else {
+          ordinary.OpenRegisterStep
+        }
       case _ => this
     }
   }
@@ -76,6 +102,5 @@ class PreviousAddressFirstStep @Inject ()(
     case Some(Some(MovedHouseOption.MovedFromUk)) => GoToNextStep()
     case _ => GoToNextIncompleteStep()
   }
-
 }
 

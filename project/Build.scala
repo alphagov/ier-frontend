@@ -20,6 +20,8 @@ object ApplicationBuild extends IERBuild {
     "com.google.inject" % "guice" % "3.0",
     "uk.gov.gds" %% "gds-scala-utils" % "0.7.6-SNAPSHOT" exclude("com.google.code.findbugs", "jsr305"),
     "joda-time" % "joda-time" % "2.1",
+    "com.kenshoo" % "metrics-play_2.10" % "0.1.2",
+    "com.codahale.metrics" % "metrics-graphite" % "3.0.1",
     anorm,
     new ModuleID("org.codehaus.janino", "janino", "2.6.1"),
     "org.scalatest" % "scalatest_2.10" % "2.0" % "test",
@@ -86,7 +88,7 @@ object StyleChecker {
 
 object Sass {
   val sassSettings = SassPlugin.sassSettings ++ Seq(
-    sassOptions := Seq("--load-path", "<stylesheet location>", "--debug-info")
+    sassOptions := Seq("--load-path", "/Users/michael/Projects/gds/ier/frontend/app/assets/govuk_template_play/stylesheets", "--debug-info")
   )
 }
 

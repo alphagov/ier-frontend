@@ -8,6 +8,7 @@ service_footer_contactEro=Contact your local Electoral Registration Office
 service_footer_forHelp=for help using this service
 service_footer_supportLinks=Support links
 
+
 # general
 step_of=of
 step_a_of_b={0} of {1}
@@ -48,7 +49,7 @@ ordinary_nationality_help_content_1=If you’re not sure about your nationality,
 document like a passport or national ID card.
 ordinary_nationality_help_content_2=We need to know your nationality so we can work out which elections \
 you’re entitled to vote in. If you can’t provide your nationality, you’ll have to send copies of identity documents \
-through the post.
+through the post. This could delay your name getting on the electoral register.
 ordinary_nationality_help_heading_2=I can’t provide my nationality
 ordinary_nationality_help_content_3=Why can’t you provide your nationality?
 ordinary_nationality_error_pleaseAnswer=Please answer this question
@@ -66,16 +67,20 @@ ordinary_dob_formatExample=For example: <span class="date">31 3 1970</span>
 ordinary_dob_help_link=Help with date of birth
 ordinary_dob_help_content_1=If you don’t know your exact date of birth, use the one you put on official documents \
 (for example, your passport or driving licence).
-ordinary_dob_help_content_2=If you can’t provide your date of birth you’ll have to send copies of identity documents \
-through the post.
+ordinary_dob_help_content_2=If you can’t provide your date of birth you may have to send copies of identity documents \
+through the post. This could delay your name getting on the electoral register.
 
 ordinary_dob_help_cannotProvideDOB_link=I can’t provide my date of birth
 ordinary_dob_help_cannotProvideDOB_reasonQuestion=Why can’t you provide your date of birth?
 ordinary_dob_help_cannotProvideDOB_ageGroupQuestion=What age group do you belong to?
 ordinary_dob_help_cannotProvideDOB_ageGroup_under18_option=<span class="visuallyhidden">I am</span>Under 18 years old
-ordinary_dob_help_cannotProvideDOB_ageGroup_between18and70_option=<span class="visuallyhidden">I am</span>Between 18 and 70 years old
-ordinary_dob_help_cannotProvideDOB_ageGroup_over70_option=<span class="visuallyhidden">I am</span>Over 70 years old
+ordinary_dob_help_cannotProvideDOB_ageGroup_between18and75_option=<span class="visuallyhidden">I am</span>Between 18 and 75 years old
+ordinary_dob_help_cannotProvideDOB_ageGroup_Over75_option=<span class="visuallyhidden">I am</span>76 or over
+ordinary_dob_help_cannotProvideDOB_ageGroup_14to15_option=<span class="visuallyhidden">I am</span>Between 14 and 15 years old
+ordinary_dob_help_cannotProvideDOB_ageGroup_16to17_option=<span class="visuallyhidden">I am</span>Between 16 and 17 years old
+ordinary_dob_help_cannotProvideDOB_ageGroup_over18_option=<span class="visuallyhidden">I am</span>18 years old or over
 ordinary_dob_help_cannotProvideDOB_ageGroup_dontKnow_option=Don’t know<span class="visuallyhidden"> the age group I belong to</span>
+ordinary_dob_help_cannotProvideDOB_emailQuestion=It will be easier to contact you if you provide your email address (optional)
 
 ordinary_dob_error_answerThis=Please answer this question
 ordinary_dob_error_enterDateOfBirth=Please enter your date of birth
@@ -105,11 +110,12 @@ ordinary_name_error_firstNameTooLong=First name can be no longer than 35 charact
 ordinary_name_error_middleNamesTooLong=Middle names can be no longer than 100 characters
 ordinary_name_error_lastNameTooLong=Last name can be no longer than 35 characters
 
-ordinary_previousName_hasPreviousName_label=Have you ever changed your name?
-ordinary_previousName_hasPreviousName_no_label=No, I haven’t changed my name<span class="visuallyhidden"> in the last 12 months</span>
-ordinary_previousName_hasPreviousName_yes_label=Yes, I changed my name in the last 12 months
-ordinary_previousName_hasPreviousName_yes_other_label=Yes, but more than a year ago
+ordinary_previousName_hasPreviousName_label=Have you ever changed your name? For example: marriage, deed poll
+ordinary_previousName_hasPreviousName_no_label=No, I haven’t changed my name
+ordinary_previousName_hasPreviousName_yes_label=Yes, I changed my name
+ordinary_previousName_hasPreviousName_other_label=Prefer not to say
 ordinary_previousName_header=What was your previous name?
+ordinary_previousName_disclaimer=You don't have to tell us your previous name but it will help us identify you, and you might need to send us copies of identity documents if you don't.<br/>If you changed your name more than once, enter your most recent previous name.
 ordinary_previousNameOther_disclaimer=As you changed your name more than a year ago you don't have to tell us your previous name, but you might need to send us copies of identity documents if you don't.
 ordinary_previousName_firstName_label=<span class="visuallyhidden">Previous</span> First name
 ordinary_previousName_middleNames_label=<span class="visuallyhidden">Previous</span> Middle names
@@ -131,8 +137,8 @@ ordinary_nino_example=Example: QQ 12 34 56 C
 ordinary_nino_help=I don’t know my National Insurance number
 ordinary_nino_section_1=You can:
 ordinary_nino_list_1=look for your National Insurance number on payslips or official letters about tax, pensions or benefits
-ordinary_nino_list_2=ask for a reminder through the post
-ordinary_nino_section_2=If you can’t provide a National Insurance number, you will need to explain why. And after you’ve applied, you’ll be asked to prove your identity by sending documents in the post.
+ordinary_nino_list_2=I need help finding my National Insurance number
+ordinary_nino_section_2=If you can’t provide a National Insurance number you will need to explain why. You’ll also need to send copies of identity documents through the post. This could delay your name getting on the electoral register.
 ordinary_nino_excuse=I can’t provide a National Insurance number
 ordinary_nino_excuse_content=Why can’t you provide a National Insurance number?
 ordinary_nino_error_noneEntered=Please enter your National Insurance number
@@ -146,6 +152,7 @@ ordinary_address_nAddressFound={0} addresses found
 
 ordinary_address_error_pleaseAnswer=Please answer this question
 ordinary_address_error_pleaseEnterYourPostcode=Please enter your postcode
+ordinary_prev_address_error_pleaseEnterYourPostcode=Please enter the postcode of your previous address
 ordinary_address_error_pleaseSelectYourAddress=Please select your address
 ordinary_address_error_postcodeIsNotValid=Your postcode is not valid
 
@@ -157,7 +164,7 @@ ordinary_address_error_cityIsRequired=Postal town or city is required
 #
 ordinary_address_postcode_title=What is your address?
 
-ordinary_address_postcode_enterPostcodeWhenRegistering_p=Enter the postcode where you want to register to vote.
+ordinary_address_postcode_enterPostcodeWhenRegistering_p=Enter the postcode where you live and where you would like to register to vote.
 ordinary_address_postcode_postcode_label=Postcode
 
 ordinary_address_postcode_dontKnowMyPostcode_h2=I don’t know what postcode to use
@@ -193,7 +200,10 @@ ordinary_address_select_title=What is your address?
 
 ordinary_address_select_postcode_label=Postcode
 ordinary_address_select_changeYourPostcode_a=Change<span class="visuallyhidden"> your postcode</span>
-ordinary_address_select_couldNotFindAnyAddresses_p=Sorry – we couldn’t find any addresses for that postcode
+ordinary_address_select_couldNotFindAnyAddresses_p=Sorry – we couldn’t find any addresses for that postcode.
+ordinary_address_select_couldNotFindAnyAddresses_c=If the postcode is correct,
+ordinary_address_select_couldNotFindAnyAddresses_c2=contact your local Electoral Registration Office
+ordinary_address_select_couldNotFindAnyAddresses_c3=for advice.
 ordinary_address_select_enterManually=Enter your address manually
 ordinary_address_select_selectYourAddress_p=<span class="visuallyhidden">Select your </span>Address
 ordinary_address_select_cannotFindMyAddressInTheList_a=I can’t find my address in the list<span class="visuallyhidden"> section</span>
@@ -217,6 +227,8 @@ ordinary_address_manual_townOrCity_label=Town or city
 
 ordinary_otheraddr_title=Do you also live at a second address?
 
+ordinary_otheraddr_content=We’ll remove your details from the register at your previous address. \
+So only give an address if you’ve moved out permanently.
 ordinary_otheraddr_noTwoHomes=No
 ordinary_otheraddr_yesTwoHomes=Yes, I spend time living at two homes
 ordinary_otheraddr_ifYouHaveSecondAddress_h2=If you have a second address
@@ -236,12 +248,13 @@ can make a separate application through this service.
 ordinary_otheraddr_error_pleaseAnswer=Please answer this question
 
 # ordinary: previous address
-ordinary_previousAddress_title=Have you moved out of another address in the last 12 months?
+ordinary_previousAddress_title=Have you permanently moved out of another address in the last 12 months?
 ordinary_previousAddress_yesFromUk_title=What was your previous address?
 ordinary_previousAddress_yesFromAbroadWasRegistered_title=What was your last UK address before moving abroad?
 
 ordinary_previousAddress_no_option=No
 ordinary_previousAddress_yesFromUk_option=Yes, from a UK address
+ordinary_previousAddress_yesFromUk_option_selected_label=Only select this option if you have permanently moved out of an address in the past 12 months
 ordinary_previousAddress_yesFromAbroad_option=Yes, from abroad
 ordinary_previousAddress_yesFromAbroad_wasRegisteredQuestion=Were you registered as a UK voter when you were abroad?
 ordinary_previousAddress_yesFromAbroad_wasRegistered_yes_option=Yes
@@ -253,7 +266,7 @@ ordinary_previousAddress_error_invalidOption=Not a valid option
 # ordinary: previous address postcode
 ordinary_previousAddress_postcode_postcode_label=Postcode
 ordinary_previousAddress_postcode_findAddress=Find address
-ordinary_previousAddress_postcode_error_enterPostcode=Please enter your postcode
+ordinary_previousAddress_postcode_error_enterPostcode=Please enter the postcode of your previous address
 ordinary_previousAddress_postcode_error_invalidPostcode=Your postcode is not valid
 
 # ordinary: previous address select
@@ -264,6 +277,7 @@ ordinary_previousAddress_select_addressesFound=addresses found
 ordinary_previousAddress_select_cannotFindAddress=I can’t find my address in the list
 
 ordinary_previousAddress_select_error_answerThis=Please select your address
+ordinary_previousAddress_must_differ_error=Your previous address cannot be the same as your current address
 ordinary_previousAddress_select_error_noAddressesFound=Sorry – we couldn’t find any addresses for that postcode
 
 # ordinary: previous address manual
@@ -350,6 +364,19 @@ ordinary_postalVote_error_enterValidEmail=Please enter a valid email address
 
 ordinary_postalVote_error_answerThis=Please answer this question
 
+
+# ordinary: Sole Occupancy
+ordinary_soleOccupancy_title=Are you the only person aged 16 or over living at this address?
+ordinary_soleOccupancy_title_scotland=Are you the only person aged 14 or over living at this address?
+ordinary_soleOccupancy_yes_option=Yes
+ordinary_soleOccupancy_no_option=No
+ordinary_soleOccupancy_notSure_option=Not sure
+ordinary_soleOccupancy_skipThisQuestion_option=Prefer not to say
+ordinary_soleOccupancy_help_link=Why are you asking this question?
+ordinary_soleOccupancy_help_content_1=Throughout the year, local authorities send letters to every household inviting those eligible to register to vote.  Your local authority may not need to send these letters to you in the near future if you let them know that you are the only person aged 16 or over residing at your address.
+ordinary_soleOccupancy_help_content_1_scotland=Throughout the year, local authorities send letters to every household inviting those eligible to register to vote.  Your local authority may not need to send these letters to you in the near future if you let them know that you are the only person aged 14 or over residing at your address.
+ordinary_soleOccupancy_error_answerThis=Please answer this question
+
 # ordinary: contact
 ordinary_contact_title=If we have questions about your application, how should we contact you?
 ordinary_contact_email_option=Email
@@ -361,6 +388,7 @@ ordinary_contact_emailConfirmationMessage=Enter an email address if you want an 
 ordinary_contact_error_pleaseAnswer=Please answer this question
 ordinary_contact_error_enterYourEmail=Please enter your email address
 ordinary_contact_error_enterYourPhoneNo=Please enter your phone number
+ordinary_contact_error_enterValidPhoneNo=Please enter a valid phone number
 ordinary_contact_error_pleaseEnterValidEmail=Please enter a valid email address
 
 # ordinary: confirmation
@@ -374,14 +402,19 @@ ordinary_confirmation_name_changeName=full name
 
 ordinary_confirmation_previousName_title=Previous name
 ordinary_confirmation_previousName_changeName=previous name
-ordinary_confirmation_previousName_nameNotChanged=I have not changed my name in the last 12 months
+ordinary_confirmation_previousName_nameNotChanged=I have not changed my name
+ordinary_confirmation_previousName_other=Prefer not to say
+ordinary_confirmation_previousName_notProvided=Not provided
 
 ordinary_confirmation_dob_title=Date of birth
 ordinary_confirmation_dob_changeName=date of birth
 ordinary_confirmation_dob_noDOBReason=You are unable to provide your date of birth because: {0}
+ordinary_confirmation_dob_noDOB14to15=I am between 14 and 15 years old
+ordinary_confirmation_dob_noDOB16to17=I am between 16 and 17 years old
 ordinary_confirmation_dob_noDOBUnder18=I am roughly under 18
-ordinary_confirmation_dob_noDOB18to70=I am over 18 years old
-ordinary_confirmation_dob_noDOBOver70=I am over 70 years old
+ordinary_confirmation_dob_noDOBOver18=I am roughly over 18
+ordinary_confirmation_dob_noDOB18to75=I am over 18 years old
+ordinary_confirmation_dob_noDOBOver75=I am 76 or over
 ordinary_confirmation_dob_noDOBDontKnow=I don’t know my age
 
 ordinary_confirmation_nationality_title=Nationality
@@ -392,10 +425,12 @@ ordinary_confirmation_nationality_iAm=I am
 ordinary_confirmation_nationality_and=and
 ordinary_confirmation_nationality_citizenOf=a citizen of
 ordinary_confirmation_nationality_noNationalityReason=I cannot provide my nationality because:
+ordinary_confirmation_nationality_email=It will be easier to contact you if you provide your email address (optional)
 
 ordinary_confirmation_nino_title=National Insurance number
 ordinary_confirmation_nino_changeName=national insurance number
 ordinary_confirmation_nino_noNinoReason=I cannot provide my national insurance number because:
+ordinary_confirmation_nino_email=It will be easier to contact you if you provide your email address (optional)
 
 ordinary_confirmation_address_title=Address
 ordinary_confirmation_address_changeName=your address
@@ -403,6 +438,7 @@ ordinary_confirmation_address_changeName=your address
 ordinary_confirmation_secondAddress_title=Second address
 ordinary_confirmation_secondAddress_changeName=second address
 ordinary_confirmation_secondAddress_haveAddress=I have a second address
+ordinary_confirmation_secondAddress_student=I am a student with home and term-time address
 ordinary_confirmation_secondAddress_dontHaveAddress=I don’t have a second address
 
 ordinary_confirmation_previousAddress_title_lastAddress=Last UK address
@@ -424,6 +460,13 @@ ordinary_confirmation_postalVote_mailDelivery=I want you to mail me a postal vot
 ordinary_confirmation_postalVote_dontWant=I don’t want to apply for a postal vote
 ordinary_confirmation_postalVote_alreadyHave=I already have a postal vote
 
+ordinary_confirmation_soleOccupancy_title=You are the only person 16 or over living at your address
+ordinary_confirmation_soleOccupancy_title_scotland=You are the only person 14 or over living at your address
+ordinary_confirmation_soleOccupancy_yes_option=Yes
+ordinary_confirmation_soleOccupancy_no_option=No
+ordinary_confirmation_soleOccupancy_notSure_option=I’m not sure
+ordinary_confirmation_soleOccupancy_skipThisQuestion_option=I’d prefer not to say
+
 ordinary_confirmation_contact_title=How we should contact you
 ordinary_confirmation_contact_changeName=how we should contact you
 ordinary_confirmation_contact_byPost=By post
@@ -433,34 +476,57 @@ ordinary_confirmation_contact_byEmail=By email: {0}
 ordinary_confirmation_help_h2=Send your application
 ordinary_confirmation_help_p1=By sending your application you confirm that the information you have provided is true.
 ordinary_confirmation_help_p2=Your information may be shared with other government departments to check your identity and that you’re entitled to register to vote.
-ordinary_confirmation_help_p3=You could be fined up to £5,000 or go to prison for up to 6 months if you knowingly give false information in your application.
+ordinary_confirmation_help_p3=If you knowingly give false information in your application, you could go to prison for up to 6 months, or be fined.
+ordinary_confirmation_help_youngScot=Only Electoral Registration Officers and their staff can usually see your details in an electoral register. Your details will not be shown in any register which is published.  But some people need names and addresses for everyone who can vote at an election.  They usually need these details about 6 weeks before the election.  These include people who run elections, and candidates, who can send information to voters.  So if you will be 16 on the date of that election, your name and address may be supplied to them.
+ordinary_confirmation_young_scot=You are {0} years old. If your application is successful, when you turn 16 you will be eligible to vote in Scottish Parliament elections and local government elections, and any other elections which use the Scottish local government franchise.
 
 ordinary_confirmation_error_completeThis=Please complete this step
 
 #
 # all: complete
 #
-complete_step_title=Application Complete
 
-complete_applicationComplete=Your application has been received and is being processed
+complete_step_title=Application Complete
+complete_applicationComplete_1=Your application has
+complete_applicationComplete_2=been received and is
+complete_applicationComplete_3=being processed
 complete_yourRefNumberIs=Your reference number is
-complete_registerGuidance=You will be contacted when your registration is confirmed. Until then your name will not appear on the electoral register.
 complete_emailConfirmation=We have sent you an acknowledgement email.
 complete_whatHappensNext_h2=What happens next
+complete_deadline=The deadline for registering to vote in the EU referendum on 23 June has passed. Your application can still be processed for other future elections.
+complete_whatToDoNext_h2=What you need to do next
 complete_sentApplicationTo_p=We've sent your application to
-complete_contactYouTo_p1=They will make contact with you shortly to confirm when your name will be added to the register, or to request further information.
-complete_contactYouTo_p2=Until you receive confirmation, your name will not appear on the electoral register.
-complete_questionsContact_p1=Contact
-complete_questionsContact_p2=if you have any questions about your application
+complete_sentApplicationTo_p1=We've sent you an email with a
+complete_sentApplicationTo_p1_2=postal vote application form
+complete_sentApplicationTo_p1_3=attached. You'll need to
+complete_sentApplicationTo_p1_4=sign and return it
+complete_sentApplicationTo_p1_5=to
+complete_sentApplicationTo_p1_6=proxy vote application form
+complete_questionsContact_p1=Contact them if you have any questions about your application.
 complete_ifYouAreNotAlreadyRegistered1_p=If you're not already registered at your second address, you can
 complete_ifYouAreNotAlreadyRegistered2_p=make another application
 complete_moreAboutVoting_a=Why we're asking people to register on the new system
 complete_moreAboutVoting_url=http://www.gov.uk/yourvotematters
 complete_takeOurSurvey_a=What did you think of this service?
 complete_takeOurSurvey_p= (takes 30 seconds)
+complete_ackEmail=We have sent you an acknowledgement email.
+complete_youngScot=If your application is successful, they will send you a confirmation letter and when you turn 16 you will be eligible to vote in Scottish Parliament elections after 4 April 2016 and local government elections after 4 May 2016, and any other elections which use the Scottish local government franchise.
+complete_sentApplicationTo_p_1=We've sent your application to
 
 complete_electoralRegistrationOffice=Electoral Registration Office
 complete_unspecificElectoralRegistrationOffice=your local Electoral Registration Office
+complete_ero=Electoral Registration Office
+complete_contact=Contact them
+complete_contact2=with your reference number if you have any questions about your application.
+complete_contact3=They'll contact you as soon as possible to confirm you're registered to vote, or to ask for more information.
+complete_contact4=Contact them with reference number
+complete_contact5=if you have any questions about your application.
+
+complete_contact6=They'll post you a
+complete_contact7=that you'll need to
+complete_contact8=sign and return
+complete_contact9=to them. You can also download the form
+complete_contact10=here
 
 complete_social_heading=Tell others about this service
 complete_social_twitter_link_text=Share on Twitter
@@ -499,7 +565,10 @@ ordinary_address_continue=Continue
 # Too Young
 
 exit_tooYoung_title=Sorry, you can’t register to vote yet
-exit_tooYoung_explanation=You can’t register to vote until you’re 16. In the meantime, you may be interested in the <a href="http://www.ukyouthparliament.org.uk/">UK Youth Parliament</a>.
+exit_tooYoung_explanation=You can’t register to vote until you’re 16. In the meantime, you may be interested in the <a href="http://www.ukyouthparliament.org.uk" data-journey-click="Hyperlinks:Youth Parliament:UK Youth Parliament" rel="external">UK Youth Parliament</a>.
+exit_tooYoungScotland_explanation=You can’t register to vote until you’re 14 in Scotland. In the meantime, you may be interested in the <a href="http://www.syp.org.uk" data-journey-click="Hyperlinks:Youth Parliament:Scottish Youth Parliament" rel="external">Scottish Youth Parliament</a>.
+exit_tooYoungNotScotland_explanation14=As a 14 year old you can only register from an address in Scotland. In the meantime, you may be interested in the <a href="http://www.ukyouthparliament.org.uk" data-journey-click="Hyperlinks:Youth Parliament:UK Youth Parliament" rel="external">UK Youth Parliament</a>.
+exit_tooYoungNotScotland_explanation15=As a 15 year old you can only register from an address in Scotland. In the meantime, you may be interested in the <a href="http://www.ukyouthparliament.org.uk" data-journey-click="Hyperlinks:Youth Parliament:UK Youth Parliament" rel="external">UK Youth Parliament</a>.
 exit_tooYoung_moreAboutVoting=More about voting in the UK.
 
 # British Islands
@@ -511,11 +580,17 @@ exit_britishIslands_paperRegistration=But you may be able to register to vote in
 # Dont Know
 exit_dontKnow_title=You need to find out whether you're 18 or over
 exit_dontKnow_explanation=You can only register if you're able to confirm that you're 18 or over. If you have trouble, <a href="https://www.gov.uk/get-on-electoral-register">contact your local Electoral Registration Office</a> for advice.
+exit_dontKnow_title_Scotland=You need to find out whether you're 16 or over
+exit_dontKnow_explanation_Scotland=You can only register if you're able to confirm that you're 16 or over. If you have trouble, <a href="https://www.gov.uk/get-on-electoral-register">contact your local Electoral Registration Office</a> for advice.
 
 # No Franchise
 
+exit_nationality_noFranchise_content=To register to vote you must be an
+exit_nationality_noFranchise_hyperlink_text=eligible
+exit_nationality_noFranchise_content2=British, Irish, EU or qualifying Commonwealth citizen. If your Electoral Registration Office has written to you, asking you to register to vote,
 exit_nationality_noFranchise_title=Sorry, you can’t register to vote
-exit_nationality_noFranchise_content=To register to vote you have to be British, or an EU or Commonwealth citizen living in the UK.
+exit_nationality_noFranchise_content3=contact them
+exit_nationality_noFranchise_content4=to tell them you’re not eligible.
 exit_nationality_noFranchise_moreAboutVoting=More about voting in the UK
 
 # Northern Ireland
@@ -526,6 +601,11 @@ exit_northernIreland_instead=Instead, download and complete a
 exit_northernIreland_paperRegistration=registration form
 exit_northernIreland_postItTo=then post it to your
 exit_northernIreland_yourElectoralOffice=local area electoral office
+exit_northernIrelandOverseas_title=Overseas elector registration
+exit_northernIrelandOverseas_instead=To register as an overseas elector in Northern Ireland you will need to complete a
+exit_northernIrelandOverseas_paperRegistration=paper application form
+exit_northernIrelandOverseas_postItTo= and then post it to the
+exit_northernIrelandOverseas_yourElectoralOffice=Electoral Office for Northern Ireland.
 
 # Scotland
 exit_scotland_title=Voter registration forms for Scotland
@@ -533,6 +613,11 @@ exit_scotland_explanation=You can’t register online yet if you live in Scotlan
 exit_scotland_instead=Instead, download a
 exit_scotland_registrationForm=registration form
 exit_scotland_from=from About My Vote.
+
+# Under 16
+exit_under16_title=You need to find out your date of birth
+exit_under16_explanation=If you're under 16, you have to provide a date of birth before you can register to vote.
+exit_under16_tryToFindDOBOut=Try to find out your date of birth. If you have trouble, <a href="https://www.gov.uk/get-on-electoral-register">contact your local Electoral Registration Office</a> for advice.
 
 # Under 18
 exit_under18_title=You need to find out your date of birth

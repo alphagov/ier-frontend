@@ -62,7 +62,13 @@ trait FakeApplicationRedefined {
    */
   val dummyLocateService = new LocateService(null, null, null) {
     override def lookupGssCode(postcode: String): Option[String] = {
-      Some("E09000030")
+      //If dummy locate service is called with EDINBURGH postcode, return a SCO GSS_CODE
+      if(postcode.equalsIgnoreCase("EH11QN")) {
+        Some("S12000036")
+      }
+      else {
+        Some("E09000030")
+      }
     }
 
     override def lookupAddress(postcode: String): List[Address] =

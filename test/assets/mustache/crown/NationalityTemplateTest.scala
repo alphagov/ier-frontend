@@ -12,7 +12,6 @@ class NationalityTemplateTest
     running(FakeApplication()) {
       val data = NationalityModel(
         question = Question(postUrl = "/whatever-url",
-          number = "1",
           title = "nationality title"
         ),
         nationality = FieldSet("nationalityClass"),
@@ -55,7 +54,13 @@ class NationalityTemplateTest
           name = "noNationalityReasonName",
           value = "noNationalityReasonValue"
         ),
-        noNationalityReasonShowFlag = "noNationalityReasonShowFlag"
+        noNationalityReasonShowFlag = "noNationalityReasonShowFlag",
+        emailField = Field(
+          id = "emailFieldId",
+          name = "emailFieldName",
+          classes = "emailFieldClass",
+          value = "emailFieldValue"
+        )
       )
 
       val html = Mustache.render("crown/nationality", data)

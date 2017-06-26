@@ -8,7 +8,7 @@ trait OverseasApplications {
 
   lazy val completeOverseasApplication = InprogressOverseas(
     name = Some(Name("John", None, "Smith")),
-    previousName = Some(PreviousName(false, "false", None)),
+    previousName = Some(PreviousName(false, "false", Some("false"), None)),
     dob = Some(DOB(year = 1970, month = 12, day = 12)),
     lastUkAddress = Some(
       PartialAddress(Some("123 Fake Street, Fakerton"), Some("123456789"), "WR26NJ", None)
@@ -16,10 +16,10 @@ trait OverseasApplications {
     parentsAddress = Some(
       PartialAddress(Some("124 Fake Street, Fakerton"), Some("123456700"), "WR26NJ", None)
     ),
-    dateLeftUk = Some(DateLeft(2000,10)),
+    dateLeftUk = Some(DateLeft(2010,10)),
     overseasParentName = Some(OverseasParentName(
         Some(Name("john", None, "Smith")),
-        Some(PreviousName(true, "true", Some(Name("Tom", None, "Smith"))))
+        Some(PreviousName(true, "true", None, Some(Name("Tom", None, "Smith"))))
     )),
     nino = Some(Nino(Some("AB 12 34 56 D"), None)),
     address = Some(OverseasAddress(
@@ -38,7 +38,7 @@ trait OverseasApplications {
       Some(PostalVoteDeliveryMethod(Some("post"),None))
     )),
     passport = Some(Passport(
-      true, None, Some(PassportDetails("123456", "UK border office", DOB(2000, 12, 1))), None)),
+      true, None, Some(PassportDetails("123456789", "UK border office", DOB(2000, 12, 1))), None)),
     contact = Some(Contact(
       post = true,
       phone = None,

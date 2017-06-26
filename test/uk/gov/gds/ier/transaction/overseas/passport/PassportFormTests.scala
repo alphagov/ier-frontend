@@ -100,7 +100,7 @@ class PassportFormTests
       Map(
         "passport.hasPassport" -> "true",
         "passport.bornInsideUk" -> "true",
-        "passport.passportDetails.passportNumber" -> "12345",
+        "passport.passportDetails.passportNumber" -> "123456789",
         "passport.passportDetails.authority" -> "London",
         "passport.passportDetails.issueDate.day" -> "1",
         "passport.passportDetails.issueDate.month" -> "12",
@@ -120,7 +120,7 @@ class PassportFormTests
         passport.details.isDefined should be(true)
         val Some(details) = passport.details
 
-        details.passportNumber should be("12345")
+        details.passportNumber should be("123456789")
         details.authority should be("London")
         details.issueDate.day should be(1)
         details.issueDate.month should be(12)
@@ -147,7 +147,7 @@ class PassportFormTests
         hasErrors.errorMessages("passport.passportDetails") should be(
           Seq("Please answer this question")
         )
-        hasErrors.globalErrors.size should be(1)
+        hasErrors.globalErrors.size should be(2)
       },
       success => fail("Should have errored out")
     )
@@ -163,14 +163,15 @@ class PassportFormTests
 
     passportDetailsForm.bind(js).fold(
       hasErrors => {
-        val error = Seq("Please answer this question")
-        hasErrors.errorMessages("passport.passportDetails.passportNumber") should be(error)
-        hasErrors.errorMessages("passport.passportDetails.authority") should be(error)
-        hasErrors.errorMessages("passport.passportDetails.issueDate.day") should be(error)
-        hasErrors.errorMessages("passport.passportDetails.issueDate.month") should be(error)
-        hasErrors.errorMessages("passport.passportDetails.issueDate.year") should be(error)
-        hasErrors.errorMessages("passport.passportDetails.issueDate") should be(error)
-        hasErrors.globalErrors.size should be(1)
+        val error1 = Seq("Please answer this question")
+        val error2 = Seq("Please answer this question", "Your passport number should be 9 digits long")
+        hasErrors.errorMessages("passport.passportDetails.passportNumber") should be(error2)
+        hasErrors.errorMessages("passport.passportDetails.authority") should be(error1)
+        hasErrors.errorMessages("passport.passportDetails.issueDate.day") should be(error1)
+        hasErrors.errorMessages("passport.passportDetails.issueDate.month") should be(error1)
+        hasErrors.errorMessages("passport.passportDetails.issueDate.year") should be(error1)
+        hasErrors.errorMessages("passport.passportDetails.issueDate") should be(error1)
+        hasErrors.globalErrors.size should be(2)
       },
       success => fail("Should have errored out")
     )
@@ -191,10 +192,11 @@ class PassportFormTests
 
     passportDetailsForm.bind(js).fold(
       hasErrors => {
-        val error = Seq("Please provide your Passport Number")
-        hasErrors.errorMessages("passport.passportDetails") should be(error)
-        hasErrors.errorMessages("passport.passportDetails.passportNumber") should be(error)
-        hasErrors.globalErrors.size should be(1)
+        val error1 = Seq("Please provide your Passport Number")
+        val error2 = Seq("Please provide your Passport Number", "Your passport number should be 9 digits long")
+        hasErrors.errorMessages("passport.passportDetails") should be(error1)
+        hasErrors.errorMessages("passport.passportDetails.passportNumber") should be(error2)
+        hasErrors.globalErrors.size should be(2)
       },
       success => fail("Should have errored out")
     )
@@ -205,7 +207,7 @@ class PassportFormTests
       Map(
         "passport.hasPassport" -> "true",
         "passport.bornInsideUk" -> "true",
-        "passport.passportDetails.passportNumber" -> "12345",
+        "passport.passportDetails.passportNumber" -> "123456789",
         "passport.passportDetails.authority" -> "",
         "passport.passportDetails.issueDate.day" -> "1",
         "passport.passportDetails.issueDate.month" -> "12",
@@ -229,7 +231,7 @@ class PassportFormTests
       Map(
         "passport.hasPassport" -> "true",
         "passport.bornInsideUk" -> "true",
-        "passport.passportDetails.passportNumber" -> "12345",
+        "passport.passportDetails.passportNumber" -> "123456789",
         "passport.passportDetails.authority" -> "London",
         "passport.passportDetails.issueDate.day" -> "",
         "passport.passportDetails.issueDate.month" -> "",
@@ -256,7 +258,7 @@ class PassportFormTests
       Map(
         "passport.hasPassport" -> "true",
         "passport.bornInsideUk" -> "true",
-        "passport.passportDetails.passportNumber" -> "12345",
+        "passport.passportDetails.passportNumber" -> "123456789",
         "passport.passportDetails.authority" -> "London",
         "passport.passportDetails.issueDate.day" -> "1",
         "passport.passportDetails.issueDate.month" -> "1",
@@ -279,7 +281,7 @@ class PassportFormTests
       Map(
         "passport.hasPassport" -> "true",
         "passport.bornInsideUk" -> "true",
-        "passport.passportDetails.passportNumber" -> "12345",
+        "passport.passportDetails.passportNumber" -> "123456789",
         "passport.passportDetails.authority" -> "London",
         "passport.passportDetails.issueDate.day" -> "1",
         "passport.passportDetails.issueDate.month" -> "1",

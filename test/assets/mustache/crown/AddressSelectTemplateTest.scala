@@ -141,7 +141,7 @@ class AddressSelectTemplateTest
 
       val wrapper = doc.select("div").first()
       wrapper.html() should include(
-        "Sorry - we couldn't find any addresses for that postcode"
+        "Sorry – we couldn’t find any addresses for that postcode."
       )
 
       doc.select("select").size should be(0)
@@ -179,7 +179,7 @@ class AddressSelectTemplateTest
 
       val wrapper = doc.select("div").first()
       wrapper.html() should include(
-        "Sorry - we couldn't find any addresses for that postcode"
+        "Sorry – we couldn’t find any addresses for that postcode."
       )
 
       doc.select("select").size should be(0)

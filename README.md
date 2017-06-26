@@ -1,40 +1,47 @@
-# This code is retired
-
-#IER Frontend
-
-
-This is a snapshot of the frontend web code that runs Register To Vote. This repository is not under development and the code is not the version that is currently running in production; this code is retired.
-
-
-
+# IER Frontend
 
 This is the Individual Electoral Registration (aka ERTP) Frontend app. The point of it is to provide a simple Register to Vote form to the public. 
 
-***
-Please note that this source code will not run as is, as it has API dependencies which are not open sourced. 
-***
+### Depedencies
 
-###Depedencies
-
-To run this app you will need: 
+To run this app you will need;
 
  - Java 7 (we use openJDK 7)
  - Ruby 1.9.3
- - Sass
- - Bundler
+ - Sass.
+ - Bundler.
 
 All other depedencies (Play framework, Scala, sbt, etc) will be installed as part of the `sbt` start script.
 
-###Bootstrap project and run the service
+### Bootstrap project and run the service
 
  1. `git clone git@github.gds:gds/ier-frontend.git`
 
  2. In a terminal execute `./sbt` to open the Play console
- 
+
  3. Wait (Downloading the entire internet)
- 
+
  4. In the SBT console execute `compile` to compile the app
- 
+
+ If you encounter SSL handshake errors this will probably be caused by the 'Lets Encrypt' certs used on the build server.
+ Add the Lets Encrypt certs into your local JAVA Keystore, usually located here:
+
+ ```
+
+ /Library/Java/JavaVirtualMachines/jdk<version>.jdk/Contents/Home/jre/lib/security/
+
+ ```
+
+ You can grab the root and intermediate certs from https://letsencrypt.org/certificates/
+
+ And install each like so (remember to use a different alias each time)
+
+ ```
+
+ sudo keytool -importcert -alias letsencryptroot -file /Users/<username>/Downloads/isrgrootx1.der -keystore cacerts
+
+ ```
+
  5. Create directory `/var/log/ier` with write access rights for the current user, e.g:   
 
     ```
@@ -44,22 +51,22 @@ All other depedencies (Play framework, Scala, sbt, etc) will be installed as par
     ```
 
  6. In the SBT console execute `run` to start the app
- 
+
  7. Go to [http://localhost:9000/](http://localhost:9000/)  
 
-    \[Note: I got an internal error had to re- `gem install sass` to fix it \]
- 
-###Running the service
+    \[Note: I got an internal error had to re- `gem install sass` to fix it \]   
+
+### Running the service
 
  1. In a terminal execute `./sbt` to open the SBT console
 
  2. In the SBT console execute `run` to start the app
- 
+
  3. Or just `./sbt run`
- 
+
  4. Go to `http://localhost:9000/`
 
-###Front-end development
+### Front-end development
 
 The CSS and JS files Play serves are compiled versions of those in the `./assets` folder.
 
@@ -67,7 +74,7 @@ There are [Gulp](http://gulpjs.com/) tasks to build the compiled CSS and JS in t
 
 The `./scripts/gulp` folder has a guide to setting up Gulp and to the tasks in its README.
 
-###Running the tests
+### Running the tests
 
 Testing for the ier-frontend project is via the sbt command line as follows...
 
@@ -79,4 +86,7 @@ Testing for the ier-frontend project is via the sbt command line as follows...
 
  **NB : Make sure you follow the Bootstrap Step 5 above to make the /var/log/ier/ folder locally wriateable.**
 
- **NB : To run a specific test rather than all of them  `test-only FULL_PATH_OF_TEST_CLASS`**
+ **NB : To run a specific test rather than all of them  "test-only FULL_PATH_OF_TEST_CLASS"**
+
+ eg.
+ ./sbt "test-only uk.gov.gds.ier.transaction.overseas.passport.PassportFormTests"

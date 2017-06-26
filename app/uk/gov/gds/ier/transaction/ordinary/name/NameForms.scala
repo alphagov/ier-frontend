@@ -37,8 +37,7 @@ trait NameForms extends NameConstraints {
       prevLastNameRequired,
       prevFirstNameNotTooLong,
       prevMiddleNamesNotTooLong,
-      prevLastNameNotTooLong,
-      prevNameRequiredIfHasPrevNameTrue
+      prevLastNameNotTooLong
     )
   )
 }
@@ -96,7 +95,7 @@ trait NameConstraints extends CommonConstraints with FormKeys {
     keys.previousName.previousName.key
   ) {
     _.previousName match {
-      case Some(PreviousName(true, "true", None, _)) => Invalid (
+      case Some(PreviousName(true, "true", None, None, _)) => Invalid (
         "ordinary_previousName_error_enterFullName",
         keys.previousName.previousName,
         keys.previousName.previousName.firstName,
@@ -110,7 +109,7 @@ trait NameConstraints extends CommonConstraints with FormKeys {
     keys.previousName.previousName.firstName.key
   ) {
     _.previousName match {
-      case Some(PreviousName(true, "true", Some(Name("", _, _)), _)) => Invalid (
+      case Some(PreviousName(true, "true", None, Some(Name("", _, _)), _)) => Invalid (
         "ordinary_previousName_error_enterFirstName",
         keys.previousName.previousName.firstName
       )
@@ -122,7 +121,7 @@ trait NameConstraints extends CommonConstraints with FormKeys {
     keys.previousName.previousName.lastName.key
   ) {
     _.previousName match {
-      case Some(PreviousName(true, "true", Some(Name(_, _, "")), _)) => Invalid (
+      case Some(PreviousName(true, "true", None, Some(Name(_, _, "")), _)) => Invalid (
         "ordinary_previousName_error_enterLastName",
         keys.previousName.previousName.lastName
       )

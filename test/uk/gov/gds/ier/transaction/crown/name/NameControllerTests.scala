@@ -14,7 +14,7 @@ class NameControllerTests extends ControllerTestSuite {
       status(result) should be(OK)
       contentType(result) should be(Some("text/html"))
       contentAsString(result) should include("What is your full name?")
-      contentAsString(result) should include("Have you ever changed your name?")
+      contentAsString(result) should include("Have you ever changed your name? For example: marriage, deed poll")
       contentAsString(result) should include("<form action=\"/register-to-vote/crown/name\"")
     }
   }
@@ -56,6 +56,24 @@ class NameControllerTests extends ControllerTestSuite {
     }
   }
 
+  it should "bind successfully with prefer not to say and redirect to Nino step" in {
+    running(FakeApplication()) {
+      val Some(result) = route(
+        FakeRequest(POST, "/register-to-vote/crown/name")
+          .withIerSession()
+          .withFormUrlEncodedBody(
+            "name.firstName" -> "John",
+            "name.lastName" -> "Smith",
+            "previousName.hasPreviousName" -> "true",
+            "previousName.hasPreviousNameOption" -> "other")
+      )
+
+      status(result) should be(SEE_OTHER)
+      redirectLocation(result) should be(Some("/register-to-vote/crown/job-title"))
+    }
+  }
+
+
   it should "bind successfully and redirect to the confirmation step with a complete application" in {
     running(FakeApplication()) {
       val Some(result) = route(
@@ -85,7 +103,7 @@ class NameControllerTests extends ControllerTestSuite {
       status(result) should be(OK)
       contentAsString(result) should include("What is your full name?")
       contentAsString(result) should include("Please enter your full name")
-      contentAsString(result) should include("Have you ever changed your name?")
+      contentAsString(result) should include("Have you ever changed your name? For example: marriage, deed poll")
       contentAsString(result) should include("Please answer this question")
       contentAsString(result) should include("<form action=\"/register-to-vote/crown/name\"")
     }
@@ -119,7 +137,7 @@ class NameControllerTests extends ControllerTestSuite {
       status(result) should be(OK)
       contentType(result) should be(Some("text/html"))
       contentAsString(result) should include("What is your full name?")
-      contentAsString(result) should include("Have you ever changed your name?")
+      contentAsString(result) should include("Have you ever changed your name? For example: marriage, deed poll")
       contentAsString(result) should include("<form action=\"/register-to-vote/crown/edit/name\"")
     }
   }
@@ -190,7 +208,7 @@ class NameControllerTests extends ControllerTestSuite {
       status(result) should be(OK)
       contentAsString(result) should include("What is your full name?")
       contentAsString(result) should include("Please enter your full name")
-      contentAsString(result) should include("Have you ever changed your name?")
+      contentAsString(result) should include("Have you ever changed your name? For example: marriage, deed poll")
       contentAsString(result) should include("Please answer this question")
       contentAsString(result) should include("<form action=\"/register-to-vote/edit/name\"")
     }

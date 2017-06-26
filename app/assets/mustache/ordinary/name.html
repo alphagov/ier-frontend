@@ -112,7 +112,7 @@
                     data-validation-type="field"
                     data-validation-rules="nonEmpty"
             {{{hasPreviousNameOptionOther.attributes}}}>
-            {{{messages.ordinary_previousName_hasPreviousName_yes_other_label}}}
+            {{{messages.ordinary_previousName_hasPreviousName_other_label}}}
         </label>
     </fieldset>
 
@@ -124,10 +124,10 @@
 
     <div
             class="optional-section optional-section-core-content"
-            data-condition="{{hasPreviousNameOptionOther.id}}"
+            data-condition="{{hasPreviousNameOptionTrue.id}}"
             aria-hidden="true" aria-expanded="false">
         <legend class="label">
-            {{{messages.ordinary_previousNameOther_disclaimer}}}
+            {{{messages.ordinary_previousName_disclaimer}}}
         </legend>
     </div>
 
@@ -161,7 +161,7 @@
                 {{{messages.ordinary_previousName_middleNames_label}}}
             </label>
 
-            <div class="validation-wrapper {{previousMiddleNames.classes}}">
+            <div class="validation-wrapper {{previousMiddleName.classes}}">
                 <input
                   type="text"
                   id="{{previousMiddleNames.id}}"
@@ -197,7 +197,7 @@
       id="continue"
       type="submit"
       class="button next validation-submit"
-      data-validation-sources="fullName previousQuestion previousName">
+      data-validation-sources="fullName previousQuestion">
         {{messages.step_continue}}
     </button>
 </form>

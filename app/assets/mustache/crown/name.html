@@ -59,7 +59,7 @@
               data-validation-type="fieldset"
               data-validation-rules="atLeastOneNonEmpty"
               data-validation-children="previousNo previousYes previousOther">
-        <legend class="label">Have you ever changed your name?</legend>
+        <legend class="label">Have you ever changed your name? For example: marriage, deed poll</legend>
 
         <label for="{{hasPreviousNameOptionFalse.id}}" class="selectable"  >
             <input type="radio" id="{{hasPreviousNameOptionFalse.id}}"
@@ -81,7 +81,7 @@
                    data-validation-type="field"
                    data-validation-rules="nonEmpty"
             {{{hasPreviousNameOptionTrue.attributes}}}>
-            Yes, I changed my name in the last 12 months
+            Yes, I changed my name
         </label>
 
         <label for="{{hasPreviousNameOptionOther.id}}" class="selectable"  >
@@ -93,7 +93,7 @@
                    data-validation-type="field"
                    data-validation-rules="nonEmpty"
             {{{hasPreviousNameOptionOther.attributes}}}>
-            Yes, but more than a year ago
+            Prefer not to say
         </label>
     </fieldset>
 
@@ -105,10 +105,12 @@
 
     <div
             class="optional-section optional-section-core-content"
-            data-condition="{{hasPreviousNameOptionOther.id}}"
+            data-condition="{{hasPreviousNameOptionTrue.id}}"
             aria-hidden="true" aria-expanded="false">
         <legend class="label">
-            As you changed your name more than a year ago you don't have to tell us your previous name, but you might need to send us copies of identity documents if you don't.
+            You don't have to tell us your previous name but it will help us identify you, and you might need to send us copies of identity documents if you don't.
+            <br/>
+            If you changed your name more than once, enter your most recent previous name.
         </legend>
     </div>
 
@@ -164,7 +166,7 @@
 
     <button id="continue" type="submit"
             class="button next validation-submit"
-            data-validation-sources="fullName previousQuestion previousName">
+            data-validation-sources="fullName previousQuestion">
         Continue
     </button>
 </form>

@@ -17,7 +17,7 @@ class OverseasNameControllerTests extends ControllerTestSuite {
       status(result) should be(OK)
       contentType(result) should be(Some("text/html"))
       contentAsString(result) should include("What is your full name?")
-      contentAsString(result) should include("Have you changed your name since you left the UK?")
+      contentAsString(result) should include("Have you changed your name")
       contentAsString(result) should include("<form action=\"/register-to-vote/overseas/name\"")
     }
   }
@@ -90,7 +90,7 @@ class OverseasNameControllerTests extends ControllerTestSuite {
       status(result) should be(OK)
       contentAsString(result) should include("What is your full name?")
       contentAsString(result) should include("Please enter your full name")
-      contentAsString(result) should include("Have you changed your name since you left the UK?")
+      contentAsString(result) should include("Have you changed your name")
       contentAsString(result) should include("Please answer this question")
       contentAsString(result) should include("<form action=\"/register-to-vote/overseas/name\"")
     }
@@ -123,7 +123,7 @@ class OverseasNameControllerTests extends ControllerTestSuite {
       status(result) should be(OK)
       contentType(result) should be(Some("text/html"))
       contentAsString(result) should include("What is your full name?")
-      contentAsString(result) should include("Have you changed your name since you left the UK?")
+      contentAsString(result) should include("Have you changed your name")
       contentAsString(result) should include("<form action=\"/register-to-vote/overseas/edit/name\"")
     }
   }
@@ -196,7 +196,7 @@ class OverseasNameControllerTests extends ControllerTestSuite {
       status(result) should be(OK)
       contentAsString(result) should include("What is your full name?")
       contentAsString(result) should include("Please enter your full name")
-      contentAsString(result) should include("Have you changed your name since you left the UK?")
+      contentAsString(result) should include("Have you changed your name")
       contentAsString(result) should include("Please answer this question")
       contentAsString(result) should include("<form action=\"/register-to-vote/overseas/edit/name\"")
     }

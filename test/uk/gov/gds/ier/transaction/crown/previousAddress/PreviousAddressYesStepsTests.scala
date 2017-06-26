@@ -61,7 +61,7 @@ class PreviousAddressYesStepsTests extends ControllerTestSuite {
       contentAsString(result) should include(
         "What was your previous UK address?"
       )
-      contentAsString(result) should include("Please enter your postcode")
+      contentAsString(result) should include("Please enter the postcode of your previous address")
       contentAsString(result) should include("/register-to-vote/crown/previous-address")
     }
   }
@@ -205,7 +205,7 @@ class PreviousAddressYesStepsTests extends ControllerTestSuite {
       contentAsString(result) should include(
         "What was your previous UK address?"
       )
-      contentAsString(result) should include("Please enter your postcode")
+      contentAsString(result) should include("Please enter the postcode of your previous address")
       contentAsString(result) should include("/register-to-vote/crown/edit/previous-address")
     }
   }

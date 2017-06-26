@@ -2,7 +2,6 @@ package uk.gov.gds.ier.transaction.ordinary
 
 import com.google.inject.Inject
 import uk.gov.gds.ier.guice.Injector
-
 class OrdinaryControllers @Inject()(
     injector: Injector
 ) {
@@ -12,6 +11,7 @@ class OrdinaryControllers @Inject()(
   lazy val AddressSelectStep = injector.dependency[address.AddressSelectStep]
 
   lazy val ContactStep = injector.dependency[contact.ContactStep]
+  lazy val SoleOccupancyStep = injector.dependency[soleOccupancy.SoleOccupancyStep]
   lazy val DateOfBirthStep = injector.dependency[dateOfBirth.DateOfBirthStep]
   lazy val NameStep = injector.dependency[name.NameStep]
   lazy val NationalityStep = injector.dependency[nationality.NationalityStep]
@@ -27,5 +27,4 @@ class OrdinaryControllers @Inject()(
   lazy val PreviousAddressManualStep = injector.dependency[previousAddress.PreviousAddressManualStep]
 
   lazy val ConfirmationStep = injector.dependency[confirmation.ConfirmationStep]
-
 }

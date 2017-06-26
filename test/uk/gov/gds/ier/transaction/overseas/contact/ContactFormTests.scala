@@ -50,7 +50,7 @@ class ContactFormTests
   it should "bind successfully (phone)" in {
     val js = Json.toJson(
       Map(
-        "contact.phone.detail" -> "1234567890",
+        "contact.phone.detail" -> "1234567890ext123-4",
         "contact.phone.contactMe" -> "true"
       )
     )
@@ -59,7 +59,7 @@ class ContactFormTests
       success => {
         success.contact.isDefined should be(true)
         val contact = success.contact.get
-        contact.phone should be(Some(ContactDetail(true,Some("1234567890"))))
+        contact.phone should be(Some(ContactDetail(true,Some("1234567890ext123-4"))))
         contact.post should be(false)
         contact.email should be(None)
       }

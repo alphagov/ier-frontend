@@ -9,18 +9,33 @@
             {{{messages.ordinary_address_select_changeYourPostcode_a}}}
         </a>
     </p>
-  {{^hasAddresses}}
+    {{^hasAddresses}}
+    {{^hasAuthority}}
+    <div class="validation-message visible">
+        {{messages.ordinary_address_select_couldNotFindAnyAddresses_p}}
+        <div class="validation-message visible">
+            {{messages.ordinary_address_select_couldNotFindAnyAddresses_c}}
+            {{messages.ordinary_address_select_couldNotFindAnyAddresses_c2}}
+            {{messages.ordinary_address_select_couldNotFindAnyAddresses_c3}}
+        </div>
+    </div>
+    {{/hasAuthority}}
+    {{/hasAddresses}}
+
+    {{^hasAddresses}}
+    {{#hasAuthority}}
     <div class="validation-message visible">
         {{messages.ordinary_address_select_couldNotFindAnyAddresses_p}}
     </div>
-    {{#hasAuthority}}
     <p>
         <a href="{{manualUrl}}" class="button">
             {{messages.ordinary_address_select_enterManually}}
         </a>
     </p>
     {{/hasAuthority}}
-  {{/hasAddresses}}
+    {{/hasAddresses}}
+
+
   {{#hasAddresses}}
     <fieldset>
         <input

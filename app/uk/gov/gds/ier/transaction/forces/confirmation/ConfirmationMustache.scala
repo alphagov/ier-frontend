@@ -137,7 +137,7 @@ trait ConfirmationMustache
     }
 
     def previousName = {
-      val havePreviousName = form(keys.previousName.hasPreviousName).value
+      val havePreviousName = form(keys.previousName.hasPreviousNameOption).value
       val prevNameStr =  havePreviousName match {
         case Some("true") => {
           List(
@@ -146,14 +146,19 @@ trait ConfirmationMustache
             form(keys.previousName.previousName.lastName).value
           ).flatten.mkString(" ")
         }
-        case _ => "I have not changed my name in the last 12 months"
+        case Some("other") => "Prefer not to say"
+        case _ => "I have not changed my name"
       }
       Some(ConfirmationQuestion(
         title = "Previous name",
         editLink = forces.NameStep.routing.editGet.url,
         changeName = "previous name",
         content = ifComplete(keys.previousName) {
-          List(prevNameStr)
+          if (prevNameStr == "") {
+            List("Not provided")
+          } else {
+            List(prevNameStr)
+          }
         }
       ))
     }
@@ -172,8 +177,8 @@ trait ConfirmationMustache
           }
           val ageRange = form(keys.dob.noDob.range).value.map { _ match {
             case "under18" => "I am roughly under 18"
-            case "18to70" => "I am over 18 years old"
-            case "over70" => "I am over 70 years old"
+            case "18to75" => "I am over 18 years old"
+            case "over75" => "I am 76 or over"
             case "dontKnow" => "I don't know my age"
             case _ => ""
           }}

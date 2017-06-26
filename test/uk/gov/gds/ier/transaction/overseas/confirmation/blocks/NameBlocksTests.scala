@@ -91,7 +91,7 @@ class NameBlocksTests
     nameModel.editLink should be("/register-to-vote/overseas/edit/name")
 
     val prevNameModel = confirmation.previousName
-    prevNameModel.content should be(BlockContent("I have not changed my name in the last 12 months"))
+    prevNameModel.content should be(BlockContent("I have not changed my name"))
     prevNameModel.editLink should be("/register-to-vote/overseas/edit/name")
   }
 

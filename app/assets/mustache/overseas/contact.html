@@ -7,7 +7,7 @@
     <fieldset class="validate {{contactFieldSet.classes}}" data-validation-name="contact" data-validation-type="fieldset" data-validation-rules="atLeastOneNonEmpty"
               data-validation-children="post phoneOption emailOption">
 
-        <label class="selectable"  >
+        <label class="selectable {{showEmailFieldFlag.value}}"  >
             <input type="checkbox" id="{{contactEmailCheckbox.id}}" name="{{contactEmailCheckbox.name}}" value="true" {{contactEmailCheckbox.attributes}}
                    class="validate {{contactEmailCheckbox.classes}}" data-validation-name="emailOption"  data-validation-type="field"
                    data-validation-rules="nonEmpty" >Email
@@ -36,8 +36,8 @@
             </label>
             <div class="validation-wrapper">
                 <input type="tel" id="{{contactPhoneText.id}}" name="{{contactPhoneText.name}}" value="{{contactPhoneText.value}}"
-                       autocomplete="off"  class="text  validate {{contactPhoneText.classes}}" data-validation-name="phoneNumber"
-                       data-validation-type="field"  data-validation-rules="nonEmpty" >
+                       autocomplete="off"  maxlength="30" class="text  validate {{contactPhoneText.classes}}" data-validation-name="phoneNumber"
+                       data-validation-type="field"  data-validation-rules="nonEmpty telephone" >
             </div>
         </div>
 

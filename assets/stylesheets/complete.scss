@@ -45,7 +45,7 @@
     }
     h3 {
       @include bold-27;
-      background: url('/assets/images/icon-tick.png') left center no-repeat;
+      background: url('/assets/images/icon-tick.png') left 12% center no-repeat;
     }
 
     p {
@@ -77,6 +77,10 @@
     border-bottom: 1px solid $grey-2;
     padding-bottom: 1.5em;
     margin-bottom: 1.5em;
+  }
+  p.reference-number-small{
+    font-size:15px;
+    padding-left:24px
   }
   div.footnote {
     border-top: 1px solid $grey-2;

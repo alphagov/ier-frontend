@@ -247,7 +247,7 @@ class ConfirmationStepTest extends ControllerTestSuite {
         dob = None,
         noDob = Some(noDOB(
           reason = Some("test reason"),
-          range = Some(DateOfBirthConstants.is18to70)
+          range = Some(DateOfBirthConstants.is18to75)
         ))
       ),
       expectedBuntingFlagValue = false

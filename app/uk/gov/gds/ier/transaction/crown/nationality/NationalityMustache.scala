@@ -19,7 +19,8 @@ trait NationalityMustache extends StepTemplate[InprogressCrown] {
       otherCountries1: Field,
       otherCountries2: Field,
       noNationalityReason: Field,
-      noNationalityReasonShowFlag: String
+      noNationalityReasonShowFlag: String,
+      emailField: Field
   ) extends MustacheData
 
   val mustache = MustacheTemplate("crown/nationality") { (form, postUrl) =>
@@ -28,6 +29,8 @@ trait NationalityMustache extends StepTemplate[InprogressCrown] {
     val title = "What is your nationality?"
 
     val nationalityReason = form(keys.nationality.noNationalityReason).value
+
+    val emailAddress = form(keys.contact.email.detail).value
 
     val nationalityReasonClass = nationalityReason match {
       case Some("") | None => ""
@@ -58,7 +61,11 @@ trait NationalityMustache extends StepTemplate[InprogressCrown] {
       otherCountries1 = TextField(keys.nationality.otherCountries.item(1)),
       otherCountries2 = TextField(keys.nationality.otherCountries.item(2)),
       noNationalityReason = TextField(keys.nationality.noNationalityReason),
-      noNationalityReasonShowFlag = nationalityReasonClass
+      noNationalityReasonShowFlag = nationalityReasonClass,
+      emailField = TextField(
+        key = keys.contact.email.detail,
+        default = emailAddress
+      )
     )
   }
 }

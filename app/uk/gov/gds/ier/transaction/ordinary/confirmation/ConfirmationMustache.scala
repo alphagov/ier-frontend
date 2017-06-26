@@ -2,16 +2,26 @@ package uk.gov.gds.ier.transaction.ordinary.confirmation
 
 import uk.gov.gds.ier.validation.constants.DateOfBirthConstants
 import uk.gov.gds.ier.logging.Logging
-import uk.gov.gds.ier.validation.{Key, ErrorTransformForm}
-import uk.gov.gds.ier.model.{PostalVoteDeliveryMethod, PostalVoteOption, OtherAddress, MovedHouseOption}
+import uk.gov.gds.ier.validation._
+import uk.gov.gds.ier.model._
 import uk.gov.gds.ier.form.AddressHelpers
 import uk.gov.gds.ier.transaction.ordinary.InprogressOrdinary
 import uk.gov.gds.ier.transaction.shared.{BlockContent, BlockError, EitherErrorOrContent}
-import uk.gov.gds.ier.service.WithAddressService
+import uk.gov.gds.ier.service.{WithAddressService, WithScotlandService}
 import uk.gov.gds.ier.guice.WithRemoteAssets
 import uk.gov.gds.ier.form.OrdinaryFormImplicits
 import uk.gov.gds.ier.step.StepTemplate
 import uk.gov.gds.ier.transaction.ordinary.WithOrdinaryControllers
+import uk.gov.gds.ier.transaction.ordinary.InprogressOrdinary
+import uk.gov.gds.ier.transaction.shared.EitherErrorOrContent
+
+import scala.Some
+import uk.gov.gds.ier.validation.Key
+import uk.gov.gds.ier.transaction.ordinary.InprogressOrdinary
+import uk.gov.gds.ier.transaction.shared.EitherErrorOrContent
+import uk.gov.gds.ier.model.DOB
+
+import scala.Some
 
 trait ConfirmationMustache
     extends StepTemplate[InprogressOrdinary] {
@@ -29,7 +39,9 @@ trait ConfirmationMustache
 
   case class ConfirmationModel(
       question: Question,
-      completeApplicantDetails: List[ConfirmationQuestion]
+      completeApplicantDetails: List[ConfirmationQuestion],
+      isYoungScot: Boolean,
+      youngScotMsg: String
   ) extends MustacheData
 
   val mustache = MultilingualTemplate("ordinary/confirmation") { implicit lang => (form, postUrl) =>
@@ -40,12 +52,13 @@ trait ConfirmationMustache
       confirmation.previousName,
       confirmation.dateOfBirth,
       confirmation.nationality,
-      confirmation.nino,
+      confirmation.applicantNino,
       confirmation.address,
       confirmation.secondAddress,
       confirmation.previousAddress,
-      confirmation.openRegister,
+      confirmation.applicantOpenRegister,
       confirmation.postalVote,
+      confirmation.soleOccupancy,
       confirmation.contact
     ).flatten
 
@@ -55,7 +68,9 @@ trait ConfirmationMustache
         postUrl = postUrl.url,
         contentClasses = "confirmation"
       ),
-      completeApplicantDetails = completeApplicantData
+      completeApplicantDetails = completeApplicantData,
+      isYoungScot = isYoungScot(form),
+      youngScotMsg = Messages("ordinary_confirmation_young_scot", DateValidator.getAge(getDOB(form)))
     )
 
   }
@@ -96,7 +111,7 @@ trait ConfirmationMustache
     }
 
     def previousName = {
-      val havePreviousName = form(keys.previousName.hasPreviousName).value
+      val havePreviousName = form(keys.previousName.hasPreviousNameOption).value
       val prevNameStr =  havePreviousName match {
         case Some("true") => {
           List(
@@ -105,6 +120,7 @@ trait ConfirmationMustache
             form(keys.previousName.previousName.lastName).value
           ).flatten.mkString(" ")
         }
+        case Some("other") => Messages("ordinary_confirmation_previousName_other")
         case _ => Messages("ordinary_confirmation_previousName_nameNotChanged")
       }
       Some(ConfirmationQuestion(
@@ -112,7 +128,11 @@ trait ConfirmationMustache
         editLink = ordinary.NameStep.routing.editGet.url,
         changeName = Messages("ordinary_confirmation_previousName_changeName"),
         content = ifComplete(keys.previousName) {
-          List(prevNameStr)
+          if (prevNameStr == "") {
+            List(Messages("ordinary_confirmation_previousName_notProvided"))
+          } else {
+            List(prevNameStr)
+          }
         }
       ))
     }
@@ -130,9 +150,12 @@ trait ConfirmationMustache
             case _ => ""
           }
           val ageRange = form(keys.dob.noDob.range).value match {
+            case Some("14to15") => Messages("ordinary_confirmation_dob_noDOB14to15")
+            case Some("16to17") => Messages("ordinary_confirmation_dob_noDOB16to17")
             case Some("under18") => Messages("ordinary_confirmation_dob_noDOBUnder18")
-            case Some("18to70") => Messages("ordinary_confirmation_dob_noDOB18to70")
-            case Some("over70") => Messages("ordinary_confirmation_dob_noDOBOver70")
+            case Some("over18") => Messages("ordinary_confirmation_dob_noDOBOver18")
+            case Some("18to75") => Messages("ordinary_confirmation_dob_noDOB18to75")
+            case Some("over75") => Messages("ordinary_confirmation_dob_noDOBOver75")
             case Some("dontKnow") => Messages("ordinary_confirmation_dob_noDOBDontKnow")
             case _ => ""
           }
@@ -166,7 +189,7 @@ trait ConfirmationMustache
     }
 
     def nino = {
-      Some(ConfirmationQuestion(
+      ConfirmationQuestion(
         title = Messages("ordinary_confirmation_nino_title"),
         editLink = ordinary.NinoStep.routing.editGet.url,
         changeName = Messages("ordinary_confirmation_nino_changeName"),
@@ -178,7 +201,16 @@ trait ConfirmationMustache
               form(keys.nino.noNinoReason).value.getOrElse(""))
           }
         }
-      ))
+      )
+    }
+
+    def applicantNino : Option[ConfirmationQuestion] = {
+      //IF YOUNG SCOTTISH CITIZEN, SKIP THE NINO CONFIRMATION BLOCK...
+      if (!isYoungScot(form)) {
+        Some(nino)
+      } else {
+        None
+      }
     }
 
     def address = {
@@ -208,8 +240,9 @@ trait ConfirmationMustache
         content =
           ifComplete(keys.otherAddress) {
             form(keys.otherAddress.hasOtherAddress).value match {
-              case Some(secAddrType)
-                if OtherAddress.parse(secAddrType) != OtherAddress.NoOtherAddress =>
+              case Some(secAddrStudent) if OtherAddress.parse(secAddrStudent) == OtherAddress.StudentOtherAddress =>
+                  List(Messages("ordinary_confirmation_secondAddress_student"))
+              case Some(secAddrType) if OtherAddress.parse(secAddrType) != OtherAddress.NoOtherAddress =>
                   List(Messages("ordinary_confirmation_secondAddress_haveAddress"))
               case _ => List(Messages("ordinary_confirmation_secondAddress_dontHaveAddress"))
             }
@@ -251,7 +284,7 @@ trait ConfirmationMustache
     }
 
     def openRegister = {
-      Some(ConfirmationQuestion(
+      ConfirmationQuestion(
         title = Messages("ordinary_confirmation_openRegister_title"),
         editLink = ordinary.OpenRegisterStep.routing.editGet.url,
         changeName = Messages("ordinary_confirmation_openRegister_changeName"),
@@ -262,7 +295,16 @@ trait ConfirmationMustache
             List(Messages("ordinary_confirmation_openRegister_optOut"))
           }
         }
-      ))
+      )
+    }
+
+    def applicantOpenRegister : Option[ConfirmationQuestion] = {
+      //IF YOUNG SCOTTISH CITIZEN, SKIP THE OPEN REGISTER CONFIRMATION BLOCK...
+      if (!isYoungScot(form)) {
+        Some(openRegister)
+      } else {
+        None
+      }
     }
 
     def postalVote = {
@@ -326,6 +368,25 @@ trait ConfirmationMustache
       ))
     }
 
+    def soleOccupancy = {
+      //val soleOccupancyOption = SoleOccupancyOption.parse(form(keys.soleOccupancy.optIn).value.getOrElse(""))
+
+      Some(ConfirmationQuestion(
+        title = if (!isScottish(form)) Messages("ordinary_confirmation_soleOccupancy_title") else Messages("ordinary_confirmation_soleOccupancy_title_scotland"),
+        editLink = ordinary.SoleOccupancyStep.routing.editGet.url,
+        changeName = if (!isScottish(form)) Messages("ordinary_confirmation_soleOccupancy_title") else Messages("ordinary_confirmation_soleOccupancy_title_scotland"),
+        content = ifComplete(keys.soleOccupancy) {
+          SoleOccupancyOption.parse(form(keys.soleOccupancy.optIn).value.getOrElse("")) match {
+            case SoleOccupancyOption.Yes => List(Messages("ordinary_confirmation_soleOccupancy_yes_option"))
+            case SoleOccupancyOption.No => List(Messages("ordinary_confirmation_soleOccupancy_no_option"))
+            case SoleOccupancyOption.NotSure => List(Messages("ordinary_confirmation_soleOccupancy_notSure_option"))
+            case SoleOccupancyOption.SkipThisQuestion => List(Messages("ordinary_confirmation_soleOccupancy_skipThisQuestion_option"))
+            case _ => List(completeThisStepMessage)
+          }
+        }
+      ))
+    }
+
     private def getNationalities: List[String] = {
       val british = form(keys.nationality.british).value
       val irish =form(keys.nationality.irish).value
@@ -368,7 +429,36 @@ trait ConfirmationMustache
       val otherCountries = form.obtainOtherCountriesList
       (isBritish || isIrish || !otherCountries.isEmpty)
     }
-
-
   }
+
+  private def isYoungScot(form: ErrorTransformForm[InprogressOrdinary]): Boolean = {
+    //...IS CITIZEN A YOUNG VOTER?...
+    val isYoung =
+      if (form(keys.dob.dob.day).value.isDefined) {
+        DateValidator.isValidYoungScottishVoter(getDOB(form))
+      } else {
+        false
+      }
+
+    //...ARE THEY BOTH SCOTTISH AND YOUNG??
+    (isScottish(form) && isYoung)
+  }
+
+  private def isScottish(form: ErrorTransformForm[InprogressOrdinary]): Boolean = {
+    if(form(keys.address.postcode).value.isDefined) addressService.isScotAddress(form(keys.address.postcode).value.get)
+    else form(keys.country.residence).value.exists(_.equals("Scotland"))
+  }
+
+  /*
+    Given the current application form object,
+    if DAY/MONTH/YEAR INTs exist, return a formal DOB object of this date...
+    ...else return a dummy 1900 DOB which is never a valid date for a YoungScot anyway.
+   */
+  private def getDOB(form: ErrorTransformForm[InprogressOrdinary]): DOB = {
+    (form(keys.dob.dob.day).value, form(keys.dob.dob.month).value, form(keys.dob.dob.year).value) match {
+      case(Some(day), Some(month), Some(year)) => new DOB(year.toInt, month.toInt, day.toInt)
+      case _ => DOB(1900,1,1)
+    }
+  }
+
 }

@@ -38,9 +38,19 @@ class ExitController @Inject() (
       Ok(ExitPages.NorthernIreland())
   }
 
+  def niOverseas = ClearSession in Action {
+    implicit request =>
+      Ok(ExitPages.Nioverseas())
+  }
+
   def britishIslands = ClearSession in Action {
     implicit request =>
       Ok(ExitPages.BritishIslands())
+  }
+
+  def under16 = ClearSession in Action {
+    implicit request =>
+      Ok(ExitPages.Under16())
   }
 
   def under18 = ClearSession in Action {
@@ -53,9 +63,29 @@ class ExitController @Inject() (
       Ok(ExitPages.TooYoung())
   }
 
+  def tooYoungScotland = ClearSession in Action {
+    implicit request =>
+      Ok(ExitPages.TooYoungScotland())
+  }
+
+  def tooYoungNotScotland14 = ClearSession in Action {
+    implicit request =>
+      Ok(ExitPages.TooYoungNotScotland14())
+  }
+
+  def tooYoungNotScotland15 = ClearSession in Action {
+    implicit request =>
+      Ok(ExitPages.TooYoungNotScotland15())
+  }
+
   def dontKnow = ClearSession in Action {
     implicit request =>
       Ok(ExitPages.DontKnow())
+  }
+
+  def dontKnowScotland = ClearSession in Action {
+    implicit request =>
+      Ok(ExitPages.DontKnowScotland())
   }
 
   def noFranchise = ClearSession in Action {

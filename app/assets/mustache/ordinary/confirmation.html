@@ -2,6 +2,9 @@
   <header>
     <h1>{{messages.ordinary_confirmation_title}}</h1>
   </header>
+    {{#isYoungScot}}
+        <p>{{youngScotMsg}}</p>
+    {{/isYoungScot}}
 
     {{#completeApplicantDetails}}
     <div>
@@ -25,10 +28,16 @@
     <div class="notice">
         <h2>{{messages.ordinary_confirmation_help_h2}}</h2>
         <p>{{messages.ordinary_confirmation_help_p1}}</p>
-        <p>{{messages.ordinary_confirmation_help_p2}}</p>
-        <div class="warning">
-            <p>{{messages.ordinary_confirmation_help_p3}}</p>
-        </div>
+
+        {{^isYoungScot}}
+            <p>{{messages.ordinary_confirmation_help_p2}}</p>
+            <div class="warning">
+                <p>{{messages.ordinary_confirmation_help_p3}}</p>
+            </div>
+        {{/isYoungScot}}
+        {{#isYoungScot}}
+            <p>{{messages.ordinary_confirmation_help_youngScot}}</p>
+        {{/isYoungScot}}
     </div>  
   
 </article>

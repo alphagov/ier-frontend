@@ -100,7 +100,7 @@ class ContactMustacheTests
           Contact(
             post = false,
             email = None,
-            phone = Some(ContactDetail(true, Some("1234567890")))
+            phone = Some(ContactDetail(true, Some("1234567890ext123")))
           )
         )
       )
@@ -119,7 +119,7 @@ class ContactMustacheTests
     contactModel.contactEmailCheckbox.attributes should be("")
     contactModel.contactEmailText.value should be("")
     contactModel.contactPhoneCheckbox.attributes should be("checked=\"checked\"")
-    contactModel.contactPhoneText.value should be("1234567890")
+    contactModel.contactPhoneText.value should be("1234567890ext123")
     contactModel.contactPostCheckbox.attributes should be("")
   }
 
@@ -130,7 +130,7 @@ class ContactMustacheTests
           Contact(
             post = true,
             email = None,
-            phone = Some(ContactDetail(true, Some("1234567890")))
+            phone = Some(ContactDetail(true, Some("(+44) 123456 7890")))
           )
         )
       )
@@ -149,7 +149,7 @@ class ContactMustacheTests
     contactModel.contactEmailCheckbox.attributes should be("")
     contactModel.contactEmailText.value should be("")
     contactModel.contactPhoneCheckbox.attributes should be("checked=\"checked\"")
-    contactModel.contactPhoneText.value should be("1234567890")
+    contactModel.contactPhoneText.value should be("(+44) 123456 7890")
     contactModel.contactPostCheckbox.attributes should be("checked=\"checked\"")
   }
 

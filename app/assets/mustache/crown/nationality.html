@@ -1,7 +1,27 @@
-<form action="{{question.postUrl}}" method="POST"
+<form onsubmit= "TrackEvent()"
+      action="{{question.postUrl}}" method="POST"
       data-validation-name="nationality" data-validation-type="association"
       data-validation-rules="fieldsetOrExcuse" class="validate"
       data-validation-members="country nationalityExcuse">
+
+    <script>
+    var onLoadValue;
+
+    window.onload = function CurrentEmail(){
+    onLoadValue = document.getElementById("{{emailField.id}}").value;
+    }
+
+    function TrackEvent(){
+    var onSubmitValue = document.getElementById("{{emailField.id}}").value;
+    if (onSubmitValue !== onLoadValue)
+        {ga('send', {
+          hitType: 'event',
+          eventCategory: 'Email Address Collection',
+          eventAction: 'Nationality Email',
+          eventLabel: 'Nationality - Email Address Provided'
+        });}
+    }
+    </script>
 
     {{> shared/questionHeader }}
 
@@ -125,7 +145,7 @@
         <p>If you can’t confirm your nationality, you'll need to explain
             why. And after you've applied, you'll be asked to prove your
             identity by sending documents in the post (or providing them
-            in person).</p>
+            in person). This could delay your name getting on the electoral register.</p>
         <div class="optional-section optional-section{{noNationalityReasonShowFlag}}"
              data-toggle-text="{{messages.ordinary_nationality_help_heading_2}}"
              id="nationality-provision">
@@ -141,12 +161,17 @@
                       data-validation-rules="nonEmpty"
                       maxlength="500"
                       autocomplete="off" >{{noNationalityReason.value}}</textarea>
+            <p>It will be easier to contact you if you provide your email address (optional)</p>
+            <input type="email" id="{{emailField.id}}" name="{{emailField.name}}"
+                   value="{{emailField.value}}" autocomplete="off"
+                   class="text  long validate {{emailField.classes}}" data-validation-name="emailAddress"
+                   data-validation-type="field" data-validation-rules="emailCanBeEmpty">
         </div>
     </div>
     <button type="submit"
             id="continue"
             class="button next validation-submit"
-            data-validation-sources="nationality">
+            data-validation-sources="nationality emailAddress">
         Continue
     </button>
 </form>
