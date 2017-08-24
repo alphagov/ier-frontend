@@ -2,7 +2,7 @@
 
 This is the Individual Electoral Registration (aka ERTP) Frontend app. The point of it is to provide a simple Register to Vote form to the public. 
 
-### Depedencies
+### Dependencies
 
 To run this app you will need;
 
@@ -11,7 +11,7 @@ To run this app you will need;
  - Sass.
  - Bundler.
 
-All other depedencies (Play framework, Scala, sbt, etc) will be installed as part of the `sbt` start script.
+All other dependencies (Play framework, Scala, sbt, etc) will be installed as part of the `sbt` start script.
 
 ### Bootstrap project and run the service
 
@@ -84,7 +84,7 @@ Testing for the ier-frontend project is via the sbt command line as follows...
 
  3. Or just `./sbt test`
 
- **NB : Make sure you follow the Bootstrap Step 5 above to make the /var/log/ier/ folder locally wriateable.**
+ **NB : Make sure you follow the Bootstrap Step 5 above to make the /var/log/ier/ folder locally writable.**
 
  **NB : To run a specific test rather than all of them  "test-only FULL_PATH_OF_TEST_CLASS"**
 
