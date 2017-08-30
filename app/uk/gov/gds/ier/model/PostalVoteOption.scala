@@ -7,7 +7,7 @@ object PostalVoteOption extends ModelMapping {
 
   val Yes = PostalVoteOption(true, "yes", true)
   val NoAndVoteInPerson = PostalVoteOption(false, "no-vote-in-person", false)
-  val NoAndAlreadyHave = PostalVoteOption(false, "no-already-have", true)
+  val NoAndAlreadyHave = PostalVoteOption(false, "no-already-have", false)
 
   val Unknown = PostalVoteOption(false, "unknown", false)
 
