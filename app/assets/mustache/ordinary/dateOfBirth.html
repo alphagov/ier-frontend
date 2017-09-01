@@ -2,8 +2,8 @@
       action="{{question.postUrl}}" method="POST"
       data-validation-name="dateOfBirth"
       data-validation-type="association"
-      data-validation-rules="dateOfBirthOrExcuse" 
-      data-validation-members="dateOfBirthDate dateOfBirthExcuse"
+      data-validation-rules="dateOfBirthOrExcuse"
+      data-validation-members="dateOfBirthDate dateOfBirthExcuseReason excuseAgeAttempt"
       class="validate">
 
     <script>
@@ -77,17 +77,17 @@
     <button type="submit" id="alt-continue"
             class="button next validation-submit"
             data-validation-sources="dateOfBirth">{{messages.step_continue}}</button>
-    <div class="help-content help-content{{noDobReasonShowFlag.value}}" data-toggle-text="{{messages.ordinary_dob_help_link}}">
+
+    <div class="help-content help-content{{noDobReasonShowFlag.value}}"
+         data-toggle-text="{{messages.ordinary_dob_help_link}}">
         <h3>{{messages.ordinary_dob_help_link}}</h3>
         <p>{{messages.ordinary_dob_help_content_1}}</p>
         <p>{{messages.ordinary_dob_help_content_2}}</p>
 
-        <div class="optional-section validate optional-section{{noDobReasonShowFlag.value}}"
+
+        <div class="optional-section optional-section{{noDobReasonShowFlag.value}}"
              id="no-date-of-birth"
-             data-toggle-text="{{messages.ordinary_dob_help_cannotProvideDOB_link}}"
-             data-validation-name="dateOfBirthExcuse" data-validation-type="fieldset"
-             data-validation-rules="allNonEmpty"
-             data-validation-children="dateOfBirthExcuseReason excuseAgeAttempt">
+             data-toggle-text="{{messages.ordinary_dob_help_cannotProvideDOB_link}}">
 
            <h3>{{messages.ordinary_dob_help_cannotProvideDOB_link}}</h3>
            <label for="{{noDobReason.id}}" class=""  >
@@ -106,7 +106,7 @@
             <fieldset class="validate {{rangeFieldSet.classes}}"
                       data-validation-name="excuseAgeAttempt"
                       data-validation-type="fieldset"
-                      data-validation-rules="radioNonEmpty"
+                      data-validation-rules="atLeastOneNonEmpty"
                       data-validation-children="excuseUnder18 excuse18to75 excuseOver75 excuse14to15 excuse16to17 excuseOver18 excuseDontKnow">
 
                 <p>{{messages.ordinary_dob_help_cannotProvideDOB_ageGroupQuestion}}</p>
