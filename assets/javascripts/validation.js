@@ -1531,11 +1531,14 @@
                         var memberFields = validation.fields.getNames(this.members),
                             dateOfBirthField = memberFields[0],
                             excuseField = memberFields[1],
+                            ageField = memberFields[2],
                             dateOfBirthInvalidRules = validation.applyRules(dateOfBirthField),
                             excuseInvalidRules = validation.applyRules(excuseField),
+                            ageInvalidRules = validation.applyRules(ageField),
                             _fieldIsShowing,
                             _entryInDateOfBirth,
                             _entryInExcuse;
+
 
                         _fieldIsShowing = function (fieldObj) {
                             return !fieldObj.$source.is(':hidden');
@@ -1546,15 +1549,16 @@
                         };
 
                         _entryInExcuse = function () {
-                            return excuseInvalidRules.length < 2;
+                            return excuseInvalidRules.length < 1;
                         };
 
                         if (!_entryInDateOfBirth()) {
+                            console.log("entry in DOB");
                             if ((!_fieldIsShowing(excuseField)) && (!_entryInExcuse())) {
                                 return dateOfBirthInvalidRules;
-                            } else {
+                            } else if ((_fieldIsShowing(excuseField)) && (!_entryInExcuse())) {
                                 return excuseInvalidRules;
-                            }
+                            } else return ageInvalidRules;
                         } else {
                             return dateOfBirthInvalidRules;
                         }
