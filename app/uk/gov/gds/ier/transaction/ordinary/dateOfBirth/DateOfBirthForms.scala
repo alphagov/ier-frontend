@@ -26,9 +26,11 @@ trait DateOfBirthForms {
       .verifying("ordinary_dob_error_invalidYear", year => year.isEmpty || year.matches("\\d+")),
     keys.month.key -> text
       .verifying("ordinary_dob_error_enterMonth", _.nonEmpty)
-      .verifying("ordinary_dob_error_invalidMonth", month => month.isEmpty || (month.toInt.>(0) && month.toInt.<(13))),
+      .verifying("ordinary_dob_error_invalidMonth", month => month.isEmpty || month.matches("\\d+"))
+      .verifying("ordinary_dob_error_invalidMonth", month => month.toInt.>(0) && month.toInt.<(13)),
     keys.day.key -> text
       .verifying("ordinary_dob_error_enterDay", _.nonEmpty)
+      .verifying("ordinary_dob_error_invalidDay", day => day.isEmpty || day.matches("\\d+"))
       .verifying("ordinary_dob_error_invalidDay", day => day.isEmpty || (day.toInt.>(0) && day.toInt.<(32)))
   ) {
     (year, month, day) => DOB(year.toInt, month.toInt, day.toInt)
