@@ -21,10 +21,10 @@ trait DateOfBirthForms extends DateOfBirthForcesConstraints {
       .verifying("The year you provided is invalid", year => year.isEmpty || year.matches("\\d+")),
     keys.month.key -> text
       .verifying("Please enter your month of birth", _.nonEmpty)
-      .verifying("The month you provided is invalid", month => month.isEmpty || month.matches("\\d+")),
+      .verifying("The month you provided is invalid", month => month.isEmpty || (month.toInt.>(0) && month.toInt.<(13))),
     keys.day.key -> text
       .verifying("Please enter your day of birth", _.nonEmpty)
-      .verifying("The day you provided is invalid", day => day.isEmpty || day.matches("\\d+"))
+      .verifying("The day you provided is invalid", day => day.isEmpty || (day.toInt.>(0) && day.toInt.<(32)))
   ) {
     (year, month, day) => DOB(year.toInt, month.toInt, day.toInt)
   } {
