@@ -14,25 +14,36 @@ import uk.gov.gds.ier.model.Contact
 import uk.gov.gds.ier.transaction.ordinary.InprogressOrdinary
 import uk.gov.gds.ier.model.DOB
 import scala.Some
+import scala.util.Try
 import uk.gov.gds.ier.model.noDOB
 
 trait DateOfBirthForms {
     self:  FormKeys
       with ErrorMessages =>
 
+  def toIntFromString(s: String):Option[Int] = {
+    try {
+      Some(s.toInt)
+    } catch {
+      case e: NumberFormatException => None
+    }
+  }
+
+
   lazy val dobMapping = mapping(
+
     keys.year.key -> text
       .verifying("ordinary_dob_error_enterYear", _.nonEmpty)
       .verifying("ordinary_dob_error_invalidYear", year => year.isEmpty || year.matches("\\d+")),
     keys.month.key -> text
       .verifying("ordinary_dob_error_enterMonth", _.nonEmpty)
-      .verifying("ordinary_dob_error_invalidMonth", month => month.isEmpty || month.matches("\\d+"))
-      .verifying("ordinary_dob_error_invalidMonth", month => month.toInt.>(0) && month.toInt.<(13)),
+      .verifying("ordinary_dob_error_invalidMonth", month =>  month.isEmpty || month.matches("\\d+"))
+      .verifying("ordinary_dob_error_invalidMonth", month => toIntFromString(month).getOrElse(0) > 0 && toIntFromString(month).getOrElse(0) < 13),
     keys.day.key -> text
       .verifying("ordinary_dob_error_enterDay", _.nonEmpty)
       .verifying("ordinary_dob_error_invalidDay", day => day.isEmpty || day.matches("\\d+"))
-      .verifying("ordinary_dob_error_invalidDay", day => day.isEmpty || (day.toInt.>(0) && day.toInt.<(32)))
-  ) {
+      .verifying("ordinary_dob_error_invalidDay", day => toIntFromString(day).getOrElse(0) > 0 && toIntFromString(day).getOrElse(0) < 32)
+      ) {
     (year, month, day) => DOB(year.toInt, month.toInt, day.toInt)
   } {
     dateOfBirth => 
