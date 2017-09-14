@@ -53,11 +53,13 @@ class DateOfBirthFormTests
     )
     dateOfBirthForm.bind(js).fold(
       hasErrors => {
-        hasErrors.errors.size should be(4)
+        hasErrors.errors.size should be(6)
         hasErrors.errorMessages("dob.dob.year") should be(Seq("Please enter your year of birth"))
-        hasErrors.errorMessages("dob.dob.month") should be(Seq("Please enter your month of birth"))
+        hasErrors.errorMessages("dob.dob.month") should be(Seq("Please enter your month of birth","The month you provided is invalid"))
         hasErrors.globalErrorMessages should be(Seq("Please enter your year of birth",
-          "Please enter your month of birth"))
+          "Please enter your month of birth",
+          "The month you provided is invalid"
+          ))
       },
       success => fail("Should have errored out.")
     )
@@ -73,11 +75,13 @@ class DateOfBirthFormTests
     )
     dateOfBirthForm.bind(js).fold(
       hasErrors => {
-        hasErrors.errors.size should be(4)
-        hasErrors.errorMessages("dob.dob.day") should be(Seq("Please enter your day of birth"))
-        hasErrors.errorMessages("dob.dob.month") should be(Seq("Please enter your month of birth"))
+        hasErrors.errors.size should be(8)
+        hasErrors.errorMessages("dob.dob.day") should be(Seq("Please enter your day of birth","The day you provided is invalid"))
+        hasErrors.errorMessages("dob.dob.month") should be(Seq("Please enter your month of birth","The month you provided is invalid"))
         hasErrors.globalErrorMessages should be(Seq("Please enter your month of birth",
-          "Please enter your day of birth"))
+          "The month you provided is invalid",
+          "Please enter your day of birth",
+          "The day you provided is invalid"))
       },
       success => fail("Should have errored out.")
     )
@@ -185,12 +189,12 @@ class DateOfBirthFormTests
     )
     dateOfBirthForm.bind(js).fold(
       hasErrors => {
-        hasErrors.errors.size should be(6)
+        hasErrors.errors.size should be(10)
         hasErrors.errorMessages("dob.dob.day") should be(
-          Seq("The day you provided is invalid")
+          Seq("The day you provided is invalid","The day you provided is invalid")
         )
         hasErrors.errorMessages("dob.dob.month") should be(
-          Seq("The month you provided is invalid")
+          Seq("The month you provided is invalid","The month you provided is invalid")
         )
         hasErrors.errorMessages("dob.dob.year") should be(
           Seq("The year you provided is invalid")
@@ -198,6 +202,8 @@ class DateOfBirthFormTests
         hasErrors.globalErrorMessages should be(Seq(
           "The year you provided is invalid",
           "The month you provided is invalid",
+          "The month you provided is invalid",
+          "The day you provided is invalid",
           "The day you provided is invalid"))
       },
       success => fail("Should have errored out")

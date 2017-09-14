@@ -153,6 +153,7 @@
             <label for="{{noNationalityReason.id}}">
                 Why can't you provide your nationality?
             </label>
+            <div class="validation-wrapper">
             <textarea name="{{noNationalityReason.name}}"
                       id="{{noNationalityReason.id}}"
                       class="{{noNationalityReason.classes}} small validate"
@@ -161,11 +162,14 @@
                       data-validation-rules="nonEmpty"
                       maxlength="500"
                       autocomplete="off" >{{noNationalityReason.value}}</textarea>
+            </div>
             <p>It will be easier to contact you if you provide your email address (optional)</p>
+            <div class="validation-wrapper">
             <input type="email" id="{{emailField.id}}" name="{{emailField.name}}"
                    value="{{emailField.value}}" autocomplete="off"
                    class="text  long validate {{emailField.classes}}" data-validation-name="emailAddress"
                    data-validation-type="field" data-validation-rules="emailCanBeEmpty">
+            </div>
         </div>
     </div>
     <button type="submit"

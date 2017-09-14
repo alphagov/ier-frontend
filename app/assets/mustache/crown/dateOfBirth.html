@@ -3,7 +3,7 @@
       data-validation-name="dateOfBirth"
       data-validation-type="association"
       data-validation-rules="dateOfBirthOrExcuse" 
-      data-validation-members="dateOfBirthDate dateOfBirthExcuse"
+      data-validation-members="dateOfBirthDate dateOfBirthExcuseReason excuseAgeAttempt"
       class="validate">
 
     <script>
@@ -88,10 +88,7 @@
 
         <div class="optional-section validate optional-section{{noDobReasonShowFlag.value}}"
              id="no-date-of-birth"
-             data-toggle-text="I can't provide my date of birth"
-             data-validation-name="dateOfBirthExcuse" data-validation-type="fieldset"
-             data-validation-rules="allNonEmpty"
-             data-validation-children="dateOfBirthExcuseReason excuseAgeAttempt">
+             data-toggle-text="I can't provide my date of birth">
 
            <h3>I can't provide my date of birth</h3>
            <label for="{{noDobReason.id}}" class=""  >
@@ -110,7 +107,7 @@
             <fieldset class="validate {{rangeFieldSet.classes}}"
                       data-validation-name="excuseAgeAttempt"
                       data-validation-type="fieldset"
-                      data-validation-rules="radioNonEmpty"
+                      data-validation-rules="atLeastOneNonEmpty"
                       data-validation-children="excuseUnder18 excuse18to75 excuseOver75 excuseDontKnow">
 
                 <p>How old are you?</p>
