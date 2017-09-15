@@ -23,6 +23,8 @@ trait NinoMustache extends StepTemplate[InprogressCrown] {
 
     val title = "What is your National Insurance number?"
 
+    val newQuestion = "www.gov.uk/register-to-vote - What is your National Insurance number?"
+
     val emailAddress = form(keys.contact.email.detail).value
 
     NinoModel(

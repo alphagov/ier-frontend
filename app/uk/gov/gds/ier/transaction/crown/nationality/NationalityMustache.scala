@@ -26,7 +26,8 @@ trait NationalityMustache extends StepTemplate[InprogressCrown] {
   val mustache = MustacheTemplate("crown/nationality") { (form, postUrl) =>
     implicit val progressForm = form
 
-    val title = "What is your nationality?"
+    val title = "www.gov.uk/register-to-vote - What is your nationality?"
+    val newQuestion = "What is your nationality?"
 
     val nationalityReason = form(keys.nationality.noNationalityReason).value
 
@@ -41,7 +42,8 @@ trait NationalityMustache extends StepTemplate[InprogressCrown] {
       question = Question(
         postUrl = postUrl.url,
         errorMessages = form.globalErrors.map{ _.message },
-        title = title
+        title = title,
+        newQuestion = newQuestion
       ),
       nationality = FieldSet(keys.nationality),
       britishOption = CheckboxField(

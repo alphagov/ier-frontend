@@ -19,6 +19,12 @@ trait JobMustache extends StepTemplate[InprogressCrown] {
     implicit val progressForm = form
 
     val title = if (application.displayPartner) {
+      "www.gov.uk/register-to-vote - What is your partner's role?"
+    } else {
+      "www.gov.uk/register-to-vote - What is your role?"
+    }
+
+    val newQuestion = if (application.displayPartner) {
       "What is your partner's role?"
     } else {
       "What is your role?"
@@ -28,7 +34,8 @@ trait JobMustache extends StepTemplate[InprogressCrown] {
       question = Question(
         postUrl = post.url,
         errorMessages = form.globalErrors.map{ _.message },
-        title = title
+        title = title,
+        newQuestion = newQuestion
       ),
       jobTitle = TextField(
         key = keys.job.jobTitle

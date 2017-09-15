@@ -86,8 +86,9 @@ trait AddressSelectMustache extends StepTemplate[InprogressOrdinary] {
     SelectModel(
       question = Question(
         postUrl = post.url,
-        title = Messages("ordinary_address_postcode_title"),
-        errorMessages = Messages.translatedGlobalErrors(form)
+        title = Messages("title") +" "+ Messages("ordinary_address_postcode_title"),
+        errorMessages = Messages.translatedGlobalErrors(form),
+        newQuestion = Messages("ordinary_address_postcode_title")
       ),
       lookupUrl = routes.AddressStep.get.url,
       manualUrl = routes.AddressManualStep.get.url,

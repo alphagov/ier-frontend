@@ -34,7 +34,8 @@ trait PostalOrProxyVoteMustache extends StepTemplate[InprogressCrown] {
       case _ => ""
     }
 
-    val title = s"Do you want us to send you a $wayToVoteName vote application form?"
+    val title = s"www.gov.uk/register-to-vote - Do you want us to send you a $wayToVoteName vote application form?"
+    val newQuestion = s"Do you want us to send you a $wayToVoteName vote application form?"
 
       val emailAddress = form(keys.contact.email.detail).value
 
@@ -42,7 +43,8 @@ trait PostalOrProxyVoteMustache extends StepTemplate[InprogressCrown] {
       question = Question(
         postUrl = postUrl.url,
         errorMessages = form.globalErrors.map{ _.message },
-        title = title
+        title = title,
+        newQuestion = newQuestion
       ),
       description = Text (
           value = s"If this is your first time using a $wayToVoteName"

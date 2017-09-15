@@ -31,6 +31,7 @@ trait InheritedGovukMustache extends StepMustache {
     val pageTitle = ""
     val contentClasses = ""
     val sourcePath = ""
+    val newQuestion = ""
 
     val headerClass = "with-proposition"
     def messagesPath = remoteAssets.messages(htmlLang).url

@@ -13,12 +13,14 @@ trait OpenRegisterMustache extends StepTemplate[InprogressCrown] {
 
   val mustache = MustacheTemplate("crown/openRegister") { (form, post) =>
     implicit val progressForm = form
-    val title = "Do you want to include your name and address on the open register?"
+    val title = "www.gov.uk/register-to-vote - Do you want to include your name and address on the open register?"
+    val newQuestion = "Do you want to include your name and address on the open register?"
     OpenRegisterModel(
       question = Question(
         postUrl = post.url,
         errorMessages = form.globalErrors.map{ _.message },
-        title = title
+        title = title,
+        newQuestion = newQuestion
       ),
       openRegister = CheckboxField (
         key = keys.openRegister.optIn,

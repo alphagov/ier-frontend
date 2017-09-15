@@ -28,9 +28,10 @@ trait CountryMustache extends StepTemplate[InprogressOrdinary] {
 
     CountryModel(
       question = Question(
-        title = Messages("ordinary_country_heading"),
+        title = Messages("title") +" "+ Messages("ordinary_country_heading"),
         postUrl = post.url,
-        errorMessages = Messages.translatedGlobalErrors(form)
+        errorMessages = Messages.translatedGlobalErrors(form),
+        newQuestion = Messages("ordinary_country_heading")
       ),
       countries = countriesFieldSet,
       england = RadioField(keys.country.residence, "England"),

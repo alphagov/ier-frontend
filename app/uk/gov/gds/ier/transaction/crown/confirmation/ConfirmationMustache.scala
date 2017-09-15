@@ -58,7 +58,7 @@ trait ConfirmationMustache
 
     ConfirmationModel(
       question = Question(
-        title = "Confirm your details - Register to vote",
+        title = "www.gov.uk/register-to-vote - Confirm your details",
         postUrl = post.url,
         contentClasses = "confirmation"
       ),

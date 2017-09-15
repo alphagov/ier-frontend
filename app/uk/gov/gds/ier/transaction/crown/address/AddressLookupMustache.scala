@@ -9,6 +9,13 @@ trait AddressLookupMustache extends StepTemplate[InprogressCrown] {
 
   private def pageTitle(hasAddress: Option[String]): String = {
     HasAddressOption.parse(hasAddress.getOrElse("")) match{
+      case HasAddressOption.YesAndLivingThere | HasAddressOption.YesAndNotLivingThere => "www.gov.uk/register-to-vote - What is your UK address?"
+      case _ => "www.gov.uk/register-to-vote - What was your last UK address?"
+    }
+  }
+
+  private def pageQuestion(hasAddress: Option[String]): String = {
+    HasAddressOption.parse(hasAddress.getOrElse("")) match{
       case HasAddressOption.YesAndLivingThere | HasAddressOption.YesAndNotLivingThere => "What is your UK address?"
       case _ => "What was your last UK address?"
     }
@@ -24,11 +31,13 @@ trait AddressLookupMustache extends StepTemplate[InprogressCrown] {
     implicit val progressForm = form
 
     val title = pageTitle(form(keys.hasAddress).value)
+    val newQuestion = pageQuestion(form(keys.hasAddress).value)
 
     LookupModel(
       question = Question(
         postUrl = postUrl.url,
         title = title,
+        newQuestion = newQuestion,
         errorMessages = form.globalErrors.map(_.message)
       ),
       postcode = Field(

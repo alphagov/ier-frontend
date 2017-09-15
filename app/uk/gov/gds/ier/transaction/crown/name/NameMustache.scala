@@ -19,7 +19,8 @@ trait NameMustache extends StepTemplate[InprogressCrown] {
       previousLastName: Field
   ) extends MustacheData
 
-  val pageTitle = "What is your full name?"
+  val pageTitle = "www.gov.uk/register-to-vote - What is your full name?"
+  val newQuestion = "What is your full name?"
 
   val mustache = MustacheTemplate("crown/name") { (form, postUrl) =>
     implicit val progressForm = form
@@ -27,6 +28,7 @@ trait NameMustache extends StepTemplate[InprogressCrown] {
       question = Question(
         postUrl = postUrl.url,
         title = pageTitle,
+        newQuestion = newQuestion,
         errorMessages = form.globalErrors.map ( _.message )
       ),
 

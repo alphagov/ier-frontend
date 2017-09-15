@@ -6,7 +6,8 @@ import uk.gov.gds.ier.model.HasAddressOption
 
 trait AddressFirstMustache extends StepTemplate[InprogressCrown] {
 
-  val pageTitle = "Do you have a UK address?"
+  val pageTitle = "www.gov.uk/register-to-vote - Do you have a UK address?"
+  val newQuestion = "Do you have a UK address?"
 
   case class AddressFirstModel(
     question: Question,
@@ -22,6 +23,7 @@ trait AddressFirstMustache extends StepTemplate[InprogressCrown] {
       question = Question(
         postUrl = postUrl.url,
         title = pageTitle,
+        newQuestion = newQuestion,
         errorMessages = form.globalErrors.map { _.message }),
       hasAddressYesAndLivingThere = RadioField(
         key = keys.address.hasAddress,

@@ -20,8 +20,9 @@ trait OtherAddressMustache extends StepTemplate[InprogressOrdinary] {
     OtherAddressModel(
       question = Question(
         postUrl = post.url,
-        title = Messages("ordinary_otheraddr_title"),
-        errorMessages = Messages.translatedGlobalErrors(form)
+        title = Messages("title") +" "+ Messages("ordinary_otheraddr_title"),
+        errorMessages = Messages.translatedGlobalErrors(form),
+        newQuestion = Messages("ordinary_otheraddr_title")
       ),
       hasOtherAddress = FieldSet(
         classes = if (form(keys.otherAddress).hasErrors) "invalid" else ""

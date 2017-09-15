@@ -16,7 +16,8 @@ trait StatementMustache extends StepTemplate[InprogressCrown] {
       councilPartner: Field
   ) extends MustacheData
 
-  val title = "Which of these statements applies to you?"
+  val title = "www.gov.uk/register-to-vote - Which of these statements applies to you?"
+  val newQuestion = "Which of these statements applies to you?"
 
   val mustache = MustacheTemplate("crown/statement") { (form, post) =>
     implicit val progressForm = form
@@ -25,7 +26,8 @@ trait StatementMustache extends StepTemplate[InprogressCrown] {
       question = Question(
         postUrl = post.url,
         errorMessages = form.globalErrors.map { _.message },
-        title = title
+        title = title,
+        newQuestion = newQuestion
       ),
       crown = Field(
         id = "crown" + keys.statement.key,

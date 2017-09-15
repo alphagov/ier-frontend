@@ -7,7 +7,7 @@ service_header_ordinary=Cofrestru i bleidleisio
 service_footer_contactEro=Cysylltwch â'ch Swyddfa Gofrestru Etholiadol leol
 service_footer_forHelp=am help i ddefnyddio'r gwasanaeth hwn
 service_footer_supportLinks=Cysylltiadau cymorth
-
+title=www.gov.uk/cofrestru-i-bleidleisio -
 
 #general
 step_of=o
