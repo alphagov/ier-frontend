@@ -7,6 +7,7 @@ trait ParentsAddressManualMustache extends StepTemplate[InprogressOverseas] {
   self: WithOverseasControllers =>
 
   val title = "What was your parent or guardian's last UK address?"
+  val newQuestion = "www.gov.uk/register-to-vote - What was your parent or guardian's last UK address?"
   val questionNumber = ""
 
   case class ManualModel (
@@ -27,6 +28,7 @@ trait ParentsAddressManualMustache extends StepTemplate[InprogressOverseas] {
       question = Question(
         postUrl = post.url,
         title = title,
+        newQuestion = newQuestion,
         errorMessages = progressForm.globalErrors.map(_.message)
       ),
       lookupUrl = overseas.ParentsAddressStep.routing.get.url,

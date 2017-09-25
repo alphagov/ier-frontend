@@ -17,7 +17,7 @@ class PreviousNameMustacheTest
       InprogressOverseas()
     ).asInstanceOf[PreviousNameModel]
 
-    previousNameModel.question.title should be("What was your name when you left the UK?")
+    previousNameModel.question.title should be("www.gov.uk/register-to-vote - What was your name when you left the UK?")
     previousNameModel.question.postUrl should be("/register-to-vote/overseas/previous-name")
 
     previousNameModel.previousFirstName.value should be("")
@@ -45,7 +45,7 @@ class PreviousNameMustacheTest
       InprogressOverseas()
     ).asInstanceOf[PreviousNameModel]
 
-    previousNameModel.question.title should be("What was your name when you left the UK?")
+    previousNameModel.question.title should be("www.gov.uk/register-to-vote - What was your name when you left the UK?")
     previousNameModel.question.postUrl should be("/register-to-vote/overseas/previous-name")
 
     previousNameModel.previousFirstName.value should be("Jan")
