@@ -24,7 +24,9 @@ trait DateOfBirthMustache extends StepTemplate[InprogressForces] {
   val mustache = MustacheTemplate("forces/dateOfBirth") { (form, post) =>
     implicit val progressForm = form
 
-    val title = "What is your date of birth?"
+    val title = "www.gov.uk/register-to-vote - What is your date of birth?"
+
+    val newQuestion = "What is your date of birth?"
 
     val emailAddress = form(keys.contact.email.detail).value
 
@@ -32,7 +34,8 @@ trait DateOfBirthMustache extends StepTemplate[InprogressForces] {
       question = Question(
         postUrl = post.url,
         errorMessages = form.globalErrors.map{ _.message },
-        title = title
+        title = title,
+        newQuestion = newQuestion
       ),
       day = TextField(
         key = keys.dob.dob.day

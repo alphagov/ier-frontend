@@ -23,7 +23,7 @@ class ForcesPostalOrProxyVoteMustacheTest
       InprogressForces()
     ).asInstanceOf[PostalOrProxyVoteModel]
 
-    postalOrProxyVoteModel.question.title should be("Do you want us to send you a postal vote application form?")
+    postalOrProxyVoteModel.question.title should be("www.gov.uk/register-to-vote - Do you want us to send you a postal vote application form?")
     postalOrProxyVoteModel.question.postUrl should be("/register-to-vote/forces/postal-vote")
 
     postalOrProxyVoteModel.description.value should be(
@@ -55,7 +55,7 @@ class ForcesPostalOrProxyVoteMustacheTest
       InprogressForces()
     ).asInstanceOf[PostalOrProxyVoteModel]
 
-    postalOrProxyVoteModel.question.title should be("Do you want us to send you a postal vote application form?")
+    postalOrProxyVoteModel.question.title should be("www.gov.uk/register-to-vote - Do you want us to send you a postal vote application form?")
     postalOrProxyVoteModel.question.postUrl should be("/register-to-vote/forces/postal-vote")
 
     postalOrProxyVoteModel.description.value should be(
@@ -88,7 +88,7 @@ class ForcesPostalOrProxyVoteMustacheTest
       InprogressForces()
     ).asInstanceOf[PostalOrProxyVoteModel]
 
-    postalOrProxyVoteModel.question.title should be("Do you want us to send you a postal vote application form?")
+    postalOrProxyVoteModel.question.title should be("www.gov.uk/register-to-vote - Do you want us to send you a postal vote application form?")
     postalOrProxyVoteModel.question.postUrl should be("/register-to-vote/forces/postal-vote")
 
     postalOrProxyVoteModel.description.value should be(

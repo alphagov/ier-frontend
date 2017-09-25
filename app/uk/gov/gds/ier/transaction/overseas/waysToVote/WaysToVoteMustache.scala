@@ -5,7 +5,9 @@ import uk.gov.gds.ier.step.StepTemplate
 
 trait WaysToVoteMustache extends StepTemplate[InprogressOverseas] {
 
-  val title = "How do you want to vote?"
+  val title = "www.gov.uk/register-to-vote - How do you want to vote?"
+
+  val newQuestion = "How do you want to vote?"
 
   case class WaysToVoteModel(
     question: Question,
@@ -23,6 +25,7 @@ trait WaysToVoteMustache extends StepTemplate[InprogressOverseas] {
       question = Question(
         postUrl = post.url,
         title = title,
+        newQuestion = newQuestion,
         errorMessages = form.globalErrors.map { _.message }),
       byPost = RadioField(
         key = keys.waysToVote.wayType,

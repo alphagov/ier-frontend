@@ -15,7 +15,7 @@ class WaysToVoteTemplateTest
       val data = new WaysToVoteModel(
         question = Question(
           postUrl = "http://some.server/post_url",
-          title = "Page title ABC"
+          newQuestion = "Page title ABC"
         ),
         byPost = Field(
           id = "byPostId",

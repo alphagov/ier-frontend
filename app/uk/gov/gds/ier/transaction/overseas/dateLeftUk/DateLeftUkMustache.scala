@@ -5,7 +5,9 @@ import uk.gov.gds.ier.step.StepTemplate
 
 trait DateLeftUkMustache extends StepTemplate[InprogressOverseas] {
 
-  val title = "When did you leave the UK?"
+  val title = "www.gov.uk/register-to-vote - When did you leave the UK?"
+
+  val newQuestion = "When did you leave the UK?"
 
   case class DateLeftUkModel(
       question:Question,
@@ -22,7 +24,8 @@ trait DateLeftUkMustache extends StepTemplate[InprogressOverseas] {
       question = Question(
         postUrl = post.url,
         errorMessages = form.globalErrors.map{ _.message },
-        title = title
+        title = title,
+        newQuestion = newQuestion
       ),
       dateLeftUkFieldSet = FieldSet(
         classes = if (progressForm(keys.dateLeftUk.month).hasErrors ||

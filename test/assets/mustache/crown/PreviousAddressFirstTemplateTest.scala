@@ -15,7 +15,7 @@ class PreviousAddressFirstTemplateTest
       val data = new PreviousAddressFirstModel(
         question = Question(
           postUrl = "http://some.server/post_url",
-          title = "Page title ABC"
+          newQuestion = "Page title ABC"
         ),
         previousYes = Field(
           id = "previousYesId",

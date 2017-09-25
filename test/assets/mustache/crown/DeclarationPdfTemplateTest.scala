@@ -19,7 +19,7 @@ class DeclarationPdfTemplateTest
       val data = DeclarationPdfModel(
         question = Question(
           postUrl = "http://some.server/post_url",
-          title = "Page title ABC"
+          newQuestion = "Page title ABC"
         ),
         declarationPdfUrl = "http://test/pdf_download",
         pdfFileSize = "999KB"

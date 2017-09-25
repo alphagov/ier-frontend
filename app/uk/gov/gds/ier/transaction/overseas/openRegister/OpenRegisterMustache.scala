@@ -5,7 +5,9 @@ import uk.gov.gds.ier.step.StepTemplate
 
 trait OpenRegisterMustache extends StepTemplate[InprogressOverseas] {
 
-  val title = "Do you want to include your name and address on the open register?"
+  val title = "www.gov.uk/register-to-vote - Do you want to include your name and address on the open register?"
+
+  val newQuestion = "Do you want to include your name and address on the open register?"
 
   case class OpenRegisterModel(
       question:Question,
@@ -20,7 +22,8 @@ trait OpenRegisterMustache extends StepTemplate[InprogressOverseas] {
       question = Question(
         postUrl = post.url,
         errorMessages = form.globalErrors.map{ _.message },
-        title = title
+        title = title,
+        newQuestion = newQuestion
       ),
       openRegister = CheckboxField (
         key = keys.openRegister.optIn,

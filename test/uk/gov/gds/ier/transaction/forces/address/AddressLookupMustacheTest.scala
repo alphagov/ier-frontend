@@ -18,7 +18,7 @@ class AddressLookupMustacheTest
       InprogressForces()
     ).asInstanceOf[LookupModel]
 
-    addressModel.question.title should be("What was your last UK address?")
+    addressModel.question.title should be("www.gov.uk/register-to-vote - What was your last UK address?")
     addressModel.question.postUrl should be("/register-to-vote/forces/address/lookup")
 
     addressModel.postcode.value should be ("")
@@ -43,7 +43,7 @@ class AddressLookupMustacheTest
       InprogressForces()
     ).asInstanceOf[LookupModel]
 
-    addressModel.question.title should be("What is your UK address?")
+    addressModel.question.title should be("www.gov.uk/register-to-vote - What is your UK address?")
     addressModel.question.postUrl should be("/register-to-vote/forces/address/lookup")
 
     addressModel.postcode.value should be ("WR26NJ")
@@ -68,7 +68,7 @@ class AddressLookupMustacheTest
       InprogressForces()
     ).asInstanceOf[LookupModel]
 
-    addressModel.question.title should be("What is your UK address?")
+    addressModel.question.title should be("www.gov.uk/register-to-vote - What is your UK address?")
     addressModel.question.postUrl should be("/register-to-vote/forces/address/lookup")
 
     addressModel.postcode.value should be ("WR26NJ")
@@ -93,7 +93,7 @@ class AddressLookupMustacheTest
       InprogressForces()
     ).asInstanceOf[LookupModel]
 
-    addressModel.question.title should be("What was your last UK address?")
+    addressModel.question.title should be("www.gov.uk/register-to-vote - What was your last UK address?")
     addressModel.question.postUrl should be("/register-to-vote/forces/address/lookup")
 
     addressModel.postcode.value should be ("WR26NJ")

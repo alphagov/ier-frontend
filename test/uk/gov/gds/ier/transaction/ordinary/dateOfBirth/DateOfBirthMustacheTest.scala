@@ -19,7 +19,7 @@ class DateOfBirthMustacheTest
         InprogressOrdinary()
     ).asInstanceOf[DateOfBirthModel]
 
-    dateOfBirthModel.question.title should be("What is your date of birth?")
+    dateOfBirthModel.question.title should be("www.gov.uk/register-to-vote - What is your date of birth?")
     dateOfBirthModel.question.postUrl should be("/register-to-vote/date-of-birth")
 
     dateOfBirthModel.day.value should be("")
@@ -37,7 +37,7 @@ class DateOfBirthMustacheTest
         InprogressOrdinary()
     ).asInstanceOf[DateOfBirthModel]
 
-    dateOfBirthModel.question.title should be("What is your date of birth?")
+    dateOfBirthModel.question.title should be("www.gov.uk/register-to-vote - What is your date of birth?")
     dateOfBirthModel.question.postUrl should be("/register-to-vote/date-of-birth")
 
     dateOfBirthModel.day.value should be("12")
@@ -55,7 +55,7 @@ class DateOfBirthMustacheTest
         InprogressOrdinary()
     ).asInstanceOf[DateOfBirthModel]
 
-    dateOfBirthModel.question.title should be("What is your date of birth?")
+    dateOfBirthModel.question.title should be("www.gov.uk/register-to-vote - What is your date of birth?")
     dateOfBirthModel.question.postUrl should be("/register-to-vote/date-of-birth")
 
     dateOfBirthModel.day.value should be("")

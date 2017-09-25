@@ -22,7 +22,7 @@ class DeclarationPdfMustacheTest
       emptyApplication
     ).asInstanceOf[DeclarationPdfModel]
 
-    model.question.title should be("Download your service declaration form")
+    model.question.title should be("www.gov.uk/register-to-vote - Download your service declaration form")
     model.question.postUrl should be("/register-to-vote/crown/declaration-pdf")
   }
 

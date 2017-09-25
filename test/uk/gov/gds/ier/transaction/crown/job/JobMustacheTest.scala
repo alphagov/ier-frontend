@@ -18,7 +18,7 @@ class JobMustacheTest
       emptyApplication
     ).asInstanceOf[JobModel]
 
-    jobModel.question.title should be("What is your role?")
+    jobModel.question.title should be("www.gov.uk/register-to-vote - What is your role?")
     jobModel.question.postUrl should be("/register-to-vote/crown/job-title")
 
     jobModel.jobTitle.value should be("")
@@ -45,7 +45,7 @@ class JobMustacheTest
       partiallyFilledApplication
     ).asInstanceOf[JobModel]
 
-    jobModel.question.title should be("What is your role?")
+    jobModel.question.title should be("www.gov.uk/register-to-vote - What is your role?")
     jobModel.question.postUrl should be("/register-to-vote/crown/job-title")
 
     jobModel.jobTitle.value should be("Doctor")

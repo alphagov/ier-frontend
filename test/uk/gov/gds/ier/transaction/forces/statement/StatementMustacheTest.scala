@@ -18,7 +18,7 @@ class StatementMustacheTest
       InprogressForces()
     ).asInstanceOf[StatementModel]
 
-    statementhModel.question.title should be("Which of these statements applies to you?")
+    statementhModel.question.title should be("www.gov.uk/register-to-vote - Which of these statements applies to you?")
     statementhModel.question.postUrl should be("/register-to-vote/forces/statement")
 
     statementhModel.statementFieldSet.classes should be("")
@@ -36,7 +36,7 @@ class StatementMustacheTest
       InprogressForces()
     ).asInstanceOf[StatementModel]
 
-    statementModel.question.title should be("Which of these statements applies to you?")
+    statementModel.question.title should be("www.gov.uk/register-to-vote - Which of these statements applies to you?")
     statementModel.question.postUrl should be("/register-to-vote/forces/statement")
 
     statementModel.statementFieldSet.classes should be("")

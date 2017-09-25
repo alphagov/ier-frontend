@@ -16,7 +16,7 @@ class OpenRegisterMustacheTests
       InprogressOverseas()
     ).asInstanceOf[OpenRegisterModel]
 
-    openRegisterModel.question.title should be("Do you want to include your name and address on the open register?")
+    openRegisterModel.question.title should be("www.gov.uk/register-to-vote - Do you want to include your name and address on the open register?")
     openRegisterModel.question.postUrl should be("/register-to-vote/overseas/ways-to-vote")
 
     openRegisterModel.openRegister.value should be("false")
@@ -35,7 +35,7 @@ class OpenRegisterMustacheTests
       InprogressOverseas()
     ).asInstanceOf[OpenRegisterModel]
 
-    openRegisterModel.question.title should be("Do you want to include your name and address on the open register?")
+    openRegisterModel.question.title should be("www.gov.uk/register-to-vote - Do you want to include your name and address on the open register?")
     openRegisterModel.question.postUrl should be("/register-to-vote/overseas/ways-to-vote")
 
     openRegisterModel.openRegister.attributes should be("")
@@ -53,7 +53,7 @@ class OpenRegisterMustacheTests
       InprogressOverseas()
     ).asInstanceOf[OpenRegisterModel]
 
-    openRegisterModel.question.title should be("Do you want to include your name and address on the open register?")
+    openRegisterModel.question.title should be("www.gov.uk/register-to-vote - Do you want to include your name and address on the open register?")
     openRegisterModel.question.postUrl should be("/register-to-vote/overseas/ways-to-vote")
 
     openRegisterModel.openRegister.attributes should be("checked=\"checked\"")

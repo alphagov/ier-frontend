@@ -21,7 +21,7 @@ class AddressManualMustacheTests
       InprogressForces()
     ).asInstanceOf[ManualModel]
 
-    addressModel.question.title should be("What was your last UK address?")
+    addressModel.question.title should be("www.gov.uk/register-to-vote - What was your last UK address?")
     addressModel.question.postUrl should be("/register-to-vote/forces/address/manual")
 
     addressModel.lookupUrl should be ("/register-to-vote/forces/address")
@@ -59,7 +59,7 @@ class AddressManualMustacheTests
       InprogressForces()
     ).asInstanceOf[ManualModel]
 
-    addressModel.question.title should be("What is your UK address?")
+    addressModel.question.title should be("www.gov.uk/register-to-vote - What is your UK address?")
   }
 
   it should "have correct title hasAddress = yes and not living there" in {
@@ -88,7 +88,7 @@ class AddressManualMustacheTests
       InprogressForces()
     ).asInstanceOf[ManualModel]
 
-    addressModel.question.title should be("What is your UK address?")
+    addressModel.question.title should be("www.gov.uk/register-to-vote - What is your UK address?")
   }
 
   it should "have correct title hasAddress = no" in {
@@ -117,7 +117,7 @@ class AddressManualMustacheTests
       InprogressForces()
     ).asInstanceOf[ManualModel]
 
-    addressModel.question.title should be("What was your last UK address?")
+    addressModel.question.title should be("www.gov.uk/register-to-vote - What was your last UK address?")
   }
 
   it should "populate a manual address from the form" in {

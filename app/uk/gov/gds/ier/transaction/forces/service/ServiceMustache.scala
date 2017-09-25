@@ -37,6 +37,12 @@ trait ServiceMustache extends StepTemplate[InprogressForces] {
     }
 
     val title = if (displayPartnerSentence(application)) {
+      "www.gov.uk/register-to-vote - Which of the services is your partner in?"
+    } else {
+      "www.gov.uk/register-to-vote - Which of the services are you in?"
+    }
+
+    val newQuestion = if (displayPartnerSentence(application)) {
       "Which of the services is your partner in?"
     } else {
       "Which of the services are you in?"
@@ -46,7 +52,8 @@ trait ServiceMustache extends StepTemplate[InprogressForces] {
       question = Question(
         postUrl = postUrl.url,
         errorMessages = form.globalErrors.map{ _.message },
-        title = title
+        title = title,
+        newQuestion = newQuestion
       ),
       serviceFieldSet = FieldSet(
         classes = if (progressForm(keys.service).hasErrors) "invalid" else ""

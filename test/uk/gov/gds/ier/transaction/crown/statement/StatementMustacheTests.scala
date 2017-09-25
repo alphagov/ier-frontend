@@ -18,7 +18,7 @@ class StatementMustacheTests
 
     model.question.postUrl should be("http://postUrl")
     model.question.errorMessages should be (Seq.empty)
-    model.question.title should be("Which of these statements applies to you?")
+    model.question.title should be("www.gov.uk/register-to-vote - Which of these statements applies to you?")
 
     model.council.id should be("councilstatement")
     model.council.classes should be("")

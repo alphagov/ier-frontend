@@ -19,7 +19,7 @@ class AddressFirstMustacheTest
       InprogressCrown()
     ).asInstanceOf[AddressFirstModel]
 
-    addressFirstModel.question.title should be("Do you have a UK address?")
+    addressFirstModel.question.title should be("www.gov.uk/register-to-vote - Do you have a UK address?")
     addressFirstModel.question.postUrl should be("url-string-1")
 
     addressFirstModel.hasAddressNo.attributes should be("")
@@ -43,7 +43,7 @@ class AddressFirstMustacheTest
       InprogressCrown()
     ).asInstanceOf[AddressFirstModel]
 
-    addressFirstModel.question.title should be("Do you have a UK address?")
+    addressFirstModel.question.title should be("www.gov.uk/register-to-vote - Do you have a UK address?")
     addressFirstModel.question.postUrl should be("url-string-1")
 
     addressFirstModel.hasAddressNo.attributes should be("")
@@ -65,7 +65,7 @@ class AddressFirstMustacheTest
       InprogressCrown()
     ).asInstanceOf[AddressFirstModel]
 
-    addressFirstModel.question.title should be("Do you have a UK address?")
+    addressFirstModel.question.title should be("www.gov.uk/register-to-vote - Do you have a UK address?")
     addressFirstModel.question.postUrl should be("url-string-1")
 
     addressFirstModel.hasAddressNo.attributes should be("")

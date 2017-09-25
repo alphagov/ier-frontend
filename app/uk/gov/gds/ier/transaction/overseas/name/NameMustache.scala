@@ -5,7 +5,9 @@ import uk.gov.gds.ier.step.StepTemplate
 
 trait NameMustache extends StepTemplate[InprogressOverseas] {
 
-  val title = "What is your full name?"
+  val title = "www.gov.uk/register-to-vote - What is your full name?"
+
+  val newQuestion = "What is your full name?"
 
   case class NameModel(
                         question: Question,
@@ -32,6 +34,7 @@ trait NameMustache extends StepTemplate[InprogressOverseas] {
       question = Question(
         postUrl = post.url,
         title = title,
+        newQuestion = newQuestion,
         errorMessages = form.globalErrors.map { _.message }),
 
       firstName = TextField(key = keys.name.firstName),

@@ -18,7 +18,7 @@ class ServiceMustacheTest
       InprogressForces()
     ).asInstanceOf[ServiceModel]
 
-    serviceModel.question.title should be("Which of the services are you in?")
+    serviceModel.question.title should be("www.gov.uk/register-to-vote - Which of the services are you in?")
     serviceModel.question.postUrl should be("/register-to-vote/forces/service")
 
     serviceModel.serviceFieldSet.classes should be("")
@@ -46,7 +46,7 @@ class ServiceMustacheTest
       filledApp
     ).asInstanceOf[ServiceModel]
 
-    serviceModel.question.title should be("Which of the services are you in?")
+    serviceModel.question.title should be("www.gov.uk/register-to-vote - Which of the services are you in?")
     serviceModel.question.postUrl should be("/register-to-vote/forces/service")
 
     serviceModel.serviceFieldSet.classes should be("")

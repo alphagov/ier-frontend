@@ -17,7 +17,7 @@ class NameMustacheTest
       InprogressForces()
     ).asInstanceOf[NameModel]
 
-    nameModel.question.title should be("What is your full name?")
+    nameModel.question.title should be("www.gov.uk/register-to-vote - What is your full name?")
     nameModel.question.postUrl should be("/register-to-vote/forces/name")
 
     nameModel.firstName.value should be("")
@@ -45,7 +45,7 @@ class NameMustacheTest
       InprogressForces()
     ).asInstanceOf[NameModel]
 
-    nameModel.question.title should be("What is your full name?")
+    nameModel.question.title should be("www.gov.uk/register-to-vote - What is your full name?")
     nameModel.question.postUrl should be("/register-to-vote/forces/name")
 
     nameModel.firstName.value should be("John")
@@ -82,7 +82,7 @@ class NameMustacheTest
       InprogressForces()
     ).asInstanceOf[NameModel]
 
-    nameModel.question.title should be("What is your full name?")
+    nameModel.question.title should be("www.gov.uk/register-to-vote - What is your full name?")
     nameModel.question.postUrl should be("/register-to-vote/forces/name")
 
     nameModel.firstName.value should be("John")
@@ -110,7 +110,7 @@ class NameMustacheTest
       InprogressForces()
     ).asInstanceOf[NameModel]
 
-    nameModel.question.title should be("What is your full name?")
+    nameModel.question.title should be("www.gov.uk/register-to-vote - What is your full name?")
     nameModel.question.postUrl should be("/register-to-vote/forces/name")
 
     nameModel.firstName.value should be("John")

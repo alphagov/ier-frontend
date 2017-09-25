@@ -12,7 +12,8 @@ trait PreviousAddressSelectMustache
     with WithForcesControllers
     with WithSerialiser =>
 
-  val title = "What was your previous UK address?"
+  val title = "www.gov.uk/register-to-vote - What was your previous UK address?"
+  val newQuestion = "What was your previous UK address?"
 
   case class SelectModel (
     question: Question,
@@ -92,6 +93,7 @@ trait PreviousAddressSelectMustache
       question = Question(
         postUrl = post.url,
         title = title,
+        newQuestion = newQuestion,
         errorMessages = progressForm.globalErrors.map(_.message)
       ),
       lookupUrl = forces.PreviousAddressPostcodeStep.routing.get.url,

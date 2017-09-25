@@ -21,9 +21,9 @@ trait NinoMustache extends StepTemplate[InprogressCrown] {
 
     implicit val progressForm = form
 
-    val title = "What is your National Insurance number?"
+    val title = "www.gov.uk/register-to-vote - What is your National Insurance number?"
 
-    val newQuestion = "www.gov.uk/register-to-vote - What is your National Insurance number?"
+    val newQuestion = "What is your National Insurance number?"
 
     val emailAddress = form(keys.contact.email.detail).value
 
@@ -31,7 +31,8 @@ trait NinoMustache extends StepTemplate[InprogressCrown] {
       question = Question(
         postUrl = postEndpoint.url,
         errorMessages = form.globalErrors.map(_.message),
-        title = title
+        title = title,
+        newQuestion = newQuestion
       ),
       nino = TextField(
         key = keys.nino.nino

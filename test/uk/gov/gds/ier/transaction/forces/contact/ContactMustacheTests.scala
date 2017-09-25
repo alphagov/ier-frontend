@@ -17,7 +17,7 @@ class ContactMustacheTests
       InprogressForces()
     ).asInstanceOf[ContactModel]
 
-    contactModel.question.title should be("If we have questions about your application, how should we contact you?")
+    contactModel.question.title should be("www.gov.uk/register-to-vote - If we have questions about your application, how should we contact you?")
     contactModel.question.postUrl should be("/register-to-vote/forces/contact")
 
     contactModel.contactEmailCheckbox.attributes should be("")
@@ -48,7 +48,7 @@ class ContactMustacheTests
     ).asInstanceOf[ContactModel]
 
     contactModel.question.title should be(
-      "If we have questions about your application, how should we contact you?")
+      "www.gov.uk/register-to-vote - If we have questions about your application, how should we contact you?")
     contactModel.question.postUrl should be("/register-to-vote/forces/contact")
 
     contactModel.contactEmailCheckbox.attributes should be("")
@@ -79,7 +79,7 @@ class ContactMustacheTests
     ).asInstanceOf[ContactModel]
 
     contactModel.question.title should be(
-      "If we have questions about your application, how should we contact you?")
+      "www.gov.uk/register-to-vote - If we have questions about your application, how should we contact you?")
     contactModel.question.postUrl should be("/register-to-vote/forces/contact")
 
     contactModel.contactEmailCheckbox.attributes should be("")
@@ -117,7 +117,7 @@ class ContactMustacheTests
     ).asInstanceOf[ContactModel]
 
     contactModel.question.title should be(
-      "If we have questions about your application, how should we contact you?")
+      "www.gov.uk/register-to-vote - If we have questions about your application, how should we contact you?")
     contactModel.question.postUrl should be("/register-to-vote/forces/contact")
 
     contactModel.contactEmailCheckbox.attributes should be("checked=\"checked\"")
@@ -147,7 +147,7 @@ class ContactMustacheTests
       InprogressForces()
     ).asInstanceOf[ContactModel]
 
-    contactModel.question.title should be("If we have questions about your application, how should we contact you?")
+    contactModel.question.title should be("www.gov.uk/register-to-vote - If we have questions about your application, how should we contact you?")
     contactModel.question.postUrl should be("/register-to-vote/forces/contact")
 
     contactModel.contactEmailCheckbox.attributes should be("checked=\"checked\"")
@@ -176,7 +176,7 @@ class ContactMustacheTests
       InprogressForces()
     ).asInstanceOf[ContactModel]
 
-    contactModel.question.title should be("If we have questions about your application, how should we contact you?")
+    contactModel.question.title should be("www.gov.uk/register-to-vote - If we have questions about your application, how should we contact you?")
     contactModel.question.postUrl should be("/register-to-vote/forces/contact")
 
     contactModel.contactEmailCheckbox.attributes should be("")
@@ -205,7 +205,7 @@ class ContactMustacheTests
       InprogressForces()
     ).asInstanceOf[ContactModel]
 
-    contactModel.question.title should be("If we have questions about your application, how should we contact you?")
+    contactModel.question.title should be("www.gov.uk/register-to-vote - If we have questions about your application, how should we contact you?")
     contactModel.question.postUrl should be("/register-to-vote/forces/contact")
 
     contactModel.contactEmailCheckbox.attributes should be("")
@@ -234,7 +234,7 @@ class ContactMustacheTests
       InprogressForces()
     ).asInstanceOf[ContactModel]
 
-    contactModel.question.title should be("If we have questions about your application, how should we contact you?")
+    contactModel.question.title should be("www.gov.uk/register-to-vote - If we have questions about your application, how should we contact you?")
     contactModel.question.postUrl should be("/register-to-vote/forces/contact")
 
     contactModel.contactEmailCheckbox.attributes should be("")

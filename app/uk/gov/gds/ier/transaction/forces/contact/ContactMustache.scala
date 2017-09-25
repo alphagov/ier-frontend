@@ -25,12 +25,15 @@ trait ContactMustache extends StepTemplate[InprogressForces] {
       emailAddress = form(keys.postalOrProxyVote.deliveryMethod.emailAddress).value
     }
 
-    val title = "If we have questions about your application, how should we contact you?"
+    val title = "www.gov.uk/register-to-vote - If we have questions about your application, how should we contact you?"
+
+    val newQuestion = "If we have questions about your application, how should we contact you?"
     ContactModel(
       question = Question(
         postUrl = postUrl.url,
         errorMessages = form.globalErrors.map{ _.message },
-        title = title
+        title = title,
+        newQuestion = newQuestion
       ),
       contactFieldSet = FieldSet(
         classes = if (progressForm(keys.contact).hasErrors) "invalid" else ""

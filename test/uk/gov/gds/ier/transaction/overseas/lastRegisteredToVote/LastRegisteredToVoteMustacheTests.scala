@@ -17,7 +17,7 @@ class LastRegisteredToVoteMustacheTests
       InprogressOverseas()
     ).asInstanceOf[LastRegisteredModel]
 
-    model.question.title should be("How were you last registered to vote?")
+    model.question.title should be("www.gov.uk/register-to-vote - How were you last registered to vote?")
     model.question.postUrl should be("http://postUrl")
 
     model.ukResident.name should be("lastRegisteredToVote.registeredType")

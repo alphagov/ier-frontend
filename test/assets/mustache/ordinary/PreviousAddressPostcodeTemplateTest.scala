@@ -13,7 +13,7 @@ class PreviousAddressPostcodeTemplateTest
       val data = new PostcodeModel(
         question = Question(
           postUrl = "http://some.server/previousAddress/select",
-          title = "Page title ABC"
+          newQuestion = "Page title ABC"
         ),
         postcode = Field(
           id = "postcodeId",

@@ -5,7 +5,9 @@ import uk.gov.gds.ier.step.StepTemplate
 
 trait ContactMustache extends StepTemplate[InprogressOverseas] {
 
-  val title = "If we have questions about your application, how should we contact you?"
+  val title = "www.gov.uk/register-to-vote - If we have questions about your application, how should we contact you?"
+
+  val newQuestion = "If we have questions about your application, how should we contact you?"
 
   case class ContactModel (
       question:Question,
@@ -31,7 +33,8 @@ trait ContactMustache extends StepTemplate[InprogressOverseas] {
       question = Question(
         postUrl = post.url,
         errorMessages = form.globalErrors.map{ _.message },
-        title = title
+        title = title,
+        newQuestion = newQuestion
       ),
       contactFieldSet = FieldSet(
         classes = if (progressForm(keys.contact).hasErrors) "invalid" else ""

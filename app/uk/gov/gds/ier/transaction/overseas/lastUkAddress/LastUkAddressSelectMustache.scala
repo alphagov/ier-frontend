@@ -12,7 +12,9 @@ trait LastUkAddressSelectMustache extends StepTemplate[InprogressOverseas] {
     with WithOverseasControllers
     with WithSerialiser =>
 
-    val title = "What was the UK address where you were last registered to vote?"
+    val title = "www.gov.uk/register-to-vote - What was the UK address where you were last registered to vote?"
+
+    val newQuestion = "What was the UK address where you were last registered to vote?"
 
     case class SelectModel (
         question: Question,
@@ -88,6 +90,7 @@ trait LastUkAddressSelectMustache extends StepTemplate[InprogressOverseas] {
         question = Question(
           postUrl = post.url,
           title = title,
+          newQuestion = newQuestion,
           errorMessages = progressForm.globalErrors.map(_.message)
         ),
         lookupUrl = overseas.LastUkAddressStep.routing.get.url,

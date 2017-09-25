@@ -5,7 +5,9 @@ import uk.gov.gds.ier.step.StepTemplate
 
 trait PassportDetailsMustache extends StepTemplate[InprogressOverseas] {
 
-  val title = "What are your Passport details?"
+  val title = "www.gov.uk/register-to-vote - What are your Passport details?"
+
+  val newQuestion = "What are your Passport details?"
 
   case class PassportDetailsModel(
       question: Question,
@@ -27,7 +29,8 @@ trait PassportDetailsMustache extends StepTemplate[InprogressOverseas] {
       question = Question(
         postUrl = post.url,
         errorMessages = form.globalErrors.map{ _.message },
-        title = title
+        title = title,
+        newQuestion = newQuestion
       ),
       hasPassport =    TextField(keys.passport.hasPassport),
       bornInUk =       TextField(keys.passport.bornInsideUk),
