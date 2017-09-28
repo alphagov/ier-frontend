@@ -16,16 +16,26 @@ trait DateOfBirthForms extends DateOfBirthConstraints {
     self:  FormKeys
       with ErrorMessages =>
 
+  def toIntFromString(s: String):Option[Int] = {
+    try {
+      Some(s.toInt)
+    } catch {
+      case e: NumberFormatException => None
+    }
+  }
+
   lazy val dobMapping = mapping(
     keys.year.key -> text
       .verifying("Please enter your year of birth", _.nonEmpty)
       .verifying("The year you provided is invalid", year => year.isEmpty || year.matches("\\d+")),
     keys.month.key -> text
       .verifying("Please enter your month of birth", _.nonEmpty)
-      .verifying("The month you provided is invalid", month => month.isEmpty || month.matches("\\d+")),
+      .verifying("The month you provided is invalid", month => month.isEmpty || month.matches("\\d+"))
+      .verifying("The month you provided is invalid", month => toIntFromString(month).getOrElse(0) > 0 && toIntFromString(month).getOrElse(0) < 13),
     keys.day.key -> text
       .verifying("Please enter your day of birth", _.nonEmpty)
       .verifying("The day you provided is invalid", day => day.isEmpty || day.matches("\\d+"))
+      .verifying("The day you provided is invalid", day => toIntFromString(day).getOrElse(0) > 0 && toIntFromString(day).getOrElse(0) < 32)
   ) {
     (year, month, day) => DOB(year.toInt, month.toInt, day.toInt)
   } {
