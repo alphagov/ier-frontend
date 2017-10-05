@@ -15,7 +15,8 @@ trait DeclarationPdfMustache extends StepTemplate[InprogressCrown] {
     pdfFileSize: String
   ) extends MustacheData
 
-  val pageTitle = "Download your service declaration form"
+  val pageTitle = "www.gov.uk/register-to-vote - Download your service declaration form"
+  val newQuestion = "Download your service declaration form"
 
   val mustache = MustacheTemplate("crown/declarationPdf") { (form, postUrl) =>
     implicit val progressForm = form
@@ -23,6 +24,7 @@ trait DeclarationPdfMustache extends StepTemplate[InprogressCrown] {
       question = Question(
         postUrl = postUrl.url,
         title = pageTitle,
+        newQuestion = newQuestion,
         errorMessages = form.globalErrors.map ( _.message )
       ),
       declarationPdfUrl = DeclarationPdfDownloadController.download.url,

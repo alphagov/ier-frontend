@@ -6,7 +6,9 @@ import uk.gov.gds.ier.step.StepTemplate
 
 trait NinoMustache extends StepTemplate[InprogressOverseas] {
 
-  val title = "What is your National Insurance number?"
+  val title = "www.gov.uk/register-to-vote - What is your National Insurance number?"
+
+  val newQuestion = "What is your National Insurance number?"
 
   case class NinoModel(
       question:Question,
@@ -25,7 +27,8 @@ trait NinoMustache extends StepTemplate[InprogressOverseas] {
       question = Question(
         postUrl = post.url,
         errorMessages = form.globalErrors.map{ _.message },
-        title = title
+        title = title,
+        newQuestion = newQuestion
       ),
       nino = TextField(
         key = keys.nino.nino

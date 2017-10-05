@@ -31,7 +31,7 @@ class AddressSelectMustacheTest
       InprogressCrown()
     ).asInstanceOf[SelectModel]
 
-    addressModel.question.title should be("What was your last UK address?")
+    addressModel.question.title should be("www.gov.uk/register-to-vote - What was your last UK address?")
     addressModel.question.postUrl should be("/register-to-vote/crown/address/select")
 
     addressModel.lookupUrl should be ("/register-to-vote/crown/address")
@@ -67,7 +67,7 @@ class AddressSelectMustacheTest
     ).asInstanceOf[SelectModel]
 
 
-    addressModel.question.title should be("What is your UK address?")
+    addressModel.question.title should be("www.gov.uk/register-to-vote - What is your UK address?")
     addressModel.question.postUrl should be("/register-to-vote/crown/address/select")
 
     addressModel.lookupUrl should be ("/register-to-vote/crown/address")
@@ -100,7 +100,7 @@ class AddressSelectMustacheTest
       InprogressCrown()
     ).asInstanceOf[SelectModel]
 
-    addressModel.question.title should be("What was your last UK address?")
+    addressModel.question.title should be("www.gov.uk/register-to-vote - What was your last UK address?")
     addressModel.question.postUrl should be("/register-to-vote/crown/address/select")
 
     addressModel.lookupUrl should be ("/register-to-vote/crown/address")

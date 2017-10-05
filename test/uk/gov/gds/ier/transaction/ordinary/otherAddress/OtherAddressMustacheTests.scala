@@ -21,7 +21,7 @@ class OtherAddressMustacheTests
     ).asInstanceOf[OtherAddressModel]
 
     result.question.postUrl should be("/some-post-url")
-    result.question.title should be("ordinary_otheraddr_title")
+    result.question.title should be("title ordinary_otheraddr_title")
     result.question.errorMessages should be(Seq.empty)
 
     result.hasOtherAddressHome.name should be("otherAddress.hasOtherAddress")

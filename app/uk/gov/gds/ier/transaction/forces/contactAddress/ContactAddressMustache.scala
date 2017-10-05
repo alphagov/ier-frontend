@@ -118,13 +118,16 @@ trait ContactAddressMustache extends StepTemplate[InprogressForces] with Address
       )
     )
 
-    val title = "Where should we write to you about your registration?"
+    val title = "www.gov.uk/register-to-vote - Where should we write to you about your registration?"
+
+    val newQuestion = "Where should we write to you about your registration?"
 
     ContactAddressModel(
       question = Question(
         postUrl = postUrl.url,
         errorMessages = form.globalErrors.map( _.message ),
-        title = title
+        title = title,
+        newQuestion = newQuestion
       ),
       contactAddressFieldSet = FieldSet (
         classes = if (form(keys.contactAddress).hasErrors) "invalid" else ""

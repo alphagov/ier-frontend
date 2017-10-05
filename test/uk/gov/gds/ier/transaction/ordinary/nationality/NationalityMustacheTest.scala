@@ -18,7 +18,7 @@ class NationalityMustacheTest
       emptyApplication
     ).asInstanceOf[NationalityModel]
 
-    nationalityModel.question.title should be("What is your nationality?")
+    nationalityModel.question.title should be("www.gov.uk/register-to-vote - What is your nationality?")
     nationalityModel.question.postUrl should be("/register-to-vote/nationality")
 
     nationalityModel.britishOption.attributes should be("")
@@ -52,7 +52,7 @@ class NationalityMustacheTest
       partiallyFilledApplication
     ).asInstanceOf[NationalityModel]
 
-    nationalityModel.question.title should be("What is your nationality?")
+    nationalityModel.question.title should be("www.gov.uk/register-to-vote - What is your nationality?")
     nationalityModel.question.postUrl should be("/register-to-vote/nationality")
 
     nationalityModel.britishOption.attributes should be("checked=\"checked\"")
@@ -84,7 +84,7 @@ class NationalityMustacheTest
       partiallyFilledApplication
     ).asInstanceOf[NationalityModel]
 
-    nationalityModel.question.title should be("What is your nationality?")
+    nationalityModel.question.title should be("www.gov.uk/register-to-vote - What is your nationality?")
     nationalityModel.question.postUrl should be("/register-to-vote/nationality")
 
     nationalityModel.britishOption.attributes should be("")
@@ -115,7 +115,7 @@ class NationalityMustacheTest
       partiallyFilledApplication
     ).asInstanceOf[NationalityModel]
 
-    nationalityModel.question.title should be("What is your nationality?")
+    nationalityModel.question.title should be("www.gov.uk/register-to-vote - What is your nationality?")
     nationalityModel.question.postUrl should be("/register-to-vote/nationality")
 
     nationalityModel.britishOption.attributes should be("")
@@ -146,7 +146,7 @@ class NationalityMustacheTest
       partiallyFilledApplication
     ).asInstanceOf[NationalityModel]
 
-    nationalityModel.question.title should be("What is your nationality?")
+    nationalityModel.question.title should be("www.gov.uk/register-to-vote - What is your nationality?")
     nationalityModel.question.postUrl should be("/register-to-vote/nationality")
 
     nationalityModel.britishOption.attributes should be("checked=\"checked\"")
@@ -177,7 +177,7 @@ class NationalityMustacheTest
       partiallyFilledApplication
     ).asInstanceOf[NationalityModel]
 
-    nationalityModel.question.title should be("What is your nationality?")
+    nationalityModel.question.title should be("www.gov.uk/register-to-vote - What is your nationality?")
     nationalityModel.question.postUrl should be("/register-to-vote/nationality")
 
     nationalityModel.britishOption.attributes should be("")

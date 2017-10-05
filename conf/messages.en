@@ -14,6 +14,7 @@ step_of=of
 step_a_of_b={0} of {1}
 step_continue=Continue
 step_question=Question
+title=www.gov.uk/register-to-vote -
 
 # ordinary: country of residence
 ordinary_country_heading=Where do you live?

@@ -18,7 +18,7 @@ class RankMustacheTest
       InprogressForces()
     ).asInstanceOf[RankModel]
 
-    rankModel.question.title should be("What is your service number?")
+    rankModel.question.title should be("www.gov.uk/register-to-vote - What is your service number?")
     rankModel.question.postUrl should be("/register-to-vote/forces/rank")
 
     rankModel.serviceNumber.value should be("")
@@ -42,7 +42,7 @@ class RankMustacheTest
       partiallyFilledApplication
     ).asInstanceOf[RankModel]
 
-    rankModel.question.title should be("What is your service number?")
+    rankModel.question.title should be("www.gov.uk/register-to-vote - What is your service number?")
     rankModel.question.postUrl should be("/register-to-vote/forces/rank")
 
     rankModel.serviceNumber.value should be("123456")

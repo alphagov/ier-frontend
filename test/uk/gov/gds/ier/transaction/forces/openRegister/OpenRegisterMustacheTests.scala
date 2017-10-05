@@ -17,7 +17,7 @@ class OpenRegisterMustacheTests
     ).asInstanceOf[OpenRegisterModel]
 
     openRegisterModel.question.title should be(
-      "Do you want to include your name and address on the open register?")
+      "www.gov.uk/register-to-vote - Do you want to include your name and address on the open register?")
     openRegisterModel.question.postUrl should be("/register-to-vote/forces/open-register")
 
     openRegisterModel.openRegister.value should be("false")
@@ -37,7 +37,7 @@ class OpenRegisterMustacheTests
     ).asInstanceOf[OpenRegisterModel]
 
     openRegisterModel.question.title should be(
-      "Do you want to include your name and address on the open register?")
+      "www.gov.uk/register-to-vote - Do you want to include your name and address on the open register?")
     openRegisterModel.question.postUrl should be("/register-to-vote/forces/open-register")
 
     openRegisterModel.openRegister.attributes should be("")
@@ -57,7 +57,7 @@ class OpenRegisterMustacheTests
     ).asInstanceOf[OpenRegisterModel]
 
     openRegisterModel.question.title should be(
-      "Do you want to include your name and address on the open register?")
+      "www.gov.uk/register-to-vote - Do you want to include your name and address on the open register?")
     openRegisterModel.question.postUrl should be("/register-to-vote/forces/open-register")
 
     openRegisterModel.openRegister.attributes should be("checked=\"checked\"")

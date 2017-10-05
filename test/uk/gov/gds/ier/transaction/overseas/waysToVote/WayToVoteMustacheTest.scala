@@ -20,7 +20,7 @@ class WayToVoteMustacheTest
       InprogressOverseas()
     ).asInstanceOf[WaysToVoteModel]
 
-    model.question.title should be("How do you want to vote?")
+    model.question.title should be("www.gov.uk/register-to-vote - How do you want to vote?")
     model.question.postUrl should be("/register-to-vote/overseas/ways-to-vote")
 
     model.byPost.value should be("by-post")
@@ -43,7 +43,7 @@ class WayToVoteMustacheTest
       InprogressOverseas()
     ).asInstanceOf[WaysToVoteModel]
 
-    model.question.title should be("How do you want to vote?")
+    model.question.title should be("www.gov.uk/register-to-vote - How do you want to vote?")
     model.question.postUrl should be("/register-to-vote/overseas/ways-to-vote")
 
     model.byPost.value should be("by-post")

@@ -17,7 +17,7 @@ class PostalVoteMustacheTest
       InprogressOrdinary()
     ).asInstanceOf[PostalVoteModel]
 
-    postalVoteModel.question.title should be("Do you want to apply for a postal vote?")
+    postalVoteModel.question.title should be("www.gov.uk/register-to-vote - Do you want to apply for a postal vote?")
     postalVoteModel.question.postUrl should be("/foo/postal-vote")
 
     postalVoteModel.postCheckboxYes.attributes should be("")
@@ -43,7 +43,7 @@ class PostalVoteMustacheTest
       InprogressOrdinary()
     ).asInstanceOf[PostalVoteModel]
 
-    postalVoteModel.question.title should be("Do you want to apply for a postal vote?")
+    postalVoteModel.question.title should be("www.gov.uk/register-to-vote - Do you want to apply for a postal vote?")
     postalVoteModel.question.postUrl should be("/foo/postal-vote")
 
     postalVoteModel.postCheckboxYes.attributes should be("")
@@ -68,7 +68,7 @@ class PostalVoteMustacheTest
       InprogressOrdinary()
     ).asInstanceOf[PostalVoteModel]
 
-    postalVoteModel.question.title should be("Do you want to apply for a postal vote?")
+    postalVoteModel.question.title should be("www.gov.uk/register-to-vote - Do you want to apply for a postal vote?")
     postalVoteModel.question.postUrl should be("/foo/postal-vote")
 
     postalVoteModel.postCheckboxYes.attributes should be("")
@@ -94,7 +94,7 @@ class PostalVoteMustacheTest
       InprogressOrdinary()
     ).asInstanceOf[PostalVoteModel]
 
-    postalVoteModel.question.title should be("Do you want to apply for a postal vote?")
+    postalVoteModel.question.title should be("www.gov.uk/register-to-vote - Do you want to apply for a postal vote?")
     postalVoteModel.question.postUrl should be("/foo/postal-vote")
 
     postalVoteModel.postCheckboxYes.attributes should be("checked=\"checked\"")
@@ -121,7 +121,7 @@ class PostalVoteMustacheTest
       InprogressOrdinary()
     ).asInstanceOf[PostalVoteModel]
 
-    postalVoteModel.question.title should be("Do you want to apply for a postal vote?")
+    postalVoteModel.question.title should be("www.gov.uk/register-to-vote - Do you want to apply for a postal vote?")
     postalVoteModel.question.postUrl should be("/foo/postal-vote")
 
     postalVoteModel.postCheckboxYes.attributes should be("checked=\"checked\"")

@@ -6,7 +6,9 @@ import uk.gov.gds.ier.step.StepTemplate
 
 trait AddressMustache extends StepTemplate[InprogressOverseas] {
 
-  val title = "What is your overseas address?"
+  val title = "www.gov.uk/register-to-vote - What is your overseas address?"
+
+  val newQuestion = "What is your overseas address?"
 
   case class AddressModel(
       question:Question,
@@ -26,6 +28,7 @@ trait AddressMustache extends StepTemplate[InprogressOverseas] {
       question = Question(
         postUrl = post.url,
         title = title,
+        newQuestion = newQuestion,
         errorMessages = form.globalErrors.map { _.message }
       ),
       countrySelect = SelectField(key = keys.overseasAddress.country,

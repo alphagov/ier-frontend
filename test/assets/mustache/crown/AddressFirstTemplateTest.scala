@@ -12,7 +12,7 @@ class AddressFirstTemplateTest
       val data = new AddressFirstModel(
         question = Question(
           postUrl = "http://some.server/post_url",
-          title = "Page title ABC"
+          newQuestion = "Page title ABC"
         ),
         hasAddressYesAndLivingThere = Field(
           id = "hasAddressYesAndLivingThereId",

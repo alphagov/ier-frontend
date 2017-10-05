@@ -25,8 +25,9 @@ trait AddressManualMustache extends StepTemplate[InprogressOrdinary] {
       ManualModel(
         question = Question(
           postUrl = post.url,
-          title = Messages("ordinary_address_manual_title"),
-          errorMessages = Messages.translatedGlobalErrors(form)
+          title = Messages("title") +" "+ Messages("ordinary_address_manual_title"),
+          errorMessages = Messages.translatedGlobalErrors(form),
+          newQuestion = Messages("ordinary_address_manual_title")
         ),
         lookupUrl = routes.AddressStep.get.url,
         postcode = TextField(keys.address.postcode),

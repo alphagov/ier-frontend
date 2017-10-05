@@ -64,9 +64,10 @@ trait ConfirmationMustache
 
     ConfirmationModel(
       question = Question(
-        title = Messages("ordinary_confirmation_title_header"),
+        title = Messages("title") +" "+ Messages("ordinary_confirmation_title_header"),
         postUrl = postUrl.url,
-        contentClasses = "confirmation"
+        contentClasses = "confirmation",
+        newQuestion = Messages("ordinary_confirmation_title_header")
       ),
       completeApplicantDetails = completeApplicantData,
       isYoungScot = isYoungScot(form),

@@ -24,6 +24,12 @@ trait RankMustache extends  StepTemplate[InprogressForces] {
     implicit val progressForm = form
 
     val title = if (displayPartnerSentence(application)) {
+      "www.gov.uk/register-to-vote - What is your partner's service number?"
+    } else {
+      "www.gov.uk/register-to-vote - What is your service number?"
+    }
+
+    val newQuestion = if (displayPartnerSentence(application)) {
       "What is your partner's service number?"
     } else {
       "What is your service number?"
@@ -33,7 +39,8 @@ trait RankMustache extends  StepTemplate[InprogressForces] {
       question = Question(
         postUrl = postUrl.url,
         errorMessages = form.globalErrors.map{ _.message },
-        title = title
+        title = title,
+        newQuestion = newQuestion
       ),
       serviceNumber = TextField(
         key = keys.rank.serviceNumber

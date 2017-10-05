@@ -19,7 +19,8 @@ trait OpenRegisterMustache extends StepTemplate[InprogressOrdinary] {
       question = Question(
         postUrl = postEndpoint.url,
         errorMessages = Messages.translatedGlobalErrors(form),
-        title = Messages("ordinary_openRegister_title")
+        title = Messages("title") +" "+ Messages("ordinary_openRegister_title"),
+        newQuestion = Messages("ordinary_openRegister_title")
       ),
       openRegister = CheckboxField (
         key = keys.openRegister.optIn,

@@ -17,7 +17,7 @@ class NinoMustacheTests
       InprogressOverseas()
     ).asInstanceOf[NinoModel]
 
-    ninoModel.question.title should be("What is your National Insurance number?")
+    ninoModel.question.title should be("www.gov.uk/register-to-vote - What is your National Insurance number?")
     ninoModel.question.postUrl should be("/register-to-vote/overseas/nino")
 
     ninoModel.nino.value should be("")
@@ -36,7 +36,7 @@ class NinoMustacheTests
       InprogressOverseas()
     ).asInstanceOf[NinoModel]
 
-    ninoModel.question.title should be("What is your National Insurance number?")
+    ninoModel.question.title should be("www.gov.uk/register-to-vote - What is your National Insurance number?")
     ninoModel.question.postUrl should be("/register-to-vote/overseas/nino")
 
     ninoModel.nino.value should be("AB123456C")
@@ -55,7 +55,7 @@ class NinoMustacheTests
       InprogressOverseas()
     ).asInstanceOf[NinoModel]
 
-    ninoModel.question.title should be("What is your National Insurance number?")
+    ninoModel.question.title should be("www.gov.uk/register-to-vote - What is your National Insurance number?")
     ninoModel.question.postUrl should be("/register-to-vote/overseas/nino")
 
     ninoModel.nino.value should be("")
@@ -74,7 +74,7 @@ class NinoMustacheTests
       InprogressOverseas()
     ).asInstanceOf[NinoModel]
 
-    ninoModel.question.title should be("What is your National Insurance number?")
+    ninoModel.question.title should be("www.gov.uk/register-to-vote - What is your National Insurance number?")
     ninoModel.question.postUrl should be("/register-to-vote/overseas/nino")
 
     ninoModel.nino.value should be("ABCDE")

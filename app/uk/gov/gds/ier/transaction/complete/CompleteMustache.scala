@@ -46,7 +46,7 @@ trait CompleteMustache {
     ) extends InheritedMustachio("complete") {
 
       override val contentClasses = "complete"
-      override val pageTitle = Messages("complete_step_title")
+      override val pageTitle = Messages("title") +" "+ Messages("complete_step_title")
       override val sourcePath = routes.CompleteStep.complete.url
 
       val authorityUrl = authority flatMap {

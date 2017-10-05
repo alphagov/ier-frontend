@@ -17,8 +17,9 @@ trait AddressMustache extends StepTemplate[InprogressOrdinary] {
     LookupModel(
       question = Question(
         postUrl = post.url,
-        title = Messages("ordinary_address_postcode_title"),
-        errorMessages = Messages.translatedGlobalErrors(form)
+        title = Messages("title") +" "+ Messages("ordinary_address_postcode_title"),
+        errorMessages = Messages.translatedGlobalErrors(form),
+        newQuestion = Messages("ordinary_address_postcode_title")
       ),
       postcode = TextField(
         key = keys.address.postcode

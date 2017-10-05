@@ -33,13 +33,16 @@ trait PostalOrProxyVoteMustache extends StepTemplate[InprogressOverseas] {
       case _ => ""
     }
 
-    val title = "Do you want us to send you a "+wayToVoteName+" vote application form?"
+    val title = "www.gov.uk/register-to-vote - Do you want us to send you a "+wayToVoteName+" vote application form?"
+
+    val newQuestion = "Do you want us to send you a "+wayToVoteName+" vote application form?"
 
     PostalOrProxyVoteModel(
       question = Question(
         postUrl = post.url,
         errorMessages = form.globalErrors.map{ _.message },
-        title = title
+        title = title,
+        newQuestion = newQuestion
       ),
       description = Text (
         value = "If this is your first time using a "+wayToVoteName

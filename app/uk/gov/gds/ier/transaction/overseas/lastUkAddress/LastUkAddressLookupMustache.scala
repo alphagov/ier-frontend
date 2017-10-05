@@ -5,7 +5,8 @@ import uk.gov.gds.ier.step.StepTemplate
 
 trait LastUkAddressLookupMustache extends StepTemplate[InprogressOverseas] {
 
-  val title = "What was the UK address where you were last registered to vote?"
+  val title = "www.gov.uk/register-to-vote - What was the UK address where you were last registered to vote?"
+  val newQuestion = "What was the UK address where you were last registered to vote?"
   val questionNumber = ""
 
   case class LookupModel (
@@ -21,6 +22,7 @@ trait LastUkAddressLookupMustache extends StepTemplate[InprogressOverseas] {
       question = Question(
         postUrl = post.url,
         title = title,
+        newQuestion = newQuestion,
         errorMessages = form.globalErrors.map(_.message)
       ),
       postcode = Field(

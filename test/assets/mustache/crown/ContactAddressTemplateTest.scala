@@ -119,7 +119,7 @@ class ContactAddressTemplateTest
       val data = new ContactAddressModel(
         question = Question(
           postUrl = "http://some.server/post_url",
-          title = "Page title ABC"
+          newQuestion = "Page title ABC"
         ),
         contactAddressFieldSet = FieldSet(),
         ukAddress = ukContactAddressModel,

@@ -18,7 +18,7 @@ class ContactAddressMustacheTest
       InprogressForces()
     ).asInstanceOf[ContactAddressModel]
 
-    contactAddressModel.question.title should be("Where should we write to you about your registration?")
+    contactAddressModel.question.title should be("www.gov.uk/register-to-vote - Where should we write to you about your registration?")
     contactAddressModel.question.postUrl should be("/register-to-vote/forces/contact-address")
 
     contactAddressModel.otherAddress.otherAddressOption.attributes should be("")
@@ -59,7 +59,7 @@ class ContactAddressMustacheTest
       InprogressForces()
     ).asInstanceOf[ContactAddressModel]
 
-    contactAddressModel.question.title should be("Where should we write to you about your registration?")
+    contactAddressModel.question.title should be("www.gov.uk/register-to-vote - Where should we write to you about your registration?")
     contactAddressModel.question.postUrl should be("/register-to-vote/forces/contact-address")
 
     contactAddressModel.otherAddress.otherAddressOption.attributes should be("")
@@ -107,7 +107,7 @@ class ContactAddressMustacheTest
       InprogressForces()
     ).asInstanceOf[ContactAddressModel]
 
-    contactAddressModel.question.title should be("Where should we write to you about your registration?")
+    contactAddressModel.question.title should be("www.gov.uk/register-to-vote - Where should we write to you about your registration?")
     contactAddressModel.question.postUrl should be("/register-to-vote/forces/contact-address")
 
     contactAddressModel.otherAddress.otherAddressOption.attributes should be("")
@@ -155,7 +155,7 @@ class ContactAddressMustacheTest
       InprogressForces()
     ).asInstanceOf[ContactAddressModel]
 
-    contactAddressModel.question.title should be("Where should we write to you about your registration?")
+    contactAddressModel.question.title should be("www.gov.uk/register-to-vote - Where should we write to you about your registration?")
     contactAddressModel.question.postUrl should be("/register-to-vote/forces/contact-address")
 
     contactAddressModel.otherAddress.otherAddressOption.attributes should be("checked=\"checked\"")

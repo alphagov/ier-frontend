@@ -6,7 +6,9 @@ import uk.gov.gds.ier.step.StepTemplate
 
 trait LastRegisteredToVoteMustache extends StepTemplate[InprogressOverseas] {
 
-  val title = "How were you last registered to vote?"
+  val title = "www.gov.uk/register-to-vote - How were you last registered to vote?"
+
+  val newQuestion = "How were you last registered to vote?"
 
   case class LastRegisteredModel(
       question:Question,
@@ -27,7 +29,8 @@ trait LastRegisteredToVoteMustache extends StepTemplate[InprogressOverseas] {
       question = Question(
         postUrl = post.url,
         errorMessages = form.globalErrors.map{ _.message },
-        title = title
+        title = title,
+        newQuestion = newQuestion
       ),
       registeredType = Field(
         classes = if(form(keys.lastRegisteredToVote.registeredType).hasErrors) {

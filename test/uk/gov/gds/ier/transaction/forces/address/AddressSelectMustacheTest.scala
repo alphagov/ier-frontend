@@ -29,7 +29,7 @@ class AddressSelectMustacheTest
       InprogressForces()
     ).asInstanceOf[SelectModel]
 
-    addressModel.question.title should be("What was your last UK address?")
+    addressModel.question.title should be("www.gov.uk/register-to-vote - What was your last UK address?")
     addressModel.question.postUrl should be("/register-to-vote/forces/address/select")
 
     addressModel.lookupUrl should be ("/register-to-vote/forces/address")
@@ -62,7 +62,7 @@ class AddressSelectMustacheTest
     ).asInstanceOf[SelectModel]
 
 
-    addressModel.question.title should be("What is your UK address?")
+    addressModel.question.title should be("www.gov.uk/register-to-vote - What is your UK address?")
     addressModel.question.postUrl should be("/register-to-vote/forces/address/select")
 
     addressModel.lookupUrl should be ("/register-to-vote/forces/address")
@@ -94,7 +94,7 @@ class AddressSelectMustacheTest
     ).asInstanceOf[SelectModel]
 
 
-    addressModel.question.title should be("What is your UK address?")
+    addressModel.question.title should be("www.gov.uk/register-to-vote - What is your UK address?")
   }
 
   it should "have correct title hasAddress = yes and not living there" in {
@@ -119,7 +119,7 @@ class AddressSelectMustacheTest
     ).asInstanceOf[SelectModel]
 
 
-    addressModel.question.title should be("What is your UK address?")
+    addressModel.question.title should be("www.gov.uk/register-to-vote - What is your UK address?")
   }
 
   it should "have correct title hasAddress = no" in {
@@ -144,6 +144,6 @@ class AddressSelectMustacheTest
     ).asInstanceOf[SelectModel]
 
 
-    addressModel.question.title should be("What was your last UK address?")
+    addressModel.question.title should be("www.gov.uk/register-to-vote - What was your last UK address?")
   }
 }

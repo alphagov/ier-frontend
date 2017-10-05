@@ -13,6 +13,13 @@ trait AddressSelectMustache extends StepTemplate[InprogressCrown] {
 
   private def pageTitle(hasAddress: Option[String]): String = {
     HasAddressOption.parse(hasAddress.getOrElse("")) match{
+      case HasAddressOption.YesAndLivingThere | HasAddressOption.YesAndNotLivingThere => "www.gov.uk/register-to-vote - What is your UK address?"
+      case _ => "www.gov.uk/register-to-vote - What was your last UK address?"
+    }
+  }
+
+  private def pageQuestion(hasAddress: Option[String]): String = {
+    HasAddressOption.parse(hasAddress.getOrElse("")) match{
       case HasAddressOption.YesAndLivingThere | HasAddressOption.YesAndNotLivingThere => "What is your UK address?"
       case _ => "What was your last UK address?"
     }
@@ -35,6 +42,7 @@ trait AddressSelectMustache extends StepTemplate[InprogressCrown] {
     implicit val progressForm = form
 
     val title = pageTitle(form(keys.hasAddress).value)
+    val newQuestion = pageQuestion(form(keys.hasAddress).value)
 
     val selectedUprn = form(keys.address.uprn).value
     val postcode = form(keys.address.postcode).value.orElse {
@@ -99,6 +107,7 @@ trait AddressSelectMustache extends StepTemplate[InprogressCrown] {
       question = Question(
         postUrl = postUrl.url,
         title = title,
+        newQuestion = newQuestion,
         errorMessages = progressForm.globalErrors.map(_.message)
       ),
       lookupUrl = crown.AddressStep.routing.get.url,

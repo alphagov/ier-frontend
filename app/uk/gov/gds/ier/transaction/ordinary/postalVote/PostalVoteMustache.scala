@@ -30,7 +30,8 @@ trait PostalVoteMustache extends StepTemplate[InprogressOrdinary] {
     PostalVoteModel(
       question = Question(
         postUrl = postUrl.url,
-        title = Messages("ordinary_postalVote_title"),
+        title = Messages("title") +" "+ Messages("ordinary_postalVote_title"),
+        newQuestion = Messages("ordinary_postalVote_title"),
         errorMessages = Messages.translatedGlobalErrors(form)),
 
       postCheckboxYes = RadioField(

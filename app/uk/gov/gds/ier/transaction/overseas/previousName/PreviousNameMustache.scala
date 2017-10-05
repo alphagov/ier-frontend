@@ -17,12 +17,14 @@ trait PreviousNameMustache extends StepTemplate[InprogressOverseas] {
 
     implicit val progressForm = form
 
-    val title = "What was your name when you left the UK?"
+    val title = "www.gov.uk/register-to-vote - What was your name when you left the UK?"
+    val newQuestion = "What was your name when you left the UK?"
 
     PreviousNameModel(
       question = Question(
         postUrl = post.url,
         title = title,
+        newQuestion = newQuestion,
         errorMessages = form.globalErrors.map { _.message }),
 
       previousFirstName = TextField(

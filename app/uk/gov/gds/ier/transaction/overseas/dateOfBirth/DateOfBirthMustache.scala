@@ -5,7 +5,9 @@ import uk.gov.gds.ier.step.StepTemplate
 
 trait DateOfBirthMustache extends StepTemplate[InprogressOverseas] {
 
-  val title = "What is your date of birth?"
+  val title = "www.gov.uk/register-to-vote - What is your date of birth?"
+
+  val newQuestion = "What is your date of birth?"
 
   case class DateOfBirthModel(
       question:Question,
@@ -22,7 +24,8 @@ trait DateOfBirthMustache extends StepTemplate[InprogressOverseas] {
       question = Question(
         postUrl = post.url,
         errorMessages = form.globalErrors.map{ _.message },
-        title = title
+        title = title,
+        newQuestion = newQuestion
       ),
       day = TextField(
         key = keys.dob.day

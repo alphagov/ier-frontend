@@ -15,12 +15,14 @@ trait StatementMustache extends StepTemplate[InprogressForces] {
   val mustache = MustacheTemplate("forces/statement") { (form, postEndpoint) =>
     implicit val progressForm = form
 
-    val title = "Which of these statements applies to you?"
+    val title = "www.gov.uk/register-to-vote - Which of these statements applies to you?"
+    val newQuestion = "Which of these statements applies to you?"
     StatementModel(
       question = Question(
         postUrl = postEndpoint.url,
         errorMessages = form.globalErrors.map{ _.message },
-        title = title
+        title = title,
+        newQuestion = newQuestion
       ),
       statementFieldSet = FieldSet(
         classes = if (progressForm(keys.contact).hasErrors) "invalid" else ""

@@ -36,13 +36,16 @@ trait PostalOrProxyVoteMustache
         case _ => ""
       }
 
-      val title = s"Do you want us to send you a $wayToVoteName vote application form?"
+      val title = s"www.gov.uk/register-to-vote - Do you want us to send you a $wayToVoteName vote application form?"
+
+      val newQuestion = s"Do you want us to send you a $wayToVoteName vote application form?"
 
       PostalOrProxyVoteModel(
         question = Question(
           postUrl = postUrl.url,
           errorMessages = form.globalErrors.map{ _.message },
-          title = title
+          title = title,
+          newQuestion = newQuestion
         ),
         description = Text (
           value = s"If this is your first time using a $wayToVoteName"

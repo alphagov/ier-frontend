@@ -29,7 +29,8 @@ trait ContactMustache extends StepTemplate[InprogressOrdinary] {
       question = Question(
         postUrl = post.url,
         errorMessages = Messages.translatedGlobalErrors(form),
-        title = Messages("ordinary_contact_title")
+        title = Messages("title") +" "+ Messages("ordinary_contact_title"),
+        newQuestion = Messages("ordinary_contact_title")
       ),
       contactFieldSet = FieldSet(
         classes = if (progressForm(keys.contact).hasErrors) "invalid" else ""

@@ -18,7 +18,7 @@ class SoleOccupancyMustacheTest
       InprogressOrdinary()
     ).asInstanceOf[SoleOccupancyModel]
 
-    soleOccupancyModel.question.title should be("Are you the only person aged 16 or over living at this address?")
+    soleOccupancyModel.question.title should be("www.gov.uk/register-to-vote - Are you the only person aged 16 or over living at this address?")
     soleOccupancyModel.question.postUrl should be("/foo/sole-occupancy")
 
     soleOccupancyModel.soleOccupancyYes.attributes should be("")
@@ -48,7 +48,7 @@ class SoleOccupancyMustacheTest
       InprogressOrdinary()
     ).asInstanceOf[SoleOccupancyModel]
 
-    soleOccupancyModel.question.title should be("Are you the only person aged 16 or over living at this address?")
+    soleOccupancyModel.question.title should be("www.gov.uk/register-to-vote - Are you the only person aged 16 or over living at this address?")
     soleOccupancyModel.question.postUrl should be("/foo/sole-occupancy")
 
     soleOccupancyModel.soleOccupancyYes.attributes should be("checked=\"checked\"")
@@ -80,7 +80,7 @@ class SoleOccupancyMustacheTest
       InprogressOrdinary()
     ).asInstanceOf[SoleOccupancyModel]
 
-    soleOccupancyModel.question.title should be("Are you the only person aged 16 or over living at this address?")
+    soleOccupancyModel.question.title should be("www.gov.uk/register-to-vote - Are you the only person aged 16 or over living at this address?")
     soleOccupancyModel.question.postUrl should be("/foo/sole-occupancy")
 
     soleOccupancyModel.soleOccupancyYes.attributes should be("checked=\"checked\"")

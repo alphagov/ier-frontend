@@ -12,7 +12,8 @@ trait ParentsAddressSelectMustache extends StepTemplate[InprogressOverseas] {
     with WithOverseasControllers
     with WithSerialiser =>
 
-  val title = "What was your parent or guardian's last UK address?"
+  val title = "www.gov.uk/register-to-vote - What was your parent or guardian's last UK address?"
+  val newQuestion = "What was your parent or guardian's last UK address?"
   val questionNumber = ""
 
   case class SelectModel (
@@ -89,6 +90,7 @@ trait ParentsAddressSelectMustache extends StepTemplate[InprogressOverseas] {
       question = Question(
         postUrl = post.url,
         title = title,
+        newQuestion = newQuestion,
         errorMessages = progressForm.globalErrors.map(_.message)
       ),
       lookupUrl = overseas.ParentsAddressStep.routing.get.url,
