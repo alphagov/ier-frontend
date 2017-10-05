@@ -1,6 +1,7 @@
 <form action="{{question.postUrl}}" method="POST"  data-validation-name="dateOfBirth" 
   data-validation-type="association" class="validate" data-validation-members="dateOfBirthDate"
   data-validation-rules="allNonEmpty">
+    <legend>
     {{> shared/questionHeader }}
 
     {{> shared/validationMessages }}
@@ -42,6 +43,7 @@
       <p class="example">For example: <span class="date">31 12 1970</span></p>
     
     </fieldset>
+        </legend>
       
     <button type="submit" id="continue" class="button next validation-submit" 
     data-validation-sources="dateOfBirth">Continue</button>

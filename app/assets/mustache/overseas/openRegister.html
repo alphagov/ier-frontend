@@ -1,4 +1,5 @@
 <form action="{{question.postUrl}}" method="POST" >
+    <legend>
 
     {{> shared/questionHeader }}
 
@@ -16,6 +17,7 @@
         </label>
 
     </fieldset>
+    </legend>
     <button type="submit" id="alt-continue" class="button next">Continue</button>
     <div class="help-content" data-toggle-text="Why are there two registers?">
         <h2>Why are there two registers?</h2>

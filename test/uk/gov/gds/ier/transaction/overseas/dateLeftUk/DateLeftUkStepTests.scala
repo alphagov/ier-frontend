@@ -90,11 +90,11 @@ class DateLeftUkStepTests extends ControllerTestSuite {
         FakeRequest(POST, "/register-to-vote/overseas/date-left-uk")
           .withIerSession()
           .withApplication(completeOverseasApplication.copy(
-            dob = Some(DOB(1982,10,10)),
+            dob = Some(DOB(1983,10,10)),
             lastRegisteredToVote = Some(LastRegisteredToVote(LastRegisteredType.NotRegistered))))
           .withFormUrlEncodedBody(
           "dateLeftUk.month" -> "10",
-          "dateLeftUk.year" -> "2002"
+          "dateLeftUk.year" -> "2003"
         )
       )
 
@@ -113,11 +113,11 @@ class DateLeftUkStepTests extends ControllerTestSuite {
           .withIerSession()
           .withApplication(completeOverseasApplication.copy(
             lastUkAddress = None,
-            dob = Some(DOB(1982,10,10)),
+            dob = Some(DOB(1983,10,10)),
             lastRegisteredToVote = Some(LastRegisteredToVote(LastRegisteredType.Crown))))
           .withFormUrlEncodedBody(
           "dateLeftUk.month" -> "10",
-          "dateLeftUk.year" -> "2002"
+          "dateLeftUk.year" -> "2003"
         )
       )
 
@@ -176,11 +176,11 @@ class DateLeftUkStepTests extends ControllerTestSuite {
         FakeRequest(POST, "/register-to-vote/overseas/edit/date-left-uk")
           .withIerSession()
           .withApplication(completeOverseasApplication.copy(
-            dob = Some(DOB(1982,10,10)),
+            dob = Some(DOB(1983,10,10)),
             lastRegisteredToVote = Some(LastRegisteredToVote(LastRegisteredType.NotRegistered))))
           .withFormUrlEncodedBody(
           "dateLeftUk.month" -> "10",
-          "dateLeftUk.year" -> "2002"
+          "dateLeftUk.year" -> "2003"
         )
       )
 
@@ -199,11 +199,11 @@ class DateLeftUkStepTests extends ControllerTestSuite {
           .withIerSession()
           .withApplication(completeOverseasApplication.copy(
             lastUkAddress = None,
-            dob = Some(DOB(1982,10,10)),
+            dob = Some(DOB(1983,10,10)),
             lastRegisteredToVote = Some(LastRegisteredToVote(LastRegisteredType.Crown))))
           .withFormUrlEncodedBody(
           "dateLeftUk.month" -> "10",
-          "dateLeftUk.year" -> "2002"
+          "dateLeftUk.year" -> "2003"
         )
       )
 

@@ -1,5 +1,5 @@
 <form action="{{question.postUrl}}" method="POST" >
-
+    <legend>
     {{> shared/questionHeader }}
 
     {{> shared/validationMessages }}
@@ -48,6 +48,7 @@
         </label>
 
     </fieldset>
+    </legend>
     <p class="footnote">If you give us an email address we can send you a confirmation of your application.</p>
     <button type="submit" id="continue" class="button next validation-submit" data-validation-sources="contact phoneNumber emailAddress">Continue</button>
 </form>

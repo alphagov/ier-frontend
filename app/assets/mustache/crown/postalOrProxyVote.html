@@ -1,5 +1,6 @@
 <form action="{{question.postUrl}}" method="POST">
 
+    <legend>
     {{> shared/questionHeader }}
 
     {{> shared/validationMessages }}
@@ -77,6 +78,7 @@
                        data-validation-rules="nonEmpty" />Post it to me
             </label>
     </fieldset>
+        </legend>
 
     <input type="hidden" id="{{voteType.id}}"
            name="{{voteType.name}}"

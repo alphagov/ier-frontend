@@ -1,5 +1,5 @@
 <form action="{{question.postUrl}}" method="POST">
-    
+   <legend>
    {{> shared/questionHeader }}
 
    {{> shared/validationMessages }}
@@ -99,7 +99,7 @@
 </label>
 
       </fieldset>
-      
+      </legend>
       <button type="submit" id="alt-continue" class="button next validation-submit" 
         data-validation-sources="postalVote deliveryMethod emailAddress">{{messages.step_continue}}</button>
       <div class="help-content" data-toggle-text="{{messages.ordinary_postalVote_help_link}}">
