@@ -1,4 +1,5 @@
 <form action="{{question.postUrl}}" method="POST">
+    <legend>
     {{> shared/questionHeader }}
     {{> shared/validationMessages }}
     <p>
@@ -48,6 +49,7 @@
             </select>
         </div>
     </fieldset>
+    </legend>
     <a href="{{manualUrl}}" class="toggle">
         I can't find my address in the list
     </a>

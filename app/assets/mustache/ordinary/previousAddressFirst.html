@@ -1,4 +1,5 @@
 <form action="{{question.postUrl}}" method="POST" >
+    <legend>
     {{> shared/questionHeader }}
     {{> shared/validationMessages }}
     <p>{{messages.ordinary_otheraddr_content}}</p>
@@ -90,7 +91,7 @@
         </label>
     </fieldset>
 
-
+    </legend>
 
     <button id="continue"
             type="submit"

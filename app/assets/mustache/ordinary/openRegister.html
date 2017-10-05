@@ -1,5 +1,5 @@
 <form action="{{question.postUrl}}" method="POST" >
-
+    <legend>
     {{> shared/questionHeader }}
 
     {{> shared/validationMessages }}
@@ -20,6 +20,7 @@
         </label>
 
     </fieldset>
+    </legend>
     <button type="submit" id="alt-continue" class="button next">{{messages.step_continue}}</button>
     <div class="help-content" data-toggle-text="{{messages.ordinary_data-toggle-text}}">
         <h2>{{messages.ordinary_openRegister_help_link}}</h2>

@@ -1,5 +1,5 @@
 <form action="{{question.postUrl}}" method="POST">
-
+    <legend>
     {{> shared/questionHeader }}
 
     {{> shared/validationMessages }}
@@ -87,6 +87,7 @@
                        data-validation-rules="nonEmpty" >
             </div>
     </fieldset>
+    </legend>
 
     <button type="submit" id="continue"
             class="button next validation-submit"

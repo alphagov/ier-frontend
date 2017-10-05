@@ -1,4 +1,5 @@
 <form action="{{question.postUrl}}" method="POST">
+    <legend>
     {{> shared/questionHeader }}
     {{> shared/validationMessages }}
 
@@ -20,6 +21,7 @@
             />
         </div>
     </fieldset>
+    </legend>
     <button
         id="find-address"
         type="submit"

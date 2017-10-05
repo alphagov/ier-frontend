@@ -1,5 +1,5 @@
 <form action="{{question.postUrl}}" method="POST">
-
+    <legend>
     {{> shared/questionHeader }}
 
     {{#displayAddress}}
@@ -68,7 +68,7 @@
         </label>
 
     </fieldset>
-
+    </legend>
     <div class="help-content" data-toggle-text="{{messages.ordinary_soleOccupancy_help_link}}">
         <h2>{{messages.ordinary_soleOccupancy_help_link}}</h2>
         {{^isScottish}}

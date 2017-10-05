@@ -1,4 +1,5 @@
 <form action="{{question.postUrl}}" method="POST">
+    <legend>
     {{> shared/questionHeader }}
     {{> shared/validationMessages }}
 
@@ -77,6 +78,7 @@
             />
         </div>
     </fieldset>
+        </legend>
 
     <button
       type="submit"

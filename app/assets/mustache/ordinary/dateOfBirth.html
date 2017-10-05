@@ -24,7 +24,7 @@
         });}
     }
     </script>
-
+    <legend>
     {{> shared/questionHeader }}
 
     {{> shared/validationMessages }}
@@ -73,7 +73,7 @@
 
         <p class="example">{{{messages.ordinary_dob_formatExample}}}</p>
     </fieldset>
-
+    </legend>
     <button type="submit" id="alt-continue"
             class="button next validation-submit"
             data-validation-sources="dateOfBirth">{{messages.step_continue}}</button>
