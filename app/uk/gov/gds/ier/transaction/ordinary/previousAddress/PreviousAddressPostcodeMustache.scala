@@ -20,14 +20,20 @@ trait PreviousAddressPostcodeMustache extends StepTemplate[InprogressOrdinary] {
     }
 
     val title = movedRecently match {
-      case Some(MovedHouseOption.MovedFromAbroadRegistered) => Messages("ordinary_previousAddress_yesFromAbroadWasRegistered_title")
-      case _ => Messages("ordinary_previousAddress_yesFromUk_title")
+      case Some(MovedHouseOption.MovedFromAbroadRegistered) => Messages("title") +" "+ Messages("ordinary_previousAddress_yesFromAbroadWasRegistered_title")
+      case _ => Messages("title") +" "+ Messages("ordinary_previousAddress_yesFromUk_title")
     }
+
+      val newQuestion = movedRecently match {
+        case Some(MovedHouseOption.MovedFromAbroadRegistered) => Messages("ordinary_previousAddress_yesFromAbroadWasRegistered_title")
+        case _ => Messages("ordinary_previousAddress_yesFromUk_title")
+      }
 
     PostcodeModel(
       question = Question(
         postUrl = post.url,
         title = title,
+        newQuestion = newQuestion,
         errorMessages = Messages.translatedGlobalErrors(form)
       ),
       postcode = TextField(keys.previousAddress.previousAddress.postcode)
