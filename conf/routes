@@ -2,12 +2,6 @@
 # This file defines all application routes (Higher priority routes first)
 # ~~~~
 
-#WhatHappensNext
-GET         /register-to-vote/what-happens-next-british                                controllers.RegisterToVoteController.whatHappensNextBritish
-#GET        /register-to-vote/whathappensnextnextnorthernirish                         controllers.RegisterToVoteController.whathappensnextnorthernirish
-#GET        /register-to-vote/whathappensnextwelsh                                     controllers.RegisterToVoteController.whathappensnextwelsh
-
-
 # Metrics
 GET         /admin/metrics                                              com.kenshoo.play.metrics.MetricsController.metrics
 
@@ -25,6 +19,7 @@ GET         /register-to-vote/overseas/complete                          @uk.gov
 #Service Routes
 GET         /register-to-vote/privacy                                    @uk.gov.gds.ier.controller.RegisterToVoteController.privacy
 GET         /register-to-vote/cookies                                    @uk.gov.gds.ier.controller.RegisterToVoteController.cookies
+GET         /register-to-vote/what-happens-next-british                  @uk.gov.gds.ier.controller.RegisterToVoteController.whatHappensNextBritish
 
 #Exit Routes
 GET         /register-to-vote/exit/british-islands                       @uk.gov.gds.ier.controller.ExitController.britishIslands
