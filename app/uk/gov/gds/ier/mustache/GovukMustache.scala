@@ -51,6 +51,8 @@ trait GovukMustache extends InheritedGovukMustache {
 
     case class PrivacyPage() extends ArticleMustachio("govuk/privacy")
 
+    case class WhatHappensNextBritishPage() extends ArticleMustachio ("govuk/whatHappensNextBritish")
+
     case class CookiePage() extends ArticleMustachio("govuk/cookies")
   }
 }

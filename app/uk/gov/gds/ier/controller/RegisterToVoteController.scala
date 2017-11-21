@@ -75,6 +75,10 @@ class RegisterToVoteController @Inject() (
     Ok(RegisterToVote.PrivacyPage())
   }
 
+  def whatHappensNextBritish = Action { request =>
+    Ok(RegisterToVote.WhatHappensNextBritishPage())
+  }
+
   def cookies = Action { request =>
     Ok(RegisterToVote.CookiePage())
   }

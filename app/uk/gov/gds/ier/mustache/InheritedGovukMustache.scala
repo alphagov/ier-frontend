@@ -40,5 +40,6 @@ trait InheritedGovukMustache extends StepMustache {
     val startUrl = config.ordinaryStartUrl
     val cookieUrl = RegisterToVoteController.cookies.url
     val privacyUrl = RegisterToVoteController.privacy.url
+    val whatHappensNextBritishUrl = RegisterToVoteController.whatHappensNextBritish.url
   }
 }
