@@ -148,6 +148,7 @@
             <label for="{{noNationalityReason.id}}">
                 {{messages.ordinary_nationality_help_content_3}}
             </label>
+            <div class="validation-wrapper">
             <textarea name="{{noNationalityReason.name}}"
                       id="{{noNationalityReason.id}}"
                       class="{{noNationalityReason.classes}} small validate"
@@ -156,11 +157,14 @@
                       data-validation-rules="nonEmpty"
                       maxlength="500"
                       autocomplete="off" >{{noNationalityReason.value}}</textarea>
+            </div>
             <p>{{messages.ordinary_confirmation_nationality_email}}</p>
+            <div class="validation-wrapper">
             <input type="email" id="{{emailField.id}}" name="{{emailField.name}}"
                    value="{{emailField.value}}" autocomplete="off"
                    class="text  long validate {{emailField.classes}}" data-validation-name="emailAddress"
                    data-validation-type="field" data-validation-rules="emailCanBeEmpty">
+            </div>
         </div>
     </div>
     <button type="submit"
